@@ -2,7 +2,7 @@ export interface Mesh {
   positions: Float32Array;
   normals: Float32Array;
   uvs: Float32Array;
-  indices: Uint16Array;
+  indices: Uint16Array | Uint32Array;
 }
 
 export function createCubeMesh(): Mesh {

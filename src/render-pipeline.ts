@@ -1,4 +1,4 @@
-import { createTorusMesh } from './mesh.js';
+import { loadGLBMesh } from './gltf-loader.js';
 import renderShader from '../shaders/render.wgsl?raw';
 
 const GRID_WIDTH = 120;
@@ -13,38 +13,121 @@ export interface RenderPipeline {
   uniformBuffer: GPUBuffer;
   bindGroup: GPUBindGroup;
   indexCount: number;
+  indexFormat: GPUIndexFormat;
   texture: GPUTexture;
   textureView: GPUTextureView;
+  baseColorTexture: GPUTexture;
+  baseColorTextureView: GPUTextureView;
+  sampler: GPUSampler;
 }
 
-export function createRenderPipeline(device: GPUDevice, format: GPUTextureFormat): RenderPipeline {
-  const mesh = createTorusMesh(1.2, 0.4, 48, 24);
+export async function createRenderPipeline(device: GPUDevice, format: GPUTextureFormat): Promise<RenderPipeline> {
+  const texturedMesh = await loadGLBMesh('/resources/apfel.glb');
+  const mesh = texturedMesh.mesh;
+
+  // Align buffer sizes to 4-byte multiples for WebGPU
+  const alignedPositionsSize = Math.ceil(mesh.positions.byteLength / 4) * 4;
+  const alignedNormalsSize = Math.ceil(mesh.normals.byteLength / 4) * 4;
+  const alignedUVsSize = Math.ceil(mesh.uvs.byteLength / 4) * 4;
+  const alignedIndicesSize = Math.ceil(mesh.indices.byteLength / 4) * 4;
+
+  console.log('Buffer sizes (original):', {
+    positions: mesh.positions.byteLength,
+    normals: mesh.normals.byteLength,
+    uvs: mesh.uvs.byteLength,
+    indices: mesh.indices.byteLength,
+  });
+  console.log('Buffer sizes (aligned):', {
+    positions: alignedPositionsSize,
+    normals: alignedNormalsSize,
+    uvs: alignedUVsSize,
+    indices: alignedIndicesSize,
+  });
+
+  // Determine index format and create appropriate aligned TypedArray
+  const indexFormat = mesh.indices instanceof Uint32Array ? 'uint32' : 'uint16';
+  const alignedIndices = indexFormat === 'uint32'
+    ? new Uint32Array(alignedIndicesSize / 4)
+    : new Uint16Array(alignedIndicesSize / 2);
+
+  // Create padded TypedArrays to ensure 4-byte alignment
+  const alignedPositions = new Float32Array(alignedPositionsSize / 4);
+  const alignedNormals = new Float32Array(alignedNormalsSize / 4);
+  const alignedUVs = new Float32Array(alignedUVsSize / 4);
+
+  alignedPositions.set(mesh.positions);
+  alignedNormals.set(mesh.normals);
+  alignedUVs.set(mesh.uvs);
+  alignedIndices.set(mesh.indices);
 
   const positionBuffer = device.createBuffer({
-    size: mesh.positions.byteLength,
+    size: alignedPositionsSize,
     usage: GPUBufferUsage.VERTEX | GPUBufferUsage.COPY_DST,
   });
 
   const normalBuffer = device.createBuffer({
-    size: mesh.normals.byteLength,
+    size: alignedNormalsSize,
     usage: GPUBufferUsage.VERTEX | GPUBufferUsage.COPY_DST,
   });
 
   const uvBuffer = device.createBuffer({
-    size: mesh.uvs.byteLength,
+    size: alignedUVsSize,
     usage: GPUBufferUsage.VERTEX | GPUBufferUsage.COPY_DST,
   });
 
-  device.queue.writeBuffer(positionBuffer, 0, mesh.positions.buffer);
-  device.queue.writeBuffer(normalBuffer, 0, mesh.normals.buffer);
-  device.queue.writeBuffer(uvBuffer, 0, mesh.uvs.buffer);
+  device.queue.writeBuffer(positionBuffer, 0, alignedPositions.buffer);
+  device.queue.writeBuffer(normalBuffer, 0, alignedNormals.buffer);
+  device.queue.writeBuffer(uvBuffer, 0, alignedUVs.buffer);
 
   const indexBuffer = device.createBuffer({
-    size: mesh.indices.byteLength,
+    size: alignedIndicesSize,
     usage: GPUBufferUsage.INDEX | GPUBufferUsage.COPY_DST,
   });
 
-  device.queue.writeBuffer(indexBuffer, 0, mesh.indices.buffer);
+  device.queue.writeBuffer(indexBuffer, 0, alignedIndices.buffer);
+
+  // Create GPU texture from base color image
+  let baseColorTexture: GPUTexture;
+  let baseColorTextureView: GPUTextureView;
+
+  if (texturedMesh.baseColorTexture) {
+    baseColorTexture = device.createTexture({
+      size: [texturedMesh.baseColorTexture.width, texturedMesh.baseColorTexture.height, 1],
+      format: 'rgba8unorm',
+      usage: GPUTextureUsage.TEXTURE_BINDING | GPUTextureUsage.COPY_DST | GPUTextureUsage.RENDER_ATTACHMENT,
+    });
+
+    device.queue.copyExternalImageToTexture(
+      { source: texturedMesh.baseColorTexture },
+      { texture: baseColorTexture },
+      [texturedMesh.baseColorTexture.width, texturedMesh.baseColorTexture.height]
+    );
+
+    baseColorTextureView = baseColorTexture.createView();
+  } else {
+    // Create a default 1x1 white texture
+    baseColorTexture = device.createTexture({
+      size: [1, 1, 1],
+      format: 'rgba8unorm',
+      usage: GPUTextureUsage.TEXTURE_BINDING | GPUTextureUsage.COPY_DST | GPUTextureUsage.RENDER_ATTACHMENT,
+    });
+
+    device.queue.writeTexture(
+      { texture: baseColorTexture },
+      new Uint8Array([255, 255, 255, 255]),
+      { bytesPerRow: 4, rowsPerImage: 1 },
+      [1, 1, 1]
+    );
+
+    baseColorTextureView = baseColorTexture.createView();
+  }
+
+  // Create sampler
+  const sampler = device.createSampler({
+    magFilter: 'linear',
+    minFilter: 'linear',
+    mipmapFilter: 'linear',
+  });
 
   const uniformBufferSize = 128 + 64;
   const uniformBuffer = device.createBuffer({
@@ -61,19 +144,32 @@ export function createRenderPipeline(device: GPUDevice, format: GPUTextureFormat
   const textureView = texture.createView();
 
   const bindGroupLayout = device.createBindGroupLayout({
-    entries: [{
-      binding: 0,
-      visibility: GPUShaderStage.VERTEX | GPUShaderStage.FRAGMENT,
-      buffer: { type: 'uniform' },
-    }],
+    entries: [
+      {
+        binding: 0,
+        visibility: GPUShaderStage.VERTEX | GPUShaderStage.FRAGMENT,
+        buffer: { type: 'uniform' },
+      },
+      {
+        binding: 1,
+        visibility: GPUShaderStage.FRAGMENT,
+        texture: { sampleType: 'float' },
+      },
+      {
+        binding: 2,
+        visibility: GPUShaderStage.FRAGMENT,
+        sampler: { type: 'filtering' },
+      },
+    ],
   });
 
   const bindGroup = device.createBindGroup({
     layout: bindGroupLayout,
-    entries: [{
-      binding: 0,
-      resource: { buffer: uniformBuffer },
-    }],
+    entries: [
+      { binding: 0, resource: { buffer: uniformBuffer } },
+      { binding: 1, resource: baseColorTextureView },
+      { binding: 2, resource: sampler },
+    ],
   });
 
   const pipelineLayout = device.createPipelineLayout({
@@ -105,7 +201,7 @@ export function createRenderPipeline(device: GPUDevice, format: GPUTextureFormat
     },
     primitive: {
       topology: 'triangle-list',
-      cullMode: 'back',
+      cullMode: 'none',
     },
     depthStencil: {
       format: 'depth24plus',
@@ -123,8 +219,12 @@ export function createRenderPipeline(device: GPUDevice, format: GPUTextureFormat
     uniformBuffer,
     bindGroup,
     indexCount: mesh.indices.length,
+    indexFormat,
     texture,
     textureView,
+    baseColorTexture,
+    baseColorTextureView,
+    sampler,
   };
 }
 

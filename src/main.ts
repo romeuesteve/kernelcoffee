@@ -81,8 +81,9 @@ async function init() {
     const camera = new Camera(asciiCanvas);
     camera.attachCanvas(webgpuCanvas);
 
-    const asciiPipeline = createRenderPipeline(device, 'rgba8unorm');
-    const normalPipeline = createRenderPipeline(device, format);
+    console.log('Loading GLB model...');
+    const asciiPipeline = await createRenderPipeline(device, 'rgba8unorm');
+    const normalPipeline = await createRenderPipeline(device, format);
     const computePipeline = createComputePipeline(device, asciiPipeline.textureView);
     const textRenderer = createTextRenderer(asciiCanvas);
 
@@ -163,7 +164,7 @@ async function init() {
         renderPass.setVertexBuffer(0, asciiPipeline.positionBuffer);
         renderPass.setVertexBuffer(1, asciiPipeline.normalBuffer);
         renderPass.setVertexBuffer(2, asciiPipeline.uvBuffer);
-        renderPass.setIndexBuffer(asciiPipeline.indexBuffer, 'uint16');
+        renderPass.setIndexBuffer(asciiPipeline.indexBuffer, asciiPipeline.indexFormat);
         renderPass.setViewport(0, 0, 120, 80, 0, 1);
         renderPass.setScissorRect(0, 0, 120, 80);
 
@@ -209,7 +210,7 @@ async function init() {
         renderPass.setVertexBuffer(0, normalPipeline.positionBuffer);
         renderPass.setVertexBuffer(1, normalPipeline.normalBuffer);
         renderPass.setVertexBuffer(2, normalPipeline.uvBuffer);
-        renderPass.setIndexBuffer(normalPipeline.indexBuffer, 'uint16');
+        renderPass.setIndexBuffer(normalPipeline.indexBuffer, normalPipeline.indexFormat);
         renderPass.setViewport(0, 0, 960, 960, 0, 1);
         renderPass.setScissorRect(0, 0, 960, 960);
 
