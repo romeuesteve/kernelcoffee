@@ -1,4 +1,4 @@
-import { createCubeMesh, createTorusMesh } from './mesh.js';
+import { createTorusMesh } from './mesh.js';
 import renderShader from '../shaders/render.wgsl?raw';
 
 const GRID_WIDTH = 120;
@@ -17,7 +17,7 @@ export interface RenderPipeline {
   textureView: GPUTextureView;
 }
 
-export function createRenderPipeline(device: GPUDevice): RenderPipeline {
+export function createRenderPipeline(device: GPUDevice, format: GPUTextureFormat): RenderPipeline {
   const mesh = createTorusMesh(1.2, 0.4, 48, 24);
 
   const positionBuffer = device.createBuffer({
@@ -55,7 +55,7 @@ export function createRenderPipeline(device: GPUDevice): RenderPipeline {
   const texture = device.createTexture({
     size: [GRID_WIDTH, GRID_HEIGHT],
     format: 'rgba8unorm',
-    usage: GPUTextureUsage.RENDER_ATTACHMENT | GPUTextureUsage.TEXTURE_BINDING | GPUBufferUsage.COPY_DST,
+    usage: GPUTextureUsage.RENDER_ATTACHMENT | GPUTextureUsage.TEXTURE_BINDING,
   });
 
   const textureView = texture.createView();
@@ -100,7 +100,7 @@ export function createRenderPipeline(device: GPUDevice): RenderPipeline {
       module: device.createShaderModule({ code: renderShader }),
       entryPoint: 'fragmentMain',
       targets: [{
-        format: 'rgba8unorm',
+        format: format,
       }],
     },
     primitive: {

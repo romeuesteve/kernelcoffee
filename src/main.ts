@@ -12,6 +12,33 @@ async function init() {
   const asciiCanvas = document.getElementById('ascii-canvas') as HTMLCanvasElement;
   const webgpuCanvas = document.getElementById('webgpu-canvas') as HTMLCanvasElement;
   const errorDiv = document.getElementById('error')!;
+  const toggleButton = document.getElementById('mode-toggle') as HTMLButtonElement;
+  const toggleLabels = document.querySelectorAll('.toggle-label');
+
+  let currentMode: 'ascii' | 'normal' = 'ascii';
+
+  function updateToggleUI() {
+    if (currentMode === 'ascii') {
+      toggleButton.classList.remove('normal');
+      toggleLabels[0].classList.add('active');
+      toggleLabels[1].classList.remove('active');
+      asciiCanvas.style.display = 'block';
+      webgpuCanvas.style.display = 'none';
+    } else {
+      toggleButton.classList.add('normal');
+      toggleLabels[0].classList.remove('active');
+      toggleLabels[1].classList.add('active');
+      asciiCanvas.style.display = 'none';
+      webgpuCanvas.style.display = 'block';
+    }
+  }
+
+  toggleButton.addEventListener('click', () => {
+    currentMode = currentMode === 'ascii' ? 'normal' : 'ascii';
+    updateToggleUI();
+  });
+
+  updateToggleUI();
 
   console.log('Looking for canvases...');
   console.log('asciiCanvas:', asciiCanvas);
@@ -47,22 +74,30 @@ async function init() {
 
   try {
     console.log('Initializing WebGPU...');
-    const { device, context } = await initWebGPU(webgpuCanvas);
+    const { device, context, format } = await initWebGPU(webgpuCanvas);
     console.log('WebGPU initialized');
     
     console.log('Creating camera...');
     const camera = new Camera(asciiCanvas);
+    camera.attachCanvas(webgpuCanvas);
 
-    const renderPipeline = createRenderPipeline(device);
-    const computePipeline = createComputePipeline(device, renderPipeline.textureView);
+    const asciiPipeline = createRenderPipeline(device, 'rgba8unorm');
+    const normalPipeline = createRenderPipeline(device, format);
+    const computePipeline = createComputePipeline(device, asciiPipeline.textureView);
     const textRenderer = createTextRenderer(asciiCanvas);
 
-    console.log('Pipeline created, indexCount:', renderPipeline.indexCount);
-    console.log('Texture size:', renderPipeline.texture.width, 'x', renderPipeline.texture.height);
+    console.log('Pipeline created, indexCount:', asciiPipeline.indexCount);
+    console.log('Texture size:', asciiPipeline.texture.width, 'x', asciiPipeline.texture.height);
     console.log('Camera position - distance:', camera.distance, 'rotX:', camera.rotationX, 'rotY:', camera.rotationY);
 
     const depthTexture = device.createTexture({
       size: [120, 80, 1],
+      format: 'depth24plus',
+      usage: GPUTextureUsage.RENDER_ATTACHMENT,
+    });
+
+    const normalDepthTexture = device.createTexture({
+      size: [960, 960, 1],
       format: 'depth24plus',
       usage: GPUTextureUsage.RENDER_ATTACHMENT,
     });
@@ -102,55 +137,91 @@ async function init() {
         console.log(`MVP[0]=${mvp[0].toFixed(2)} MVP[5]=${mvp[5].toFixed(2)} MVP[10]=${mvp[10].toFixed(2)} MVP[14]=${mvp[14].toFixed(2)}`);
       }
 
-      updateUniforms(device, renderPipeline, mvp, model);
+      updateUniforms(device, asciiPipeline, mvp, model);
+      updateUniforms(device, normalPipeline, mvp, model);
 
       const commandEncoder = device.createCommandEncoder();
 
-      const renderPass = commandEncoder.beginRenderPass({
-        colorAttachments: [{
-          view: renderPipeline.textureView,
-          clearValue: { r: 0.0, g: 0.0, b: 0.0, a: 1 },
-          loadOp: 'clear',
-          storeOp: 'store',
-        }],
-        depthStencilAttachment: {
-          view: depthTexture.createView(),
-          depthClearValue: 1.0,
-          depthLoadOp: 'clear',
-          depthStoreOp: 'store',
-        },
-      });
+      if (currentMode === 'ascii') {
+        const renderPass = commandEncoder.beginRenderPass({
+          colorAttachments: [{
+            view: asciiPipeline.textureView,
+            clearValue: { r: 0.0, g: 0.0, b: 0.0, a: 1 },
+            loadOp: 'clear',
+            storeOp: 'store',
+          }],
+          depthStencilAttachment: {
+            view: depthTexture.createView(),
+            depthClearValue: 1.0,
+            depthLoadOp: 'clear',
+            depthStoreOp: 'store',
+          },
+        });
 
-      renderPass.setPipeline(renderPipeline.pipeline);
-      renderPass.setBindGroup(0, renderPipeline.bindGroup);
-      renderPass.setVertexBuffer(0, renderPipeline.positionBuffer);
-      renderPass.setVertexBuffer(1, renderPipeline.normalBuffer);
-      renderPass.setVertexBuffer(2, renderPipeline.uvBuffer);
-      renderPass.setIndexBuffer(renderPipeline.indexBuffer, 'uint16');
-      renderPass.setViewport(0, 0, 120, 80, 0, 1);
-      renderPass.setScissorRect(0, 0, 120, 80);
+        renderPass.setPipeline(asciiPipeline.pipeline);
+        renderPass.setBindGroup(0, asciiPipeline.bindGroup);
+        renderPass.setVertexBuffer(0, asciiPipeline.positionBuffer);
+        renderPass.setVertexBuffer(1, asciiPipeline.normalBuffer);
+        renderPass.setVertexBuffer(2, asciiPipeline.uvBuffer);
+        renderPass.setIndexBuffer(asciiPipeline.indexBuffer, 'uint16');
+        renderPass.setViewport(0, 0, 120, 80, 0, 1);
+        renderPass.setScissorRect(0, 0, 120, 80);
 
-      if (frameCount % 60 === 0) {
-        console.log(`Drawing ${renderPipeline.indexCount} indices, aspect=${aspect.toFixed(2)}`);
+        if (frameCount % 60 === 0) {
+          console.log(`Drawing ${asciiPipeline.indexCount} indices, aspect=${aspect.toFixed(2)}`);
+        }
+
+        renderPass.drawIndexed(asciiPipeline.indexCount);
+        renderPass.end();
+
+        device.queue.submit([commandEncoder.finish()]);
+
+        await device.queue.onSubmittedWorkDone();
+
+        const computeEncoder = device.createCommandEncoder();
+        const computePass = computeEncoder.beginComputePass();
+        computePass.setPipeline(computePipeline.pipeline);
+        computePass.setBindGroup(0, computePipeline.bindGroup);
+        computePass.dispatchWorkgroups(...computePipeline.workgroups);
+        computePass.end();
+        device.queue.submit([computeEncoder.finish()]);
+
+        const asciiData = await readComputeOutput(device, computePipeline);
+        textRenderer.render(asciiData);
+      } else {
+        const renderPass = commandEncoder.beginRenderPass({
+          colorAttachments: [{
+            view: context.getCurrentTexture().createView(),
+            clearValue: { r: 0.0, g: 0.0, b: 0.0, a: 1 },
+            loadOp: 'clear',
+            storeOp: 'store',
+          }],
+          depthStencilAttachment: {
+            view: normalDepthTexture.createView(),
+            depthClearValue: 1.0,
+            depthLoadOp: 'clear',
+            depthStoreOp: 'store',
+          },
+        });
+
+        renderPass.setPipeline(normalPipeline.pipeline);
+        renderPass.setBindGroup(0, normalPipeline.bindGroup);
+        renderPass.setVertexBuffer(0, normalPipeline.positionBuffer);
+        renderPass.setVertexBuffer(1, normalPipeline.normalBuffer);
+        renderPass.setVertexBuffer(2, normalPipeline.uvBuffer);
+        renderPass.setIndexBuffer(normalPipeline.indexBuffer, 'uint16');
+        renderPass.setViewport(0, 0, 960, 960, 0, 1);
+        renderPass.setScissorRect(0, 0, 960, 960);
+
+        if (frameCount % 60 === 0) {
+          console.log(`Drawing ${normalPipeline.indexCount} indices in normal mode, aspect=${aspect.toFixed(2)}`);
+        }
+
+        renderPass.drawIndexed(normalPipeline.indexCount);
+        renderPass.end();
+
+        device.queue.submit([commandEncoder.finish()]);
       }
-
-      renderPass.drawIndexed(renderPipeline.indexCount);
-      renderPass.end();
-
-      device.queue.submit([commandEncoder.finish()]);
-
-      await device.queue.onSubmittedWorkDone();
-
-      const computeEncoder = device.createCommandEncoder();
-      const computePass = computeEncoder.beginComputePass();
-      computePass.setPipeline(computePipeline.pipeline);
-      computePass.setBindGroup(0, computePipeline.bindGroup);
-      computePass.dispatchWorkgroups(...computePipeline.workgroups);
-      computePass.end();
-      device.queue.submit([computeEncoder.finish()]);
-
-      const asciiData = await readComputeOutput(device, computePipeline);
-      textRenderer.render(asciiData);
 
       requestAnimationFrame(render);
     }

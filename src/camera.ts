@@ -11,6 +11,10 @@ export class Camera {
   lastMouseY = 0;
 
   constructor(canvas: HTMLCanvasElement) {
+    this.attachCanvas(canvas);
+  }
+
+  attachCanvas(canvas: HTMLCanvasElement) {
     canvas.addEventListener('mousedown', (e) => {
       this.isDragging = true;
       this.lastMouseX = e.clientX;

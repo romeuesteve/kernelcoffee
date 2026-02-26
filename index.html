@@ -38,13 +38,62 @@
       max-width: 600px;
       text-align: center;
     }
+    .toggle-container {
+      margin-top: 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .toggle-label {
+      font-size: 14px;
+      color: #666;
+      transition: color 0.3s;
+    }
+    .toggle-label.active {
+      color: #00ff00;
+    }
+    .toggle-switch {
+      position: relative;
+      width: 50px;
+      height: 26px;
+      background: #333;
+      border: none;
+      border-radius: 13px;
+      cursor: pointer;
+      padding: 0;
+      transition: background 0.3s;
+    }
+    .toggle-switch:hover {
+      background: #444;
+    }
+    .toggle-slider {
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 20px;
+      height: 20px;
+      background: #00ff00;
+      border-radius: 50%;
+      transition: transform 0.3s;
+    }
+    .toggle-switch.normal .toggle-slider {
+      transform: translateX(24px);
+      background: #666;
+    }
   </style>
 </head>
   <body>
-    <canvas id="webgpu-canvas" style="display: none;"></canvas>
+    <canvas id="webgpu-canvas"></canvas>
     <canvas id="ascii-canvas"></canvas>
     <div id="info">Drag to rotate • Scroll to zoom</div>
     <div id="error"></div>
+    <div class="toggle-container">
+      <span class="toggle-label">ASCII</span>
+      <button id="mode-toggle" class="toggle-switch">
+        <span class="toggle-slider"></span>
+      </button>
+      <span class="toggle-label">Normal</span>
+    </div>
     <script type="module" src="/src/main.ts"></script>
   </body>
 </html>
