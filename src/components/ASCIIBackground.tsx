@@ -37,15 +37,15 @@ export function ASCIIBackground() {
           canvas: tempCanvas,
           modelUrl: '/resources/coffee.glb',
           mode: 'ascii',
-          fontSize: 20,
+          fontSize: 12,
           asciiWidth: 120,
           asciiHeight: 80,
-          asciiChars: ' .:-=+*#%@',
+          asciiPattern: ' [ᵏᵉʳⁿᵉˡᶜᵒᶠᶠᵉᵉ][KERNELCOFFEE][KERNELCOFFEE] [ᵏᵉʳⁿᵉˡᶜᵒᶠᶠᵉᵉ][KernelCoffee]',//' cofe .cofCCOFE', ' ░▒▓█'
           gamma: 0.5,
-          brightness: 0.8,
+          brightness: 1.2,
           autoRotate: false,
           autoRotateSpeed: 0.01,
-          initialDistance: 5,
+            initialDistance: 5,
           bgColor: 'transparent',
           onError: (err) => {
             console.error('Renderer error:', err);
@@ -63,8 +63,8 @@ export function ASCIIBackground() {
           renderedCanvas.style.top = '50%';
           renderedCanvas.style.left = '10%';
           renderedCanvas.style.transform = 'translateY(-50%)';
-          renderedCanvas.style.width = '1050px';
-          renderedCanvas.style.height = '1050px';
+          renderedCanvas.style.width = '850px';
+          renderedCanvas.style.height = '850px';
           renderedCanvas.style.pointerEvents = 'none';
         }
 
