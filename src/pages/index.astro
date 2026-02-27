@@ -2,15 +2,31 @@
 import Layout from '@/layouts/Layout.astro';
 import { ASCIIBackground } from '@/components/ASCIIBackground';
 import { Hero } from '@/components/Hero';
-import { Products } from '@/components/Products';
+import { PainPoints } from '@/components/PainPoints';
+import { WorkflowProducts } from '@/components/WorkflowProducts';
+import { HowItWorks } from '@/components/HowItWorks';
+import { SocialProof } from '@/components/SocialProof';
+import { B2BSection } from '@/components/B2BSection';
+import { WorkflowAssessment } from '@/components/WorkflowAssessment';
+import { ContentSection } from '@/components/ContentSection';
+import { FAQ } from '@/components/FAQ';
+import { FinalCTA } from '@/components/FinalCTA';
 import { Footer } from '@/components/Footer';
 ---
 
-<Layout title="Kernel Coffee - Tech-Powered Fuel for Developers">
+<Layout title="Kernel Coffee - Fuel for Deep Work">
 	<ASCIIBackground client:load />
 	<div class="relative z-10">
 		<Hero client:load />
-		<Products client:load />
+		<PainPoints />
+		<WorkflowProducts client:load />
+		<HowItWorks />
+		<SocialProof />
+		<B2BSection />
+		<WorkflowAssessment client:load />
+		<ContentSection />
+		<FAQ />
+		<FinalCTA />
 		<Footer />
 	</div>
 </Layout>
