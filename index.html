@@ -80,6 +80,61 @@
       transform: translateX(24px);
       background: #666;
     }
+    .slider-container {
+      margin-top: 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .slider-label {
+      font-size: 14px;
+      color: #666;
+      min-width: 80px;
+    }
+    .slider {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 200px;
+      height: 6px;
+      background: #333;
+      border-radius: 3px;
+      outline: none;
+      cursor: pointer;
+    }
+    .slider:hover {
+      background: #444;
+    }
+    .slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      background: #00ff00;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .slider::-webkit-slider-thumb:hover {
+      transform: scale(1.2);
+    }
+    .slider::-moz-range-thumb {
+      width: 18px;
+      height: 18px;
+      background: #00ff00;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .slider::-moz-range-thumb:hover {
+      transform: scale(1.2);
+    }
+    .slider-value {
+      font-size: 14px;
+      color: #00ff00;
+      min-width: 40px;
+      text-align: right;
+    }
   </style>
 </head>
   <body>
@@ -94,6 +149,11 @@
         <span class="toggle-slider"></span>
       </button>
       <span class="toggle-label">Normal</span>
+    </div>
+    <div class="slider-container">
+      <span class="slider-label">Font Size:</span>
+      <input type="range" id="font-size-slider" class="slider" min="6" max="24" value="12" step="1">
+      <span class="slider-value" id="font-size-value">12</span>
     </div>
     <script type="module" src="/src/main.ts"></script>
   </body>

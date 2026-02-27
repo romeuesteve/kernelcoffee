@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>WebGPU ASCII Renderer - Advanced Example</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      background: #0a0a0a;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      font-family: 'Courier New', monospace;
+      color: #00ff00;
+    }
+    #canvas-container {
+      position: relative;
+      display: inline-block;
+    }
+    #webgpu-canvas {
+      border: 2px solid #333;
+      display: none;
+    }
+    #ascii-canvas {
+      border: 2px solid #333;
+      image-rendering: pixelated;
+      display: block;
+    }
+    #info {
+      margin-top: 20px;
+      font-size: 14px;
+      color: #666;
+      text-align: center;
+    }
+    #fps {
+      margin-top: 10px;
+      font-size: 14px;
+      color: #00ff00;
+    }
+    #error {
+      color: #ff4444;
+      margin-top: 20px;
+      max-width: 600px;
+      text-align: center;
+    }
+    .controls {
+      margin-top: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      align-items: center;
+    }
+    .toggle-container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .toggle-label {
+      font-size: 14px;
+      color: #666;
+      transition: color 0.3s;
+    }
+    .toggle-label.active {
+      color: #00ff00;
+    }
+    .toggle-switch {
+      position: relative;
+      width: 50px;
+      height: 26px;
+      background: #333;
+      border: none;
+      border-radius: 13px;
+      cursor: pointer;
+      padding: 0;
+      transition: background 0.3s;
+    }
+    .toggle-switch:hover {
+      background: #444;
+    }
+    .toggle-slider {
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 20px;
+      height: 20px;
+      background: #00ff00;
+      border-radius: 50%;
+      transition: transform 0.3s;
+    }
+    .toggle-switch.normal .toggle-slider {
+      transform: translateX(24px);
+      background: #666;
+    }
+    .slider-container {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .slider-label {
+      font-size: 14px;
+      color: #666;
+      min-width: 80px;
+    }
+    .slider {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 200px;
+      height: 6px;
+      background: #333;
+      border-radius: 3px;
+      outline: none;
+      cursor: pointer;
+    }
+    .slider:hover {
+      background: #444;
+    }
+    .slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      background: #00ff00;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .slider::-webkit-slider-thumb:hover {
+      transform: scale(1.2);
+    }
+    .slider::-moz-range-thumb {
+      width: 18px;
+      height: 18px;
+      background: #00ff00;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      transition: transform 0.2s;
+    }
+    .slider::-moz-range-thumb:hover {
+      transform: scale(1.2);
+    }
+    .slider-value {
+      font-size: 14px;
+      color: #00ff00;
+      min-width: 40px;
+      text-align: right;
+    }
+  </style>
+</head>
+<body>
+  <div id="canvas-container">
+    <canvas id="webgpu-canvas"></canvas>
+    <canvas id="ascii-canvas"></canvas>
+  </div>
+  <div id="info">Drag to rotate • Scroll to zoom</div>
+  <div id="fps">FPS: 0</div>
+  <div id="error"></div>
+  
+  <div class="controls">
+    <div class="toggle-container">
+      <span class="toggle-label active" id="ascii-label">ASCII</span>
+      <button id="mode-toggle" class="toggle-switch">
+        <span class="toggle-slider"></span>
+      </button>
+      <span class="toggle-label" id="normal-label">Normal</span>
+    </div>
+    <div class="slider-container">
+      <span class="slider-label">Font Size:</span>
+      <input type="range" id="font-size-slider" class="slider" min="6" max="24" value="12" step="1">
+      <span class="slider-value" id="font-size-value">12</span>
+    </div>
+  </div>
+
+  <script type="module">
+    import { ASCIIRenderer, isWebGPUSupported } from '../src/index.js';
+
+    const errorDiv = document.getElementById('error');
+    const asciiCanvas = document.getElementById('ascii-canvas');
+    const webgpuCanvas = document.getElementById('webgpu-canvas');
+    const toggleButton = document.getElementById('mode-toggle');
+    const asciiLabel = document.getElementById('ascii-label');
+    const normalLabel = document.getElementById('normal-label');
+    const fontSizeSlider = document.getElementById('font-size-slider');
+    const fontSizeValue = document.getElementById('font-size-value');
+    const fpsDiv = document.getElementById('fps');
+
+    if (!isWebGPUSupported()) {
+      errorDiv.textContent = 'WebGPU is not supported in your browser. Please use Chrome 113+ or Firefox 113+.';
+      throw new Error('WebGPU not supported');
+    }
+
+    webgpuCanvas.width = 960;
+    webgpuCanvas.height = 960;
+
+    let renderer: ASCIIRenderer | null = null;
+
+    async function init() {
+      try {
+        renderer = new ASCIIRenderer({
+          canvas: webgpuCanvas,
+          modelUrl: '/resources/apfel.glb',
+          mode: 'ascii',
+          fontSize: 12,
+          autoRotate: true,
+          onError: (error) => {
+            console.error('Renderer error:', error);
+            errorDiv.textContent = `Error: ${error.message}`;
+          },
+          onModeChange: (mode) => {
+            updateUI(mode);
+          },
+          onFPSUpdate: (fps) => {
+            fpsDiv.textContent = `FPS: ${fps}`;
+          },
+        });
+
+        await renderer.init();
+
+        // Replace the webgpu canvas with the ASCII canvas from the renderer
+        const asciiCanvasFromRenderer = renderer.getASCIICanvas();
+        asciiCanvasFromRenderer.id = 'ascii-canvas';
+        webgpuCanvas.parentNode?.replaceChild(asciiCanvasFromRenderer, asciiCanvas);
+
+      } catch (error) {
+        console.error('Failed to initialize:', error);
+        errorDiv.textContent = `Error: ${error instanceof Error ? error.message : 'Unknown error'}`;
+      }
+    }
+
+    function updateUI(mode: 'ascii' | 'normal') {
+      if (mode === 'ascii') {
+        toggleButton.classList.remove('normal');
+        asciiLabel.classList.add('active');
+        normalLabel.classList.remove('active');
+        webgpuCanvas.style.display = 'none';
+        renderer?.getASCIICanvas().style.display = 'block';
+      } else {
+        toggleButton.classList.add('normal');
+        asciiLabel.classList.remove('active');
+        normalLabel.classList.add('active');
+        webgpuCanvas.style.display = 'block';
+        renderer?.getASCIICanvas().style.display = 'none';
+      }
+    }
+
+    toggleButton.addEventListener('click', () => {
+      if (!renderer) return;
+      const currentMode = renderer.getMode();
+      renderer.setMode(currentMode === 'ascii' ? 'normal' : 'ascii');
+    });
+
+    fontSizeSlider.addEventListener('input', (e) => {
+      const newSize = parseInt((e.target as HTMLInputElement).value);
+      fontSizeValue.textContent = newSize.toString();
+      if (renderer) {
+        renderer.setFontSize(newSize);
+      }
+    });
+
+    init();
+  </script>
+</body>
+</html>

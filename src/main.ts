@@ -11,6 +11,8 @@ import { Camera } from './camera.js';
     const fpsDiv = document.getElementById('fps')!;
     const toggleButton = document.getElementById('mode-toggle') as HTMLButtonElement;
     const toggleLabels = document.querySelectorAll('.toggle-label');
+    const fontSizeSlider = document.getElementById('font-size-slider') as HTMLInputElement;
+    const fontSizeValue = document.getElementById('font-size-value')!;
 
   let currentMode: 'ascii' | 'normal' = 'ascii';
 
@@ -33,6 +35,16 @@ import { Camera } from './camera.js';
   toggleButton.addEventListener('click', () => {
     currentMode = currentMode === 'ascii' ? 'normal' : 'ascii';
     updateToggleUI();
+  });
+
+  let textRenderer: ReturnType<typeof createTextRenderer> | null = null;
+
+  fontSizeSlider.addEventListener('input', (e) => {
+    const newSize = parseInt((e.target as HTMLInputElement).value);
+    fontSizeValue.textContent = newSize.toString();
+    if (textRenderer) {
+      textRenderer.setFontSize(newSize);
+    }
   });
 
   updateToggleUI();
@@ -72,7 +84,7 @@ import { Camera } from './camera.js';
     const GAMMA = 0.7;
     updateComputeUniforms(device, computePipeline, 120, 80, GAMMA);
     
-    const textRenderer = createTextRenderer(asciiCanvas);
+    textRenderer = createTextRenderer(asciiCanvas);
 
     const depthTexture = device.createTexture({
       size: [120, 80, 1],
@@ -158,7 +170,7 @@ import { Camera } from './camera.js';
         device.queue.submit([computeEncoder.finish()]);
 
         const asciiData = await readComputeOutput(device, computePipeline);
-        textRenderer.render(asciiData);
+        textRenderer!.render(asciiData);
       } else {
         const renderPass = commandEncoder.beginRenderPass({
           colorAttachments: [{

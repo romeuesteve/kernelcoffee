@@ -1,3 +1,8 @@
+export interface CameraOptions {
+  initialDistance?: number;
+  autoRotateSpeed?: number;
+}
+
 export class Camera {
   rotationX: number = 0.5;
   rotationY: number = 0.5;
@@ -9,20 +14,26 @@ export class Camera {
   isDragging = false;
   lastMouseX = 0;
   lastMouseY = 0;
+  private autoRotateSpeed: number;
+  private canvasElements: HTMLCanvasElement[] = [];
 
-  constructor(canvas: HTMLCanvasElement) {
+  constructor(canvas: HTMLCanvasElement, options: CameraOptions = {}) {
+    this.distance = options.initialDistance || 8;
+    this.targetDistance = this.distance;
+    this.autoRotateSpeed = options.autoRotateSpeed !== undefined ? options.autoRotateSpeed : 0.005;
     this.attachCanvas(canvas);
   }
 
   attachCanvas(canvas: HTMLCanvasElement) {
-    canvas.addEventListener('mousedown', (e) => {
+    this.canvasElements.push(canvas);
+
+    const mouseDownHandler = (e: MouseEvent) => {
       this.isDragging = true;
       this.lastMouseX = e.clientX;
       this.lastMouseY = e.clientY;
-      console.log('Mouse down - dragging started');
-    });
+    };
 
-    canvas.addEventListener('mousemove', (e) => {
+    const mouseMoveHandler = (e: MouseEvent) => {
       if (!this.isDragging) return;
 
       const deltaX = e.clientX - this.lastMouseX;
@@ -34,25 +45,29 @@ export class Camera {
 
       this.lastMouseX = e.clientX;
       this.lastMouseY = e.clientY;
-    });
+    };
 
-    canvas.addEventListener('mouseup', () => {
+    const mouseUpHandler = () => {
       this.isDragging = false;
-      console.log('Mouse up - dragging stopped');
-    });
+    };
 
-    canvas.addEventListener('mouseleave', () => {
+    const mouseLeaveHandler = () => {
       this.isDragging = false;
-    });
+    };
 
-    canvas.addEventListener('wheel', (e) => {
+    const wheelHandler = (e: WheelEvent) => {
       e.preventDefault();
       this.targetDistance += e.deltaY * 0.01;
       this.targetDistance = Math.max(2, Math.min(10, this.targetDistance));
-      console.log('Wheel - distance:', this.targetDistance.toFixed(2));
-    });
+    };
 
-    console.log('Camera attached to canvas:', canvas.id, 'size:', canvas.width, 'x', canvas.height);
+    canvas.addEventListener('mousedown', mouseDownHandler);
+    canvas.addEventListener('mousemove', mouseMoveHandler);
+    canvas.addEventListener('mouseup', mouseUpHandler);
+    canvas.addEventListener('mouseleave', mouseLeaveHandler);
+    canvas.addEventListener('wheel', wheelHandler);
+
+    canvas.dataset.cameraListenersAttached = 'true';
   }
 
   update() {
@@ -60,8 +75,24 @@ export class Camera {
     this.rotationY += (this.targetRotationY - this.rotationY) * 0.1;
     this.distance += (this.targetDistance - this.distance) * 0.1;
     
-    // Auto-rotate slowly
-    this.targetRotationY += 0.005;
+    this.targetRotationY += this.autoRotateSpeed;
+  }
+
+  setDistance(distance: number) {
+    this.targetDistance = Math.max(2, Math.min(10, distance));
+  }
+
+  setRotation(x: number, y: number) {
+    this.targetRotationX = Math.max(-Math.PI / 2, Math.min(Math.PI / 2, x));
+    this.targetRotationY = y;
+  }
+
+  dispose() {
+    for (const canvas of this.canvasElements) {
+      const clone = canvas.cloneNode(true) as HTMLCanvasElement;
+      canvas.parentNode?.replaceChild(clone, canvas);
+    }
+    this.canvasElements = [];
   }
 
   getViewMatrix(): Float32Array {

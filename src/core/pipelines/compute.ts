@@ -1,4 +1,4 @@
-import computeShader from '../shaders/ascii-compute.wgsl?raw';
+ import computeShader from '../../../shaders/ascii-compute.wgsl?raw';
 
 const GRID_WIDTH = 120;
 const GRID_HEIGHT = 80;
@@ -9,13 +9,17 @@ export interface ComputePipeline {
   uniformBuffer: GPUBuffer;
   bindGroup: GPUBindGroup;
   workgroups: [number, number, number];
+  gridWidth: number;
+  gridHeight: number;
 }
 
 export function createComputePipeline(
   device: GPUDevice,
-  inputTexture: GPUTextureView
+  inputTexture: GPUTextureView,
+  gridWidth: number = GRID_WIDTH,
+  gridHeight: number = GRID_HEIGHT
 ): ComputePipeline {
-  const bufferSize = GRID_WIDTH * GRID_HEIGHT * 16;
+  const bufferSize = gridWidth * gridHeight * 16;
   
   const outputBuffer = device.createBuffer({
     size: bufferSize,
@@ -69,8 +73,8 @@ export function createComputePipeline(
     },
   });
 
-  const workgroupCountX = Math.ceil(GRID_WIDTH / 8);
-  const workgroupCountY = Math.ceil(GRID_HEIGHT / 8);
+  const workgroupCountX = Math.ceil(gridWidth / 8);
+  const workgroupCountY = Math.ceil(gridHeight / 8);
 
   return {
     pipeline,
@@ -78,6 +82,8 @@ export function createComputePipeline(
     uniformBuffer,
     bindGroup,
     workgroups: [workgroupCountX, workgroupCountY, 1],
+    gridWidth,
+    gridHeight,
   };
 }
 
@@ -85,7 +91,7 @@ export async function readComputeOutput(
   device: GPUDevice,
   pipeline: ComputePipeline
 ): Promise<Float32Array> {
-  const bufferSize = GRID_WIDTH * GRID_HEIGHT * 16;
+  const bufferSize = pipeline.gridWidth * pipeline.gridHeight * 16;
   const stagingBuffer = device.createBuffer({
     size: bufferSize,
     usage: GPUBufferUsage.MAP_READ | GPUBufferUsage.COPY_DST,
@@ -116,16 +122,16 @@ export function updateUniforms(
   texHeight: number,
   gamma: number = 1.0
 ): void {
-  const cellWidth = texWidth / GRID_WIDTH;
-  const cellHeight = texHeight / GRID_HEIGHT;
+  const cellWidth = texWidth / pipeline.gridWidth;
+  const cellHeight = texHeight / pipeline.gridHeight;
 
   const uniforms = new Float32Array([
     texWidth,
     texHeight,
     cellWidth,
     cellHeight,
-    GRID_WIDTH,
-    GRID_HEIGHT,
+    pipeline.gridWidth,
+    pipeline.gridHeight,
     gamma,
   ]);
 

@@ -1,5 +1,5 @@
-import { loadGLBMesh } from './gltf-loader.js';
-import renderShader from '../shaders/render.wgsl?raw';
+ import { loadGLBMesh } from '../../utils/gltf-loader.js';
+import renderShader from '../../../shaders/render.wgsl?raw';
 
 const GRID_WIDTH = 120;
 const GRID_HEIGHT = 80;
@@ -21,8 +21,8 @@ export interface RenderPipeline {
   sampler: GPUSampler;
 }
 
-export async function createRenderPipeline(device: GPUDevice, format: GPUTextureFormat): Promise<RenderPipeline> {
-  const texturedMesh = await loadGLBMesh('/resources/apfel.glb');
+export async function createRenderPipeline(device: GPUDevice, format: GPUTextureFormat, modelUrl: string, gridWidth: number = GRID_WIDTH, gridHeight: number = GRID_HEIGHT): Promise<RenderPipeline> {
+  const texturedMesh = await loadGLBMesh(modelUrl);
   const mesh = texturedMesh.mesh;
 
   // Align buffer sizes to 4-byte multiples for WebGPU
@@ -136,7 +136,7 @@ export async function createRenderPipeline(device: GPUDevice, format: GPUTexture
   });
 
   const texture = device.createTexture({
-    size: [GRID_WIDTH, GRID_HEIGHT],
+    size: [gridWidth, gridHeight],
     format: 'rgba8unorm',
     usage: GPUTextureUsage.RENDER_ATTACHMENT | GPUTextureUsage.TEXTURE_BINDING,
   });
