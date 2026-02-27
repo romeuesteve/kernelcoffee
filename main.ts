@@ -1,77 +1,91 @@
 import { ASCIIRenderer, isWebGPUSupported } from 'webgpu-ascii-renderer';
 
+interface ScrollState {
+  lastScrollY: number;
+  isScrolling: boolean;
+  scrollTimeout: number | null;
+}
+
 async function init() {
   const errorDiv = document.getElementById('error')!;
-  const asciiCanvas = document.getElementById('ascii-canvas') as HTMLCanvasElement;
-  const webgpuCanvas = document.getElementById('webgpu-canvas') as HTMLCanvasElement;
-  const fpsDiv = document.getElementById('fps')!;
-  const toggleButton = document.getElementById('mode-toggle') as HTMLButtonElement;
-  const toggleLabels = document.querySelectorAll('.toggle-label');
-  const fontSizeSlider = document.getElementById('font-size-slider') as HTMLInputElement;
-  const fontSizeValue = document.getElementById('font-size-value')!;
 
   if (!isWebGPUSupported()) {
     errorDiv.textContent = 'WebGPU is not supported in your browser. Please use Chrome 113+ or Firefox 113+.';
     throw new Error('WebGPU not supported');
   }
 
-  let currentMode: 'ascii' | 'normal' = 'ascii';
-  let renderer: ASCIIRenderer;
+  const asciiCanvas = document.createElement('canvas');
+  asciiCanvas.id = 'ascii-canvas';
+  
+  const asciiBackground = document.querySelector('.ascii-background')!;
+  asciiBackground.appendChild(asciiCanvas);
 
-  function updateToggleUI() {
-    if (currentMode === 'ascii') {
-      toggleButton.classList.remove('normal');
-      toggleLabels[0].classList.add('active');
-      toggleLabels[1].classList.remove('active');
-      asciiCanvas.style.display = 'block';
-      webgpuCanvas.style.display = 'none';
-    } else {
-      toggleButton.classList.add('normal');
-      toggleLabels[0].classList.remove('active');
-      toggleLabels[1].classList.add('active');
-      asciiCanvas.style.display = 'none';
-      webgpuCanvas.style.display = 'block';
-    }
-  }
-
-  toggleButton.addEventListener('click', () => {
-    currentMode = currentMode === 'ascii' ? 'normal' : 'ascii';
-    updateToggleUI();
-    renderer.setMode(currentMode);
-  });
-
-  fontSizeSlider.addEventListener('input', (e) => {
-    const newSize = parseInt((e.target as HTMLInputElement).value);
-    fontSizeValue.textContent = newSize.toString();
-    renderer.setFontSize(newSize);
-  });
-
-  updateToggleUI();
-
-  webgpuCanvas.width = 960;
-  webgpuCanvas.height = 960;
+  const scrollState: ScrollState = {
+    lastScrollY: window.scrollY,
+    isScrolling: false,
+    scrollTimeout: null,
+  };
 
   try {
     const renderer = new ASCIIRenderer({
-      canvas: webgpuCanvas,
+      canvas: asciiCanvas,
       modelUrl: '/resources/apfel.glb',
       mode: 'ascii',
-      fontSize: 12,
-      autoRotate: true,
+      fontSize: 14,
+      asciiWidth: 100,
+      asciiHeight: 80,
+      autoRotate: false,
+      autoRotateSpeed: 0.01,
+      initialDistance: 8,
+      bgColor: 'transparent',
       onError: (error) => {
         console.error('Renderer error:', error);
         errorDiv.textContent = `Error: ${error.message}`;
-      },
-      onFPSUpdate: (fps) => {
-        fpsDiv.textContent = `FPS: ${fps}`;
       },
     });
 
     await renderer.init();
 
-    const asciiCanvasFromRenderer = renderer.getASCIICanvas();
-    asciiCanvasFromRenderer.id = 'ascii-canvas';
-    webgpuCanvas.parentNode?.replaceChild(asciiCanvasFromRenderer, asciiCanvas);
+    const renderedCanvas = renderer.getASCIICanvas();
+    renderedCanvas.style.position = 'absolute';
+    renderedCanvas.style.top = '50%';
+    renderedCanvas.style.left = '10%';
+    renderedCanvas.style.transform = 'translateY(-50%)';
+    renderedCanvas.style.width = '500px';
+    renderedCanvas.style.height = '500px';
+    renderedCanvas.style.pointerEvents = 'none';
+
+    window.addEventListener('scroll', () => {
+      const scrollProgress = window.scrollY / (document.body.scrollHeight - window.innerHeight);
+      
+      const xPos = 10 + (scrollProgress * 70);
+      renderedCanvas.style.left = `${xPos}%`;
+      
+      const scrollDelta = window.scrollY - scrollState.lastScrollY;
+      renderer.incrementRotation(scrollDelta * 0.005, 0);
+      
+      renderer.setAutoRotate(true);
+      scrollState.isScrolling = true;
+      
+      if (scrollState.scrollTimeout) {
+        clearTimeout(scrollState.scrollTimeout);
+      }
+      
+      scrollState.scrollTimeout = window.setTimeout(() => {
+        scrollState.isScrolling = false;
+        renderer.setAutoRotate(false);
+      }, 100);
+      
+      scrollState.lastScrollY = window.scrollY;
+    }, { passive: true });
+
+    window.addEventListener('mousemove', (e) => {
+      if (!scrollState.isScrolling) {
+        const tiltX = (e.clientX / window.innerWidth - 0.5) * 0.3;
+        const tiltY = (e.clientY / window.innerHeight - 0.5) * 0.3;
+        renderer.setRotation(tiltY, tiltX);
+      }
+    });
 
   } catch (error) {
     console.error('Failed to initialize:', error);

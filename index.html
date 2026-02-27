@@ -3,158 +3,148 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>WebGPU ASCII Renderer</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-    body {
-      background: #0a0a0a;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      min-height: 100vh;
-      font-family: 'Courier New', monospace;
-      color: #00ff00;
-    }
-    #ascii-canvas {
-      border: 2px solid #333;
-      image-rendering: pixelated;
-    }
-    #webgpu-canvas {
-      border: 2px solid #333;
-    }
-    #info {
-      margin-top: 20px;
-      font-size: 14px;
-      color: #666;
-    }
-    #error {
-      color: #ff4444;
-      margin-top: 20px;
-      max-width: 600px;
-      text-align: center;
-    }
-    .toggle-container {
-      margin-top: 20px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    .toggle-label {
-      font-size: 14px;
-      color: #666;
-      transition: color 0.3s;
-    }
-    .toggle-label.active {
-      color: #00ff00;
-    }
-    .toggle-switch {
-      position: relative;
-      width: 50px;
-      height: 26px;
-      background: #333;
-      border: none;
-      border-radius: 13px;
-      cursor: pointer;
-      padding: 0;
-      transition: background 0.3s;
-    }
-    .toggle-switch:hover {
-      background: #444;
-    }
-    .toggle-slider {
-      position: absolute;
-      top: 3px;
-      left: 3px;
-      width: 20px;
-      height: 20px;
-      background: #00ff00;
-      border-radius: 50%;
-      transition: transform 0.3s;
-    }
-    .toggle-switch.normal .toggle-slider {
-      transform: translateX(24px);
-      background: #666;
-    }
-    .slider-container {
-      margin-top: 20px;
-      display: flex;
-      align-items: center;
-      gap: 12px;
-    }
-    .slider-label {
-      font-size: 14px;
-      color: #666;
-      min-width: 80px;
-    }
-    .slider {
-      -webkit-appearance: none;
-      appearance: none;
-      width: 200px;
-      height: 6px;
-      background: #333;
-      border-radius: 3px;
-      outline: none;
-      cursor: pointer;
-    }
-    .slider:hover {
-      background: #444;
-    }
-    .slider::-webkit-slider-thumb {
-      -webkit-appearance: none;
-      appearance: none;
-      width: 18px;
-      height: 18px;
-      background: #00ff00;
-      border-radius: 50%;
-      cursor: pointer;
-      transition: transform 0.2s;
-    }
-    .slider::-webkit-slider-thumb:hover {
-      transform: scale(1.2);
-    }
-    .slider::-moz-range-thumb {
-      width: 18px;
-      height: 18px;
-      background: #00ff00;
-      border: none;
-      border-radius: 50%;
-      cursor: pointer;
-      transition: transform 0.2s;
-    }
-    .slider::-moz-range-thumb:hover {
-      transform: scale(1.2);
-    }
-    .slider-value {
-      font-size: 14px;
-      color: #00ff00;
-      min-width: 40px;
-      text-align: right;
-    }
-  </style>
+  <title>Kernel Coffee - Tech-Powered Fuel for Developers</title>
+  <link rel="stylesheet" href="/styles.css">
 </head>
-  <body>
-    <canvas id="webgpu-canvas"></canvas>
-    <canvas id="ascii-canvas"></canvas>
-    <div id="info">Drag to rotate • Scroll to zoom</div>
-    <div id="fps" style="margin-top: 10px; font-size: 14px; color: #00ff00;">FPS: 0</div>
-    <div id="error"></div>
-    <div class="toggle-container">
-      <span class="toggle-label">ASCII</span>
-      <button id="mode-toggle" class="toggle-switch">
-        <span class="toggle-slider"></span>
-      </button>
-      <span class="toggle-label">Normal</span>
+<body>
+  <div class="ascii-background"></div>
+  
+  <section class="hero">
+    <div class="container">
+      <div class="hero-content">
+        <h1>Kernel Coffee</h1>
+        <p>Tech-powered fuel for developers</p>
+        <a href="#products" class="btn">Shop Now</a>
+        <div class="terminal-badge">./brew --optimize</div>
+      </div>
     </div>
-    <div class="slider-container">
-      <span class="slider-label">Font Size:</span>
-      <input type="range" id="font-size-slider" class="slider" min="6" max="24" value="12" step="1">
-      <span class="slider-value" id="font-size-value">12</span>
+  </section>
+
+  <section class="features">
+    <div class="container">
+      <h2>Why Kernel Coffee?</h2>
+      <div class="feature-grid">
+        <div class="feature-card">
+          <h3>> Premium Beans</h3>
+          <p>Single-origin beans sourced from the world's best coffee-growing regions.</p>
+          <ul class="feature-list">
+            <li>Ethiopian Yirgacheffe</li>
+            <li>Colombian Supremo</li>
+            <li>Sumatra Mandheling</li>
+          </ul>
+        </div>
+        <div class="feature-card">
+          <h3>> Developer-Tested</h3>
+          <p>Roasted specifically for late-night coding sessions and debugging marathons.</p>
+          <ul class="feature-list">
+            <li>Enhanced focus formula</li>
+            <li>Sustained energy release</li>
+            <li>Zero crash guarantee</li>
+          </ul>
+        </div>
+        <div class="feature-card">
+          <h3>> Fast Shipping</h3>
+          <p>Delivered to your door before your next deployment deadline.</p>
+          <ul class="feature-list">
+            <li>Free shipping on orders $50+</li>
+            <li>Same-day shipping available</li>
+            <li>Terminal-friendly packaging</li>
+          </ul>
+        </div>
+      </div>
     </div>
-     <script type="module" src="/main.ts"></script>
-  </body>
+  </section>
+
+  <section class="about">
+    <div class="container">
+      <div class="about-content">
+        <h2>About Kernel Coffee</h2>
+        <p>
+          Born in the depths of a 3 AM debugging session, Kernel Coffee was created by developers 
+          who needed better fuel for their coding marathons. We understand the unique demands of 
+          writing code, solving complex problems, and shipping products.
+        </p>
+        <p>
+          Every batch is roasted with precision and tested in real-world development environments. 
+          Our coffee is designed to keep you sharp, focused, and productive through even the most 
+          challenging merge conflicts.
+        </p>
+        <div class="terminal-badge">git commit -m "Freshly roasted"</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="products" id="products">
+    <div class="container">
+      <h2>Our Products</h2>
+      <div class="product-grid">
+        <div class="product-card">
+          <div class="product-image">[c]</div>
+          <div class="product-info">
+            <h3>Kernel Blend</h3>
+            <p>Our signature blend, perfect for all-night coding sessions.</p>
+            <div class="product-price">$18.99</div>
+          </div>
+        </div>
+        <div class="product-card">
+          <div class="product-image">{j}</div>
+          <div class="product-info">
+            <h3>Java Junkie</h3>
+            <p>Extra bold roast for the serious caffeine enthusiast.</p>
+            <div class="product-price">$21.99</div>
+          </div>
+        </div>
+        <div class="product-card">
+          <div class="product-image">&lt;/&gt;</div>
+          <div class="product-info">
+            <h3>Script Brew</h3>
+            <p>Light and smooth, ideal for morning standups.</p>
+            <div class="product-price">$19.99</div>
+          </div>
+        </div>
+        <div class="product-card">
+          <div class="product-image">#</div>
+          <div class="product-info">
+            <h3>Python Press</h3>
+            <p>Complex flavors with elegant simplicity.</p>
+            <div class="product-price">$20.99</div>
+          </div>
+        </div>
+        <div class="product-card">
+          <div class="product-image">$</div>
+          <div class="product-info">
+            <h3>Shell Script</h3>
+            <p>Powerful and direct, just like your favorite terminal commands.</p>
+            <div class="product-price">$17.99</div>
+          </div>
+        </div>
+        <div class="product-card">
+          <div class="product-image">*</div>
+          <div class="product-info">
+            <h3>Wildcard Roast</h3>
+            <p>A little bit of everything, perfect for any coding task.</p>
+            <div class="product-price">$22.99</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container">
+      <p>&copy; 2024 Kernel Coffee. All rights reserved.</p>
+      <div class="footer-links">
+        <a href="#">GitHub</a>
+        <a href="#">Twitter</a>
+        <a href="#">Discord</a>
+        <a href="#">Contact</a>
+      </div>
+      <div class="terminal-badge" style="margin-top: 1rem;">echo "Happy Brewing!"</div>
+    </div>
+  </footer>
+
+  <div id="error" style="display: none; color: #ff4444; text-align: center; padding: 2rem;"></div>
+  
+  <script type="module" src="/main.ts"></script>
+</body>
 </html>
