@@ -64,7 +64,7 @@ export function ASCIIBackground() {
 
         const renderedCanvas = renderer.getASCIICanvas();
         canvasRef.current = renderedCanvas;
-        
+
         if (containerRef.current) {
           containerRef.current.appendChild(renderedCanvas);
           renderedCanvas.style.position = 'absolute';
@@ -74,51 +74,51 @@ export function ASCIIBackground() {
           renderedCanvas.style.width = '850px';
           renderedCanvas.style.height = '850px';
           renderedCanvas.style.pointerEvents = 'none';
-          renderedCanvas.style.opacity = '0';
-          renderedCanvas.style.transition = 'left 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 2s ease-in-out';
+          renderedCanvas.style.opacity = '1';
+          renderedCanvas.style.transition = 'left 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
         }
 
         const startAnimation = async () => {
           await new Promise(resolve => setTimeout(resolve, 500));
-          
+
           animationPhaseRef.current = 'lighting-up';
           setAnimationPhase('lighting-up');
-          
-          if (canvasRef.current) {
-            canvasRef.current.style.opacity = '1';
-          }
-          
+
           const lightUpDuration = 2000;
           const startTime = Date.now();
-          
+
           const lightUpInterval = setInterval(() => {
             const elapsed = Date.now() - startTime;
             const progress = Math.min(elapsed / lightUpDuration, 1);
-            
+
+            if (rendererRef.current) {
+              rendererRef.current.setLightIntensity(progress);
+            }
+
+            if (progress >= 0.3 && animationPhaseRef.current === 'lighting-up') {
+              animationPhaseRef.current = 'moving-left';
+              setAnimationPhase('moving-left');
+
+              if (canvasRef.current) {
+                canvasRef.current.style.transition = 'none';
+                canvasRef.current.style.transform = 'translateY(-50%)';
+                canvasRef.current.style.left = 'calc(50% - 425px)';
+
+                requestAnimationFrame(() => {
+                  requestAnimationFrame(() => {
+                    if (canvasRef.current) {
+                      canvasRef.current.style.transition = 'left 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+                      canvasRef.current.style.left = '10%';
+                    }
+                    animationPhaseRef.current = 'complete';
+                    setAnimationPhase('complete');
+                  });
+                });
+              }
+            }
+
             if (progress >= 1) {
               clearInterval(lightUpInterval);
-              
-              setTimeout(() => {
-                animationPhaseRef.current = 'moving-left';
-                setAnimationPhase('moving-left');
-                
-                if (canvasRef.current) {
-                  canvasRef.current.style.transition = 'none';
-                  canvasRef.current.style.transform = 'translateY(-50%)';
-                  canvasRef.current.style.left = 'calc(50% - 425px)';
-                  
-                  requestAnimationFrame(() => {
-                    requestAnimationFrame(() => {
-                      if (canvasRef.current) {
-                        canvasRef.current.style.transition = 'left 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94), opacity 2s ease-in-out';
-                        canvasRef.current.style.left = '10%';
-                      }
-                      animationPhaseRef.current = 'complete';
-                      setAnimationPhase('complete');
-                    });
-                  });
-                }
-              }, 300);
             }
           }, 16);
         };

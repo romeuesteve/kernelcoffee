@@ -3,13 +3,21 @@ import { useEffect, useState } from 'react';
 
 export function Hero() {
   const [isVisible, setIsVisible] = useState(false);
+  const [isLogoVisible, setIsLogoVisible] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
+    const titleTimer = setTimeout(() => {
       setIsVisible(true);
-    }, 3800);
+    }, 1500);
 
-    return () => clearTimeout(timer);
+    const logoTimer = setTimeout(() => {
+      setIsLogoVisible(true);
+    }, 1800);
+
+    return () => {
+      clearTimeout(titleTimer);
+      clearTimeout(logoTimer);
+    };
   }, []);
 
   return (
@@ -23,7 +31,19 @@ export function Hero() {
         }}
       >
         <div className="space-y-6">
-          <h1 className="text-6xl font-bold leading-tight">Kernel Coffee</h1>
+          <h1 className="text-6xl font-bold leading-tight flex items-center gap-4">
+            <img 
+              src="/logo.svg" 
+              alt="Kernel Coffee Logo"
+              className="h-16 w-auto"
+              style={{
+                opacity: isLogoVisible ? 1 : 0,
+                transform: isLogoVisible ? 'translateY(0)' : 'translateY(20px)',
+                transition: 'opacity 500ms ease-out, transform 500ms ease-out',
+              }}
+            />
+            <span>Kernel Coffee</span>
+          </h1>
           <p className="text-2xl text-muted-foreground">Tech-powered fuel for developers</p>
           <div className="flex gap-4 items-center">
             <Button size="lg" asChild>
