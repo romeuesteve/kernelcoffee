@@ -29,7 +29,7 @@ async function init() {
       modelUrl: '/resources/apfel.glb',
       mode: 'ascii',
       fontSize: 14,
-      asciiWidth: 100,
+      asciiWidth: 120,
       asciiHeight: 80,
       autoRotate: false,
       autoRotateSpeed: 0.01,
