@@ -26,7 +26,7 @@ async function init() {
     const tempCanvas = document.createElement('canvas');
     const renderer = new ASCIIRenderer({
       canvas: tempCanvas,
-      modelUrl: '/resources/apfel.glb',
+      modelUrl: '/resources/coffee.glb',
       mode: 'ascii',
       fontSize: 14,
       asciiWidth: 120,
