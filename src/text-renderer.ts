@@ -1,4 +1,6 @@
-const ASCII_CHARS = '@%#*+=-:. ';
+const ASCII_CHARS = ' :=-+*#%&@';
+const BRIGHTNESS = 2.5;
+const GAMMA = 0.9;
 
 export function createTextRenderer(canvas: HTMLCanvasElement) {
   if (!canvas) {
@@ -6,11 +8,11 @@ export function createTextRenderer(canvas: HTMLCanvasElement) {
   }
 
   const ctx = canvas.getContext('2d');
-  
+
   if (!ctx) {
     throw new Error('Failed to get 2D context from canvas');
   }
-  
+
   const GRID_WIDTH = 120;
   const GRID_HEIGHT = 80;
   const CELL_WIDTH = 8;
@@ -31,18 +33,18 @@ export function createTextRenderer(canvas: HTMLCanvasElement) {
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
       colorBatches.clear();
-      
+
       for (let y = 0; y < GRID_HEIGHT; y++) {
         for (let x = 0; x < GRID_WIDTH; x++) {
           const index = (y * GRID_WIDTH + x) * 4;
           const charIndex = Math.floor(data[index]);
-          const r = Math.floor(data[index + 1] * 255);
-          const g = Math.floor(data[index + 2] * 255);
-          const b = Math.floor(data[index + 3] * 255);
+          const r = Math.min(255, Math.floor(Math.pow(data[index + 1], GAMMA) * 255 * BRIGHTNESS));
+          const g = Math.min(255, Math.floor(Math.pow(data[index + 2], GAMMA) * 255 * BRIGHTNESS));
+          const b = Math.min(255, Math.floor(Math.pow(data[index + 3], GAMMA) * 255 * BRIGHTNESS));
 
           const char = ASCII_CHARS[Math.min(charIndex, ASCII_CHARS.length - 1)];
           const colorKey = (r << 16) | (g << 8) | b;
-          
+
           let batch = colorBatches.get(colorKey.toString());
           if (!batch) {
             batch = [];
@@ -51,15 +53,15 @@ export function createTextRenderer(canvas: HTMLCanvasElement) {
           batch.push({ char, x: x * CELL_WIDTH, y: y * CELL_HEIGHT });
         }
       }
-      
+
       for (const [colorKey, cells] of colorBatches) {
         const colorNum = parseInt(colorKey, 10);
         const r = (colorNum >> 16) & 0xFF;
         const g = (colorNum >> 8) & 0xFF;
         const b = colorNum & 0xFF;
-        
+
         ctx.fillStyle = `rgb(${r},${g},${b})`;
-        
+
         for (const cell of cells) {
           ctx.fillText(cell.char, cell.x, cell.y);
         }
