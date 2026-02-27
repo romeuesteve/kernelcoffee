@@ -113,7 +113,8 @@ export function updateUniforms(
   device: GPUDevice,
   pipeline: ComputePipeline,
   texWidth: number,
-  texHeight: number
+  texHeight: number,
+  gamma: number = 1.0
 ): void {
   const cellWidth = texWidth / GRID_WIDTH;
   const cellHeight = texHeight / GRID_HEIGHT;
@@ -125,6 +126,7 @@ export function updateUniforms(
     cellHeight,
     GRID_WIDTH,
     GRID_HEIGHT,
+    gamma,
   ]);
 
   device.queue.writeBuffer(pipeline.uniformBuffer, 0, uniforms);

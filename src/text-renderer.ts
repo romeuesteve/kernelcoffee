@@ -1,4 +1,4 @@
-const ASCII_CHARS = ' :=-+*#%&@';
+const ASCII_CHARS = ' .epflÄ'; //' :=-+*#%&@';
 const BRIGHTNESS = 2.5;
 const GAMMA = 0.9;
 

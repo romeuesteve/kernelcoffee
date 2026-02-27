@@ -9,6 +9,7 @@ struct Uniforms {
   cell_height: f32,
   grid_width: u32,
   grid_height: u32,
+  gamma: f32,
 };
 
 @group(0) @binding(0) var inputTex: texture_2d<f32>;
@@ -55,8 +56,9 @@ fn computeMain(input: ComputeInput) {
   let color = textureLoad(inputTex, vec2<i32>(i32(px), i32(py)), 0);
 
   let brightness = dot(color.rgb, vec3<f32>(0.299, 0.587, 0.114));
+  let adjusted_brightness = pow(brightness, uniforms.gamma);
 
-  let char_index = brightness_to_char(brightness);
+  let char_index = brightness_to_char(adjusted_brightness);
   let index = y * GRID_WIDTH + x;
 
   outputBuf[index] = vec4<f32>(char_index, color.r, color.g, color.b);

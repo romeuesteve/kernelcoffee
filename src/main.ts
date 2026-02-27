@@ -4,12 +4,13 @@ import { createComputePipeline, readComputeOutput, updateUniforms as updateCompu
 import { createTextRenderer } from './text-renderer.js';
 import { Camera } from './camera.js';
 
-async function init() {
-  const asciiCanvas = document.getElementById('ascii-canvas') as HTMLCanvasElement;
-  const webgpuCanvas = document.getElementById('webgpu-canvas') as HTMLCanvasElement;
-  const errorDiv = document.getElementById('error')!;
-  const toggleButton = document.getElementById('mode-toggle') as HTMLButtonElement;
-  const toggleLabels = document.querySelectorAll('.toggle-label');
+  async function init() {
+    const asciiCanvas = document.getElementById('ascii-canvas') as HTMLCanvasElement;
+    const webgpuCanvas = document.getElementById('webgpu-canvas') as HTMLCanvasElement;
+    const errorDiv = document.getElementById('error')!;
+    const fpsDiv = document.getElementById('fps')!;
+    const toggleButton = document.getElementById('mode-toggle') as HTMLButtonElement;
+    const toggleLabels = document.querySelectorAll('.toggle-label');
 
   let currentMode: 'ascii' | 'normal' = 'ascii';
 
@@ -67,7 +68,10 @@ async function init() {
     const asciiPipeline = await createRenderPipeline(device, 'rgba8unorm');
     const normalPipeline = await createRenderPipeline(device, format);
     const computePipeline = createComputePipeline(device, asciiPipeline.textureView);
-    updateComputeUniforms(device, computePipeline, 120, 80);
+    
+    const GAMMA = 0.7;
+    updateComputeUniforms(device, computePipeline, 120, 80, GAMMA);
+    
     const textRenderer = createTextRenderer(asciiCanvas);
 
     const depthTexture = device.createTexture({
@@ -90,6 +94,7 @@ async function init() {
       frameCount++;
 
       if (now - lastTime >= 1000) {
+        fpsDiv.textContent = `FPS: ${frameCount}`;
         frameCount = 0;
         lastTime = now;
       }
