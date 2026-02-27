@@ -1,8 +1,8 @@
-import { initWebGPU } from './webgpu.js';
-import { createRenderPipeline, updateUniforms as updateRenderUniforms } from './render-pipeline.js';
-import { createComputePipeline, readComputeOutput, updateUniforms as updateComputeUniforms } from './compute-pipeline.js';
-import { createTextRenderer } from './text-renderer.js';
-import { Camera } from './camera.js';
+import { initWebGPU } from './core/webgpu.js';
+import { createRenderPipeline, updateUniforms as updateRenderUniforms } from './core/pipelines/render.js';
+import { createComputePipeline, readComputeOutput, updateUniforms as updateComputeUniforms } from './core/pipelines/compute.js';
+import { createTextRenderer } from './utils/text-renderer.js';
+import { Camera } from './core/camera.js';
 
   async function init() {
     const asciiCanvas = document.getElementById('ascii-canvas') as HTMLCanvasElement;
@@ -77,8 +77,8 @@ import { Camera } from './camera.js';
     const camera = new Camera(asciiCanvas);
     camera.attachCanvas(webgpuCanvas);
 
-    const asciiPipeline = await createRenderPipeline(device, 'rgba8unorm');
-    const normalPipeline = await createRenderPipeline(device, format);
+    const asciiPipeline = await createRenderPipeline(device, 'rgba8unorm', '/resources/apfel.glb');
+    const normalPipeline = await createRenderPipeline(device, format, '/resources/apfel.glb');
     const computePipeline = createComputePipeline(device, asciiPipeline.textureView);
     
     const GAMMA = 0.7;

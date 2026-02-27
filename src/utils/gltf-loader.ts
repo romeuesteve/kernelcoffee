@@ -1,5 +1,5 @@
-import { WebIO } from '@gltf-transform/core';
-import type { Mesh } from './mesh.js';
+ import { WebIO } from '@gltf-transform/core';
+import type { Mesh } from '../mesh.js';
 
 export interface TexturedMesh {
   mesh: Mesh;
