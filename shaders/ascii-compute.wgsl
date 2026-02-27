@@ -2,27 +2,43 @@ struct ComputeInput {
   @builtin(global_invocation_id) global_id: vec3<u32>,
 };
 
+struct Uniforms {
+  tex_width: f32,
+  tex_height: f32,
+  cell_width: f32,
+  cell_height: f32,
+  grid_width: u32,
+  grid_height: u32,
+};
+
 @group(0) @binding(0) var inputTex: texture_2d<f32>;
 @group(0) @binding(1) var<storage, read_write> outputBuf: array<vec4<f32>>;
+@group(0) @binding(2) var<uniform> uniforms: Uniforms;
 
 const GRID_WIDTH: u32 = 120u;
 const GRID_HEIGHT: u32 = 80u;
 
+const BRIGHTNESS_LUT: array<f32, 10> = array<f32, 10>(
+  0.0,  // 0.0 - ' '
+  1.0,  // 0.1 - '.'
+  2.0,  // 0.2 - ':'
+  3.0,  // 0.3 - '-'
+  4.0,  // 0.4 - '='
+  5.0,  // 0.5 - '+'
+  6.0,  // 0.6 - '*'
+  7.0,  // 0.7 - '#'
+  8.0,  // 0.8 - '%'
+  9.0,  // 0.9 - '@'
+);
+
 fn brightness_to_char(brightness: f32) -> f32 {
-  if (brightness == 0.0) { return 0.0; }  // '@'
-  if (brightness < 0.1) { return 1.0; }  // '%'
-  if (brightness < 0.2) { return 2.0; }  // '#'
-  if (brightness < 0.4) { return 3.0; }  // '*'
-  if (brightness < 0.5) { return 4.0; }  // '+'
-  if (brightness < 0.6) { return 5.0; }  // '='
-  if (brightness < 0.7) { return 6.0; }  // '-'
-  if (brightness < 0.8) { return 7.0; }  // ':'
-  if (brightness < 0.9) { return 8.0; }  // '.'
-  return 9.0;  // ' '
+  let index = u32(brightness * 10.0);
+  let clamped_index = min(index, 9u);
+  return BRIGHTNESS_LUT[clamped_index];
 }
 
 @compute
-@workgroup_size(16, 16, 1)
+@workgroup_size(8, 8, 1)
 fn computeMain(input: ComputeInput) {
   let x = input.global_id.x;
   let y = input.global_id.y;
@@ -31,29 +47,17 @@ fn computeMain(input: ComputeInput) {
     return;
   }
 
-  let tex_dims = textureDimensions(inputTex);
-  let cell_width = f32(tex_dims.x) / f32(GRID_WIDTH);
-  let cell_height = f32(tex_dims.y) / f32(GRID_HEIGHT);
+  let cell_width = uniforms.cell_width;
+  let cell_height = uniforms.cell_height;
 
-  var color_sum = vec3<f32>(0.0);
-  var brightness_sum = 0.0;
-  let samples = u32(cell_width * cell_height);
+  let px = u32(f32(x) * cell_width + cell_width * 0.5);
+  let py = u32(f32(y) * cell_height + cell_height * 0.5);
+  let color = textureLoad(inputTex, vec2<i32>(i32(px), i32(py)), 0);
 
-  for (var dy = 0u; dy < u32(cell_height); dy++) {
-    for (var dx = 0u; dx < u32(cell_width); dx++) {
-      let px = u32(f32(x) * cell_width + f32(dx));
-      let py = u32(f32(y) * cell_height + f32(dy));
-      let color = textureLoad(inputTex, vec2<i32>(i32(px), i32(py)), 0);
-      color_sum += color.rgb;
-      brightness_sum += dot(color.rgb, vec3<f32>(0.299, 0.587, 0.114));
-    }
-  }
+  let brightness = dot(color.rgb, vec3<f32>(0.299, 0.587, 0.114));
 
-  let avg_color = color_sum / f32(samples);
-  let avg_brightness = brightness_sum / f32(samples);
-
-  let char_index = brightness_to_char(avg_brightness);
+  let char_index = brightness_to_char(brightness);
   let index = y * GRID_WIDTH + x;
 
-  outputBuf[index] = vec4<f32>(char_index, avg_color.r, avg_color.g, avg_color.b);
+  outputBuf[index] = vec4<f32>(char_index, color.r, color.g, color.b);
 }

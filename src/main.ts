@@ -1,6 +1,6 @@
 import { initWebGPU } from './webgpu.js';
-import { createRenderPipeline, updateUniforms } from './render-pipeline.js';
-import { createComputePipeline, readComputeOutput } from './compute-pipeline.js';
+import { createRenderPipeline, updateUniforms as updateRenderUniforms } from './render-pipeline.js';
+import { createComputePipeline, readComputeOutput, updateUniforms as updateComputeUniforms } from './compute-pipeline.js';
 import { createTextRenderer } from './text-renderer.js';
 import { Camera } from './camera.js';
 
@@ -67,6 +67,7 @@ async function init() {
     const asciiPipeline = await createRenderPipeline(device, 'rgba8unorm');
     const normalPipeline = await createRenderPipeline(device, format);
     const computePipeline = createComputePipeline(device, asciiPipeline.textureView);
+    updateComputeUniforms(device, computePipeline, 120, 80);
     const textRenderer = createTextRenderer(asciiCanvas);
 
     const depthTexture = device.createTexture({
@@ -106,8 +107,8 @@ async function init() {
 
       const mvp = multiplyMatrices(projection, view);
 
-      updateUniforms(device, asciiPipeline, mvp, model);
-      updateUniforms(device, normalPipeline, mvp, model);
+      updateRenderUniforms(device, asciiPipeline, mvp, model);
+      updateRenderUniforms(device, normalPipeline, mvp, model);
 
       const commandEncoder = device.createCommandEncoder();
 

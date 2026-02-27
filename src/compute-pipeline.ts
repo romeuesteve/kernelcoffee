@@ -6,6 +6,7 @@ const GRID_HEIGHT = 80;
 export interface ComputePipeline {
   pipeline: GPUComputePipeline;
   outputBuffer: GPUBuffer;
+  uniformBuffer: GPUBuffer;
   bindGroup: GPUBindGroup;
   workgroups: [number, number, number];
 }
@@ -21,6 +22,12 @@ export function createComputePipeline(
     usage: GPUBufferUsage.STORAGE | GPUBufferUsage.COPY_SRC,
   });
 
+  const uniformBufferSize = 32;
+  const uniformBuffer = device.createBuffer({
+    size: uniformBufferSize,
+    usage: GPUBufferUsage.UNIFORM | GPUBufferUsage.COPY_DST,
+  });
+
   const bindGroupLayout = device.createBindGroupLayout({
     entries: [
       {
@@ -33,6 +40,11 @@ export function createComputePipeline(
         visibility: GPUShaderStage.COMPUTE,
         buffer: { type: 'storage' },
       },
+      {
+        binding: 2,
+        visibility: GPUShaderStage.COMPUTE,
+        buffer: { type: 'uniform' },
+      },
     ],
   });
 
@@ -41,6 +53,7 @@ export function createComputePipeline(
     entries: [
       { binding: 0, resource: inputTexture },
       { binding: 1, resource: { buffer: outputBuffer } },
+      { binding: 2, resource: { buffer: uniformBuffer } },
     ],
   });
 
@@ -56,12 +69,13 @@ export function createComputePipeline(
     },
   });
 
-  const workgroupCountX = Math.ceil(GRID_WIDTH / 16);
-  const workgroupCountY = Math.ceil(GRID_HEIGHT / 16);
+  const workgroupCountX = Math.ceil(GRID_WIDTH / 8);
+  const workgroupCountY = Math.ceil(GRID_HEIGHT / 8);
 
   return {
     pipeline,
     outputBuffer,
+    uniformBuffer,
     bindGroup,
     workgroups: [workgroupCountX, workgroupCountY, 1],
   };
@@ -93,4 +107,25 @@ export async function readComputeOutput(
   stagingBuffer.unmap();
 
   return data;
+}
+
+export function updateUniforms(
+  device: GPUDevice,
+  pipeline: ComputePipeline,
+  texWidth: number,
+  texHeight: number
+): void {
+  const cellWidth = texWidth / GRID_WIDTH;
+  const cellHeight = texHeight / GRID_HEIGHT;
+
+  const uniforms = new Float32Array([
+    texWidth,
+    texHeight,
+    cellWidth,
+    cellHeight,
+    GRID_WIDTH,
+    GRID_HEIGHT,
+  ]);
+
+  device.queue.writeBuffer(pipeline.uniformBuffer, 0, uniforms);
 }
