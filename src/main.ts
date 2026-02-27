@@ -5,10 +5,6 @@ import { createTextRenderer } from './text-renderer.js';
 import { Camera } from './camera.js';
 
 async function init() {
-  console.log('Init function called');
-  console.log('DOM ready state:', document.readyState);
-  console.log('Document elements:', document.body.children.length);
-
   const asciiCanvas = document.getElementById('ascii-canvas') as HTMLCanvasElement;
   const webgpuCanvas = document.getElementById('webgpu-canvas') as HTMLCanvasElement;
   const errorDiv = document.getElementById('error')!;
@@ -40,16 +36,10 @@ async function init() {
 
   updateToggleUI();
 
-  console.log('Looking for canvases...');
-  console.log('asciiCanvas:', asciiCanvas);
-  console.log('webgpuCanvas:', webgpuCanvas);
-  console.log('errorDiv:', errorDiv);
-
   if (!asciiCanvas) {
     if (errorDiv) {
       errorDiv.textContent = 'ASCII canvas element not found';
     }
-    console.error('ASCII canvas element not found');
     return;
   }
 
@@ -57,39 +47,27 @@ async function init() {
     if (errorDiv) {
       errorDiv.textContent = 'WebGPU canvas element not found';
     }
-    console.error('WebGPU canvas element not found');
     return;
   }
 
   if (!errorDiv) {
-    console.error('Error div not found');
     return;
   }
-
-  console.log('Canvases found, initializing...');
 
   // Set webgpu canvas to a visible size
   webgpuCanvas.width = 960;
   webgpuCanvas.height = 960;
 
   try {
-    console.log('Initializing WebGPU...');
     const { device, context, format } = await initWebGPU(webgpuCanvas);
-    console.log('WebGPU initialized');
     
-    console.log('Creating camera...');
     const camera = new Camera(asciiCanvas);
     camera.attachCanvas(webgpuCanvas);
 
-    console.log('Loading GLB model...');
     const asciiPipeline = await createRenderPipeline(device, 'rgba8unorm');
     const normalPipeline = await createRenderPipeline(device, format);
     const computePipeline = createComputePipeline(device, asciiPipeline.textureView);
     const textRenderer = createTextRenderer(asciiCanvas);
-
-    console.log('Pipeline created, indexCount:', asciiPipeline.indexCount);
-    console.log('Texture size:', asciiPipeline.texture.width, 'x', asciiPipeline.texture.height);
-    console.log('Camera position - distance:', camera.distance, 'rotX:', camera.rotationX, 'rotY:', camera.rotationY);
 
     const depthTexture = device.createTexture({
       size: [120, 80, 1],
@@ -103,21 +81,16 @@ async function init() {
       usage: GPUTextureUsage.RENDER_ATTACHMENT,
     });
 
-    console.log('Depth texture created:', depthTexture.width, 'x', depthTexture.height);
-
     let frameCount = 0;
     let lastTime = performance.now();
-    let fps = 0;
 
     async function render() {
       const now = performance.now();
       frameCount++;
 
       if (now - lastTime >= 1000) {
-        fps = frameCount;
         frameCount = 0;
         lastTime = now;
-        console.log(`FPS: ${fps}`);
       }
 
       camera.update();
@@ -132,11 +105,6 @@ async function init() {
       const model = new Float32Array([1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1]);
 
       const mvp = multiplyMatrices(projection, view);
-
-      if (frameCount % 60 === 0) {
-        console.log(`Camera: dist=${camera.distance.toFixed(2)} rotX=${camera.rotationX.toFixed(2)} rotY=${camera.rotationY.toFixed(2)}`);
-        console.log(`MVP[0]=${mvp[0].toFixed(2)} MVP[5]=${mvp[5].toFixed(2)} MVP[10]=${mvp[10].toFixed(2)} MVP[14]=${mvp[14].toFixed(2)}`);
-      }
 
       updateUniforms(device, asciiPipeline, mvp, model);
       updateUniforms(device, normalPipeline, mvp, model);
@@ -167,10 +135,6 @@ async function init() {
         renderPass.setIndexBuffer(asciiPipeline.indexBuffer, asciiPipeline.indexFormat);
         renderPass.setViewport(0, 0, 120, 80, 0, 1);
         renderPass.setScissorRect(0, 0, 120, 80);
-
-        if (frameCount % 60 === 0) {
-          console.log(`Drawing ${asciiPipeline.indexCount} indices, aspect=${aspect.toFixed(2)}`);
-        }
 
         renderPass.drawIndexed(asciiPipeline.indexCount);
         renderPass.end();
@@ -213,10 +177,6 @@ async function init() {
         renderPass.setIndexBuffer(normalPipeline.indexBuffer, normalPipeline.indexFormat);
         renderPass.setViewport(0, 0, 960, 960, 0, 1);
         renderPass.setScissorRect(0, 0, 960, 960);
-
-        if (frameCount % 60 === 0) {
-          console.log(`Drawing ${normalPipeline.indexCount} indices in normal mode, aspect=${aspect.toFixed(2)}`);
-        }
 
         renderPass.drawIndexed(normalPipeline.indexCount);
         renderPass.end();

@@ -23,17 +23,14 @@ export function createTextRenderer(canvas: HTMLCanvasElement) {
   ctx.textBaseline = 'top';
   ctx.textAlign = 'left';
 
-  let frameCount = 0;
+  const colorBatches = new Map<string, Array<{char: string, x: number, y: number}>>();
 
   return {
     render(data: Float32Array) {
-      frameCount++;
-      
       ctx.fillStyle = '#0a0a0a';
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      let hasContent = false;
-      let totalBrightness = 0;
+      colorBatches.clear();
       
       for (let y = 0; y < GRID_HEIGHT; y++) {
         for (let x = 0; x < GRID_WIDTH; x++) {
@@ -44,35 +41,28 @@ export function createTextRenderer(canvas: HTMLCanvasElement) {
           const b = Math.floor(data[index + 3] * 255);
 
           const char = ASCII_CHARS[Math.min(charIndex, ASCII_CHARS.length - 1)];
+          const colorKey = (r << 16) | (g << 8) | b;
           
-          totalBrightness += charIndex;
-          
-          if (charIndex < 9) {
-            hasContent = true;
+          let batch = colorBatches.get(colorKey.toString());
+          if (!batch) {
+            batch = [];
+            colorBatches.set(colorKey.toString(), batch);
           }
-          
-          ctx.fillStyle = `rgb(${r}, ${g}, ${b})`;
-          ctx.fillText(char, x * CELL_WIDTH, y * CELL_HEIGHT);
+          batch.push({ char, x: x * CELL_WIDTH, y: y * CELL_HEIGHT });
         }
       }
       
-      const avgBrightness = totalBrightness / (GRID_WIDTH * GRID_HEIGHT);
-      
-      if (frameCount % 60 === 0) {
-        console.log(`Frame ${frameCount}: Avg brightness=${avgBrightness.toFixed(2)}, hasContent=${hasContent}`);
+      for (const [colorKey, cells] of colorBatches) {
+        const colorNum = parseInt(colorKey, 10);
+        const r = (colorNum >> 16) & 0xFF;
+        const g = (colorNum >> 8) & 0xFF;
+        const b = colorNum & 0xFF;
         
-        ctx.fillStyle = '#ffff00';
-        ctx.font = '12px monospace';
-        ctx.fillText(`FPS: 60 | Brightness: ${avgBrightness.toFixed(2)}`, 10, canvas.height - 20);
-        ctx.font = `${CELL_HEIGHT}px monospace`;
-      }
-      
-      if (!hasContent) {
-        ctx.fillStyle = '#ff0000';
-        ctx.font = '16px monospace';
-        ctx.fillText('NO DATA - Check console', 10, 30);
-        ctx.font = `${CELL_HEIGHT}px monospace`;
-        console.warn('No content rendered - all pixels are empty');
+        ctx.fillStyle = `rgb(${r},${g},${b})`;
+        
+        for (const cell of cells) {
+          ctx.fillText(cell.char, cell.x, cell.y);
+        }
       }
     },
   };

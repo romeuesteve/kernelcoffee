@@ -92,19 +92,5 @@ export async function readComputeOutput(
   const data = new Float32Array(stagingBuffer.getMappedRange().slice(0));
   stagingBuffer.unmap();
 
-  let maxBrightness = 0;
-  let minBrightness = 1;
-  for (let i = 0; i < GRID_WIDTH * GRID_HEIGHT; i++) {
-    const charIndex = data[i * 4];
-    if (charIndex > maxBrightness) maxBrightness = charIndex;
-    if (charIndex < minBrightness) minBrightness = charIndex;
-  }
-  
-  if (maxBrightness === 0) {
-    console.warn('Compute shader output: all pixels are black (empty)');
-  } else {
-    console.log(`Brightness range: ${minBrightness.toFixed(2)} - ${maxBrightness.toFixed(2)}`);
-  }
-
   return data;
 }
