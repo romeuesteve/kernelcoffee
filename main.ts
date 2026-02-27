@@ -14,11 +14,7 @@ async function init() {
     throw new Error('WebGPU not supported');
   }
 
-  const asciiCanvas = document.createElement('canvas');
-  asciiCanvas.id = 'ascii-canvas';
-  
   const asciiBackground = document.querySelector('.ascii-background')!;
-  asciiBackground.appendChild(asciiCanvas);
 
   const scrollState: ScrollState = {
     lastScrollY: window.scrollY,
@@ -27,8 +23,9 @@ async function init() {
   };
 
   try {
+    const tempCanvas = document.createElement('canvas');
     const renderer = new ASCIIRenderer({
-      canvas: asciiCanvas,
+      canvas: tempCanvas,
       modelUrl: '/resources/apfel.glb',
       mode: 'ascii',
       fontSize: 14,
@@ -47,6 +44,7 @@ async function init() {
     await renderer.init();
 
     const renderedCanvas = renderer.getASCIICanvas();
+    asciiBackground.appendChild(renderedCanvas);
     renderedCanvas.style.position = 'absolute';
     renderedCanvas.style.top = '50%';
     renderedCanvas.style.left = '10%';
