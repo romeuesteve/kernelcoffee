@@ -99,11 +99,25 @@ export function SocialProof() {
                 Monthly Kernel Talks, exclusive tutorials, early access to new workflows, and member-only events.
                 Your subscription includes full community access.
               </p>
-              <div className="flex flex-wrap justify-center gap-4 text-sm">
-                <span className="px-4 py-2 rounded-full bg-background">🎤 Kernel Talks</span>
-                <span className="px-4 py-2 rounded-full bg-background">📚 Tutorials</span>
-                <span className="px-4 py-2 rounded-full bg-background">🎁 Early Access</span>
-                <span className="px-4 py-2 rounded-full bg-background">👥 Member Events</span>
+              <div className="relative overflow-hidden">
+                <div className="flex animate-scroll gap-4 text-sm">
+                  <span className="px-4 py-2 rounded-full bg-background whitespace-nowrap">🎤 Kernel Talks</span>
+                  <span className="px-4 py-2 rounded-full bg-background whitespace-nowrap">📚 Tutorials</span>
+                  <span className="px-4 py-2 rounded-full bg-background whitespace-nowrap">🎁 Early Access</span>
+                  <span className="px-4 py-2 rounded-full bg-background whitespace-nowrap">👥 Member Events</span>
+                  <span className="px-4 py-2 rounded-full bg-background whitespace-nowrap">💬 Discord Community</span>
+                  <span className="px-4 py-2 rounded-full bg-background whitespace-nowrap">🏆 Challenges</span>
+                  <span className="px-4 py-2 rounded-full bg-background whitespace-nowrap">🎓 Workshops</span>
+                  <span className="px-4 py-2 rounded-full bg-background whitespace-nowrap">☕ Virtual Coffee Chats</span>
+                  <span className="px-4 py-2 rounded-full bg-background whitespace-nowrap">🎤 Kernel Talks</span>
+                  <span className="px-4 py-2 rounded-full bg-background whitespace-nowrap">📚 Tutorials</span>
+                  <span className="px-4 py-2 rounded-full bg-background whitespace-nowrap">🎁 Early Access</span>
+                  <span className="px-4 py-2 rounded-full bg-background whitespace-nowrap">👥 Member Events</span>
+                  <span className="px-4 py-2 rounded-full bg-background whitespace-nowrap">💬 Discord Community</span>
+                  <span className="px-4 py-2 rounded-full bg-background whitespace-nowrap">🏆 Challenges</span>
+                  <span className="px-4 py-2 rounded-full bg-background whitespace-nowrap">🎓 Workshops</span>
+                  <span className="px-4 py-2 rounded-full bg-background whitespace-nowrap">☕ Virtual Coffee Chats</span>
+                </div>
               </div>
             </CardContent>
           </Card>

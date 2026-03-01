@@ -34,6 +34,17 @@ const workflows = [
     features: ['Balanced energy', 'Smooth taste', 'Creative clarity', 'All-day drinkability'],
     color: 'from-green-500/20 to-green-600/10',
   },
+  {
+    id: 'enterprise',
+    name: 'Enterprise',
+    price: null,
+    icon: '🏢',
+    description: 'Custom solutions for tech offices, coworking spaces, and events.',
+    perfect: 'Perfect for: Teams, offices, conferences.',
+    features: ['Custom workflow blends', 'Volume pricing', 'Flexible delivery', 'Dedicated support'],
+    color: 'from-purple-500/20 to-purple-600/10',
+    cta: 'Contact Sales',
+  },
 ];
 
 export function WorkflowProducts() {
@@ -84,15 +95,12 @@ export function WorkflowProducts() {
           </div>
 
           {/* Product Cards */}
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {workflows.map((workflow) => {
-              const price = billing === 'monthly' ? workflow.price.monthly : workflow.price.annual / 12;
-              const period = billing === 'monthly' ? '/month' : '/month (billed annually)';
-
               return (
                 <Card
                   key={workflow.id}
-                  className={`relative overflow-hidden hover:translate-y-[-8px] transition-all duration-300 hover:shadow-xl hover:border-primary/50`}
+                  className={`relative overflow-hidden hover:translate-y-[-8px] transition-all duration-300 hover:shadow-xl hover:border-primary/50 ${workflow.id === 'enterprise' ? 'md:col-span-2 lg:col-span-1' : ''}`}
                 >
                   {/* Background Gradient */}
                   <div className={`absolute inset-0 bg-gradient-to-br ${workflow.color} opacity-50 pointer-events-none`} />
@@ -104,18 +112,25 @@ export function WorkflowProducts() {
                   </CardHeader>
 
                   <CardContent className="relative space-y-4">
-                    {/* Price */}
-                    <div className="space-y-1">
-                      <div className="flex items-baseline gap-2">
-                        <span className="text-4xl font-bold">€{price.toFixed(2)}</span>
-                        <span className="text-muted-foreground">{period}</span>
+                    {/* Price or Custom Pricing */}
+                    {workflow.price ? (
+                      <div className="space-y-1">
+                        <div className="flex items-baseline gap-2">
+                          <span className="text-4xl font-bold">€{(billing === 'monthly' ? workflow.price.monthly : workflow.price.annual / 12).toFixed(2)}</span>
+                          <span className="text-muted-foreground">{billing === 'monthly' ? '/month' : '/month (billed annually)'}</span>
+                        </div>
+                        {billing === 'annual' && (
+                          <p className="text-sm text-green-600 font-medium">
+                            Save €{((workflow.price.monthly * 12) - workflow.price.annual).toFixed(2)}/year
+                          </p>
+                        )}
                       </div>
-                      {billing === 'annual' && (
-                        <p className="text-sm text-green-600 font-medium">
-                          Save €{((workflow.price.monthly * 12) - workflow.price.annual).toFixed(2)}/year
-                        </p>
-                      )}
-                    </div>
+                    ) : (
+                      <div className="space-y-1">
+                        <div className="text-4xl font-bold">Custom Pricing</div>
+                        <p className="text-muted-foreground">Tailored to your needs</p>
+                      </div>
+                    )}
 
                     {/* Perfect For */}
                     <div className="p-3 rounded-lg bg-background/50 border border-border">
@@ -134,11 +149,11 @@ export function WorkflowProducts() {
                   </CardContent>
 
                   <CardFooter className="relative">
-                    <Button className="w-full" size="lg">
-                      Start {workflow.name} Trial
+                    <Button className="w-full" size="lg" variant={workflow.id === 'enterprise' ? 'secondary' : 'default'}>
+                      {workflow.cta || `Start ${workflow.name} Trial`}
                     </Button>
                     <p className="text-xs text-center text-muted-foreground mt-2">
-                      Cancel anytime • Free shipping
+                      {workflow.id === 'enterprise' ? 'Response within 24h' : 'Cancel anytime • Free shipping'}
                     </p>
                   </CardFooter>
                 </Card>
