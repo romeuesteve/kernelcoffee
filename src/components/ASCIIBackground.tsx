@@ -125,53 +125,17 @@ export function ASCIIBackground() {
 
         startAnimation();
 
-        const handleScroll = () => {
-          if (!rendererRef.current) return;
-
-          if (animationPhaseRef.current !== 'complete') return;
-
-          const scrollProgress = window.scrollY / (document.body.scrollHeight - window.innerHeight);
-          const xPos = 10 + (scrollProgress * 70);
-
-          if (canvasRef.current) {
-            canvasRef.current.style.left = `${xPos}%`;
-          }
-
-          const scrollDelta = window.scrollY - scrollState.lastScrollY;
-          rendererRef.current.incrementRotation(scrollDelta * 0.005, 0);
-
-          rendererRef.current.setAutoRotate(true);
-          scrollState.isScrolling = true;
-
-          if (scrollState.scrollTimeout) {
-            clearTimeout(scrollState.scrollTimeout);
-          }
-
-          scrollState.scrollTimeout = window.setTimeout(() => {
-            scrollState.isScrolling = false;
-            if (rendererRef.current) {
-              rendererRef.current.setAutoRotate(false);
-            }
-            scrollState.baseRotationX = 0.7;
-            scrollState.baseRotationY = 0.5 + (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 0.5;
-          }, 100);
-
-          scrollState.lastScrollY = window.scrollY;
-        };
-
         const handleMouseMove = (e: MouseEvent) => {
-          if (!rendererRef.current || scrollState.isScrolling) return;
+          if (!rendererRef.current) return;
 
           const tiltX = (e.clientY / window.innerHeight - 0.5) * 0.4;
           const tiltY = (e.clientX / window.innerWidth - 0.5) * (-2.0);
           rendererRef.current.setRotation(scrollState.baseRotationX + tiltX, scrollState.baseRotationY + tiltY);
         };
 
-        window.addEventListener('scroll', handleScroll, { passive: true } as AddEventListenerOptions);
         window.addEventListener('mousemove', handleMouseMove);
 
         return () => {
-          window.removeEventListener('scroll', handleScroll);
           window.removeEventListener('mousemove', handleMouseMove);
           if (scrollState.scrollTimeout) {
             clearTimeout(scrollState.scrollTimeout);
@@ -199,7 +163,7 @@ export function ASCIIBackground() {
 
   return (
     <>
-      <div ref={containerRef} className="fixed inset-0 pointer-events-none z-0 transition-left duration-100 ease-out" />
+      <div ref={containerRef} className="pointer-events-none z-0" />
     </>
   );
 }
