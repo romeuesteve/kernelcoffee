@@ -162,8 +162,8 @@ export function ASCIIBackground() {
         const handleMouseMove = (e: MouseEvent) => {
           if (!rendererRef.current || scrollState.isScrolling) return;
 
-          const tiltX = (e.clientX / window.innerWidth - 0.5) * 0.3;
-          const tiltY = (e.clientY / window.innerHeight - 0.5) * 0.3;
+          const tiltX = (e.clientY / window.innerHeight - 0.5) * 0.4;
+          const tiltY = (e.clientX / window.innerWidth - 0.5) * (-2.0);
           rendererRef.current.setRotation(scrollState.baseRotationX + tiltX, scrollState.baseRotationY + tiltY);
         };
 
