@@ -13,9 +13,11 @@ export function Hero() {
           </div>
 
           {/* Headline */}
-          <h1 className="text-6xl font-bold leading-tight">
-            Fuel for Deep Work.
-            <span className="block text-muted-foreground mt-2">Coffee engineered for cognitive performance.</span>
+          <h1 className="text-6xl font-bold leading-tight font-serif italic overflow-hidden">
+            <span className="inline-block animate-slide-in-from-bottom" style={{animationDelay: '0ms'}}>Fuel</span>{' '}
+            <span className="inline-block animate-slide-in-from-bottom" style={{animationDelay: '80ms'}}>for</span>{' '}
+            <span className="inline-block animate-slide-in-from-bottom" style={{animationDelay: '160ms'}}>Deep</span>{' '}
+            <span className="inline-block animate-slide-in-from-bottom" style={{animationDelay: '240ms'}}>Work.</span>
           </h1>
 
           {/* Subhead */}
