@@ -1,170 +1,214 @@
 import { Button } from '@/components/ui/button';
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
-import { Badge } from '@/components/ui/badge';
-import { useState } from 'react';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { cn } from '@/lib/utils';
+import NumberFlow from '@number-flow/react';
+import { useRef, useState } from 'react';
+import { Target, Code, Lightbulb, Users } from 'lucide-react';
 
 const workflows = [
   {
     id: 'deep-work',
     name: 'Deep Work',
     price: { monthly: 29.99, annual: 288 },
-    icon: '🎯',
+    icon: Target,
     description: 'Focus blend. Low-acid, smooth, sustained 4-hour clarity.',
     perfect: 'Perfect for: Coding sessions, design sprints, writing.',
-    features: ['Low acidity', 'Sustained energy', 'No jitters', '4-hour focus window'],
-    color: 'from-blue-500/20 to-blue-600/10',
+    features: [
+      'Low acidity',
+      'Sustained energy',
+      'No jitters',
+      '4-hour focus window',
+      'Premium beans',
+      'Scientifically roasted',
+    ],
+    buttonVariant: 'outline' as const,
   },
   {
     id: 'debug-mode',
     name: 'Debug Mode',
     price: { monthly: 32.99, annual: 318 },
-    icon: '🔧',
+    icon: Code,
     description: 'High-intensity blend. Bold, complex, mental acuity boost.',
     perfect: 'Perfect for: Problem-solving, debugging, brainstorming.',
-    features: ['High caffeine', 'Complex flavor', 'Maximum alertness', 'Sharp focus'],
-    color: 'from-orange-500/20 to-orange-600/10',
+    features: [
+      'Everything in Deep Work, plus:',
+      'High caffeine',
+      'Complex flavor',
+      'Maximum alertness',
+      'Sharp focus',
+      'Memory enhancement',
+      'Faster reaction time',
+    ],
+    buttonVariant: 'default' as const,
   },
   {
     id: 'flow-state',
     name: 'Flow State',
     price: { monthly: 27.99, annual: 268 },
-    icon: '🌊',
+    icon: Lightbulb,
     description: 'Light & creative. Gentle focus, no jitters.',
     perfect: 'Perfect for: Standups, collaboration, learning.',
-    features: ['Balanced energy', 'Smooth taste', 'Creative clarity', 'All-day drinkability'],
-    color: 'from-green-500/20 to-green-600/10',
+    features: [
+      'Balanced energy',
+      'Smooth taste',
+      'Creative clarity',
+      'All-day drinkability',
+      'No anxiety',
+      'Social friendly',
+    ],
+    buttonVariant: 'outline' as const,
   },
   {
     id: 'enterprise',
     name: 'Enterprise',
     price: null,
-    icon: '🏢',
+    icon: Users,
     description: 'Custom solutions for tech offices, coworking spaces, and events.',
     perfect: 'Perfect for: Teams, offices, conferences.',
-    features: ['Custom workflow blends', 'Volume pricing', 'Flexible delivery', 'Dedicated support'],
-    color: 'from-purple-500/20 to-purple-600/10',
-    cta: 'Contact Sales',
+    features: [
+      'Custom workflow blends',
+      'Volume pricing',
+      'Flexible delivery',
+      'Dedicated support',
+      'White-label options',
+      'Priority processing',
+    ],
+    buttonVariant: 'outline' as const,
   },
 ];
 
-export function WorkflowProducts() {
-  const [billing, setBilling] = useState<'monthly' | 'annual'>('monthly');
+const PricingSwitch = ({ onSwitch }: { onSwitch: (value: string) => void }) => {
+  const [selected, setSelected] = useState('0');
+
+  const handleSwitch = (value: string) => {
+    setSelected(value);
+    onSwitch(value);
+  };
 
   return (
-    <section id="subscription" className="py-24">
+    <div className="flex justify-center">
+      <div className="relative z-10 mx-auto flex w-fit rounded-full bg-muted border border-border p-1">
+        <button
+          onClick={() => handleSwitch('0')}
+          className={cn(
+            'relative z-10 w-fit h-10 rounded-full sm:px-6 px-3 sm:py-2 py-1 font-medium transition-colors',
+            selected === '0' ? 'text-foreground bg-background' : 'text-muted-foreground',
+          )}
+        >
+          <span className="relative">Monthly</span>
+        </button>
+
+        <button
+          onClick={() => handleSwitch('1')}
+          className={cn(
+            'relative z-10 w-fit h-10 flex-shrink-0 rounded-full sm:px-6 px-3 sm:py-2 py-1 font-medium transition-colors',
+            selected === '1' ? 'text-foreground bg-background' : 'text-muted-foreground',
+          )}
+        >
+          <span className="relative flex items-center gap-2">Annual</span>
+        </button>
+      </div>
+    </div>
+  );
+};
+
+export function WorkflowProducts() {
+  const [isYearly, setIsYearly] = useState(false);
+  const pricingRef = useRef<HTMLDivElement>(null);
+
+  const togglePricingPeriod = (value: string) => setIsYearly(Number.parseInt(value) === 1);
+
+  return (
+    <section id="subscription" className="py-24 bg-secondary/10" ref={pricingRef}>
       <div className="container mx-auto px-8">
         <div className="max-w-6xl mx-auto space-y-12">
           {/* Header */}
           <div className="text-center space-y-4">
-            <Badge variant="secondary" className="mb-4">NEW: Workflow-Based Subscriptions</Badge>
             <h2 className="text-4xl md:text-5xl font-bold">
               Coffee Classified by Workflow
             </h2>
             <p className="text-xl text-muted-foreground">
               Different tasks demand different fuel. Choose your stack.
             </p>
-
-            {/* Billing Toggle */}
-            <div className="flex items-center justify-center gap-4 pt-4">
-              <button
-                onClick={() => setBilling('monthly')}
-                className={`px-4 py-2 rounded-md transition-colors ${
-                  billing === 'monthly'
-                    ? 'bg-primary text-primary-foreground'
-                    : 'bg-secondary text-secondary-foreground hover:bg-secondary/80'
-                }`}
-              >
-                Monthly
-              </button>
-              <button
-                onClick={() => setBilling('annual')}
-                className={`px-4 py-2 rounded-md transition-colors relative ${
-                  billing === 'annual'
-                    ? 'bg-primary text-primary-foreground'
-                    : 'bg-secondary text-secondary-foreground hover:bg-secondary/80'
-                }`}
-              >
-                Annual
-                {billing === 'annual' && (
-                  <span className="absolute -top-2 -right-2 bg-green-500 text-white text-xs px-2 py-0.5 rounded-full">
-                    Save 20%
-                  </span>
-                )}
-              </button>
-            </div>
+            <PricingSwitch onSwitch={togglePricingPeriod} />
           </div>
 
           {/* Product Cards */}
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {workflows.map((workflow) => {
-              return (
-                <Card
-                  key={workflow.id}
-                  className={`relative overflow-hidden hover:translate-y-[-8px] transition-all duration-300 hover:shadow-xl hover:border-primary/50 ${workflow.id === 'enterprise' ? 'md:col-span-2 lg:col-span-1' : ''}`}
-                >
-                  {/* Background Gradient */}
-                  <div className={`absolute inset-0 bg-gradient-to-br ${workflow.color} opacity-50 pointer-events-none`} />
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {workflows.map((workflow) => (
+              <Card key={workflow.id} className="border-border hover:border-primary/50 transition-colors">
+                <CardHeader>
+                  <div className="h-16 w-16 mb-4">
+                    <workflow.icon className="h-full w-full" />
+                  </div>
+                  <h3 className="text-2xl font-bold mb-2">{workflow.name}</h3>
+                  <p className="text-sm text-muted-foreground">{workflow.description}</p>
 
-                  <CardHeader className="relative">
-                    <div className="text-6xl mb-4">{workflow.icon}</div>
-                    <CardTitle className="text-2xl">{workflow.name}</CardTitle>
-                    <CardDescription className="text-base">{workflow.description}</CardDescription>
-                  </CardHeader>
-
-                  <CardContent className="relative space-y-4">
-                    {/* Price or Custom Pricing */}
-                    {workflow.price ? (
-                      <div className="space-y-1">
-                        <div className="flex items-baseline gap-2">
-                          <span className="text-4xl font-bold">€{(billing === 'monthly' ? workflow.price.monthly : workflow.price.annual / 12).toFixed(2)}</span>
-                          <span className="text-muted-foreground">{billing === 'monthly' ? '/month' : '/month (billed annually)'}</span>
-                        </div>
-                        {billing === 'annual' && (
-                          <p className="text-sm text-green-600 font-medium">
-                            Save €{((workflow.price.monthly * 12) - workflow.price.annual).toFixed(2)}/year
-                          </p>
-                        )}
-                      </div>
-                    ) : (
-                      <div className="space-y-1">
-                        <div className="text-4xl font-bold">Custom Pricing</div>
-                        <p className="text-muted-foreground">Tailored to your needs</p>
-                      </div>
-                    )}
-
-                    {/* Perfect For */}
-                    <div className="p-3 rounded-lg bg-background/50 border border-border">
-                      <p className="text-sm font-medium">{workflow.perfect}</p>
+                  {workflow.price ? (
+                    <div className="flex items-baseline mt-4">
+                      <span className="text-4xl font-bold">
+                        €
+                        <NumberFlow
+                          format={{
+                            minimumFractionDigits: 2,
+                            maximumFractionDigits: 2,
+                          }}
+                          value={isYearly ? workflow.price.annual / 12 : workflow.price.monthly}
+                          className="text-4xl font-bold"
+                        />
+                      </span>
+                      <span className="text-muted-foreground ml-1">
+                        /month
+                      </span>
                     </div>
+                  ) : (
+                    <div className="text-2xl font-bold mt-4">Custom Pricing</div>
+                  )}
 
-                    {/* Features */}
+                  {isYearly && workflow.price && (
+                    <p className="text-sm text-primary font-medium mt-1">
+                      Save €{((workflow.price.monthly * 12 - workflow.price.annual).toFixed(2))}/year
+                    </p>
+                  )}
+                </CardHeader>
+
+                <CardContent className="space-y-4">
+                  <Button
+                    variant={workflow.buttonVariant}
+                    className="w-full"
+                    asChild={workflow.id !== 'enterprise'}
+                  >
+                    {workflow.id === 'enterprise' ? (
+                      <button>Contact Sales</button>
+                    ) : (
+                      <a href="#assessment">Start {workflow.name} Trial</a>
+                    )}
+                  </Button>
+
+                  <div className="pt-4 border-t border-border space-y-3">
+                    <p className="text-sm text-muted-foreground">{workflow.perfect}</p>
                     <ul className="space-y-2">
-                      {workflow.features.map((feature) => (
-                        <li key={feature} className="flex items-center gap-2 text-sm">
-                          <span className="text-primary">✓</span>
-                          <span>{feature}</span>
+                      {workflow.features.map((feature, featureIndex) => (
+                        <li key={featureIndex} className="flex items-center gap-2">
+                          <span className="text-primary">•</span>
+                          <span className="text-sm">{feature}</span>
                         </li>
                       ))}
                     </ul>
-                  </CardContent>
+                  </div>
 
-                  <CardFooter className="relative">
-                    <Button className="w-full" size="lg" variant={workflow.id === 'enterprise' ? 'secondary' : 'default'}>
-                      {workflow.cta || `Start ${workflow.name} Trial`}
-                    </Button>
-                    <p className="text-xs text-center text-muted-foreground mt-2">
-                      {workflow.id === 'enterprise' ? 'Response within 24h' : 'Cancel anytime • Free shipping'}
-                    </p>
-                  </CardFooter>
-                </Card>
-              );
-            })}
+                  <p className="text-xs text-center text-muted-foreground pt-2">
+                    {workflow.id === 'enterprise' ? 'Response within 24h' : 'Cancel anytime • Free shipping'}
+                  </p>
+                </CardContent>
+              </Card>
+            ))}
           </div>
 
           {/* Trust Badge */}
-          <div className="text-center pt-8">
+          <div className="text-center">
             <p className="text-sm text-muted-foreground">
-              🎁 <strong>Free gift</strong> with your first box • Cancel anytime • No commitment
+              Free gift with your first box • Cancel anytime • No commitment
             </p>
           </div>
         </div>

@@ -1,3 +1,5 @@
+import { Code, Flame, Target } from 'lucide-react';
+
 export function PainPoints() {
   return (
     <section className="py-24 bg-secondary/20">
@@ -16,7 +18,9 @@ export function PainPoints() {
           {/* Pain Points */}
           <div className="grid md:grid-cols-3 gap-8">
             <div className="space-y-4">
-              <div className="text-6xl">💻</div>
+              <div className="h-16 w-16">
+                <Code className="h-full w-full" />
+              </div>
               <h3 className="text-xl font-semibold">The 2pm Crash</h3>
               <p className="text-muted-foreground">
                 You're deep in code when the caffeine crash hits. Focus gone, momentum lost.
@@ -24,7 +28,9 @@ export function PainPoints() {
             </div>
 
             <div className="space-y-4">
-              <div className="text-6xl">⚡</div>
+              <div className="h-16 w-16">
+                <Flame className="h-full w-full" />
+              </div>
               <h3 className="text-xl font-semibold">Wrong Fuel</h3>
               <p className="text-muted-foreground">
                 Generic coffee doesn't match your workflow. You need energy, not anxiety.
@@ -32,7 +38,9 @@ export function PainPoints() {
             </div>
 
             <div className="space-y-4">
-              <div className="text-6xl">🎯</div>
+              <div className="h-16 w-16">
+                <Target className="h-full w-full" />
+              </div>
               <h3 className="text-xl font-semibold">Inconsistent Performance</h3>
               <p className="text-muted-foreground">
                 Some days you're in the zone, others you're fighting brain fog.

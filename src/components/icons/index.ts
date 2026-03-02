@@ -1,0 +1,11 @@
+export { default as CoffeeIcon } from './coffee-icon';
+export { default as TargetIcon } from './target-icon';
+export { default as FlameIcon } from './flame-icon';
+export { default as BulbSvg } from './bulb-svg';
+export { default as UserIcon } from './user-icon';
+export { default as UsersGroupIcon } from './users-group-icon';
+export { default as MessageCircleIcon } from './message-circle-icon';
+export { default as TrophyIcon } from './trophy-icon';
+export { default as BookIcon } from './book-icon';
+export { default as StarIcon } from './star-icon';
+export { default as CodeIcon } from './code-icon';

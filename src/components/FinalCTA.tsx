@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { TextEffect } from '@/components/ui/text-effect';
 
 export function FinalCTA() {
   return (
@@ -7,14 +8,14 @@ export function FinalCTA() {
       <div className="container mx-auto px-8">
         <div className="max-w-4xl mx-auto text-center space-y-8">
           {/* Headline */}
-          <h2 className="text-4xl md:text-6xl font-bold">
+          <TextEffect per='word' preset='slide' as='h2' className='text-4xl md:text-6xl font-bold' delay={0.2} enableScrollTrigger>
             Ready to Optimize Your Workflow?
-          </h2>
+          </TextEffect>
 
           {/* Subhead */}
-          <p className="text-2xl text-muted-foreground">
+          <TextEffect per='char' preset='fade' delay={0.5} className='text-2xl text-muted-foreground' enableScrollTrigger>
             Join 2,500+ digital professionals fueling their best work
-          </p>
+          </TextEffect>
 
           {/* Discount Code */}
           <Card className="inline-block bg-primary/5 border-primary/20">

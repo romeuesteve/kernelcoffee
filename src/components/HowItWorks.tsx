@@ -1,11 +1,13 @@
 import { Button } from '@/components/ui/button';
+import { TextEffect } from '@/components/ui/text-effect';
+import { Target, Users } from 'lucide-react';
 
 const steps = [
   {
     number: '01',
     title: 'Take the 60-second assessment',
     description: 'We personalize your coffee stack based on your workflow, schedule, and goals.',
-    icon: '🎯',
+    icon: Target,
   },
   {
     number: '02',
@@ -17,7 +19,7 @@ const steps = [
     number: '03',
     title: 'Join the Kernel Community',
     description: 'Exclusive events, content, and perks. Connect with other digital professionals.',
-    icon: '👥',
+    icon: Users,
   },
 ];
 
@@ -28,12 +30,12 @@ export function HowItWorks() {
         <div className="max-w-6xl mx-auto">
           {/* Header */}
           <div className="text-center space-y-4 mb-16">
-            <h2 className="text-4xl md:text-5xl font-bold">
+            <TextEffect per='word' preset='slide' as='h2' className='text-4xl md:text-5xl font-bold' delay={0.2} enableScrollTrigger>
               Your Workflow, Delivered
-            </h2>
-            <p className="text-xl text-muted-foreground">
+            </TextEffect>
+            <TextEffect per='char' preset='fade' delay={0.5} className='text-xl text-muted-foreground' enableScrollTrigger>
               Three simple steps to optimized focus
-            </p>
+            </TextEffect>
           </div>
 
           {/* Steps */}
@@ -44,7 +46,13 @@ export function HowItWorks() {
                 <div className="text-6xl font-bold text-primary/20">{step.number}</div>
 
                 {/* Icon */}
-                <div className="text-5xl">{step.icon}</div>
+                <div className="h-16 w-16">
+                  {typeof step.icon === 'string' ? (
+                    <div className="text-5xl h-full w-full flex items-center justify-center">{step.icon}</div>
+                  ) : (
+                    <step.icon className="h-full w-full" />
+                  )}
+                </div>
 
                 {/* Content */}
                 <div className="space-y-2">

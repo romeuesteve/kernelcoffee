@@ -1,4 +1,6 @@
 import { Card, CardContent } from '@/components/ui/card';
+import { TextEffect } from '@/components/ui/text-effect';
+import { User, Coffee, Users, MessageCircle, Trophy, Book } from 'lucide-react';
 
 const stats = [
   { value: '2,500+', label: 'Subscribers' },
@@ -12,19 +14,19 @@ const testimonials = [
     quote: "Finally, coffee that gets my workflow. No more 3pm crashes, just sustained focus through my entire sprint.",
     author: 'Marc',
     role: 'Product Designer @ SaaS Startup',
-    emoji: '👨‍💻',
+    icon: User,
   },
   {
     quote: "Our entire office swears by Debug Mode. Productivity is up, and the team actually looks forward to coffee breaks.",
     author: 'Elena',
     role: 'CTO @ Barcelona Coworking',
-    emoji: '👩‍💼',
+    icon: User,
   },
   {
     quote: "I was skeptical about the workflow concept, but Flow State has changed how I approach my entire day.",
     author: 'David',
     role: 'Senior Developer @ FinTech',
-    emoji: '👨‍🔬',
+    icon: User,
   },
 ];
 
@@ -42,12 +44,12 @@ export function SocialProof() {
         <div className="max-w-6xl mx-auto space-y-16">
           {/* Header */}
           <div className="text-center space-y-4">
-            <h2 className="text-4xl md:text-5xl font-bold">
+            <TextEffect per='word' preset='slide' as='h2' className='text-4xl md:text-5xl font-bold' delay={0.2} enableScrollTrigger>
               Join 2,500+ Digital Professionals
-            </h2>
-            <p className="text-xl text-muted-foreground">
+            </TextEffect>
+            <TextEffect per='char' preset='fade' delay={0.5} className='text-xl text-muted-foreground' enableScrollTrigger>
               See why developers, designers, and tech teams are making the switch
-            </p>
+            </TextEffect>
           </div>
 
           {/* Stats Grid */}
@@ -65,7 +67,9 @@ export function SocialProof() {
             {testimonials.map((testimonial) => (
               <Card key={testimonial.author} className="relative">
                 <CardContent className="pt-6 space-y-4">
-                  <div className="text-4xl">{testimonial.emoji}</div>
+                  <div className="h-16 w-16">
+                    <testimonial.icon className="h-full w-full" />
+                  </div>
                   <blockquote className="text-lg leading-relaxed">
                     "{testimonial.quote}"
                   </blockquote>
@@ -100,23 +104,23 @@ export function SocialProof() {
                 Your subscription includes full community access.
               </p>
               <div className="relative overflow-hidden">
-                <div className="flex animate-scroll gap-4 text-sm">
-                  <span className="px-4 py-2 rounded-full bg-background whitespace-nowrap">🎤 Kernel Talks</span>
-                  <span className="px-4 py-2 rounded-full bg-background whitespace-nowrap">📚 Tutorials</span>
-                  <span className="px-4 py-2 rounded-full bg-background whitespace-nowrap">🎁 Early Access</span>
-                  <span className="px-4 py-2 rounded-full bg-background whitespace-nowrap">👥 Member Events</span>
-                  <span className="px-4 py-2 rounded-full bg-background whitespace-nowrap">💬 Discord Community</span>
-                  <span className="px-4 py-2 rounded-full bg-background whitespace-nowrap">🏆 Challenges</span>
-                  <span className="px-4 py-2 rounded-full bg-background whitespace-nowrap">🎓 Workshops</span>
-                  <span className="px-4 py-2 rounded-full bg-background whitespace-nowrap">☕ Virtual Coffee Chats</span>
-                  <span className="px-4 py-2 rounded-full bg-background whitespace-nowrap">🎤 Kernel Talks</span>
-                  <span className="px-4 py-2 rounded-full bg-background whitespace-nowrap">📚 Tutorials</span>
-                  <span className="px-4 py-2 rounded-full bg-background whitespace-nowrap">🎁 Early Access</span>
-                  <span className="px-4 py-2 rounded-full bg-background whitespace-nowrap">👥 Member Events</span>
-                  <span className="px-4 py-2 rounded-full bg-background whitespace-nowrap">💬 Discord Community</span>
-                  <span className="px-4 py-2 rounded-full bg-background whitespace-nowrap">🏆 Challenges</span>
-                  <span className="px-4 py-2 rounded-full bg-background whitespace-nowrap">🎓 Workshops</span>
-                  <span className="px-4 py-2 rounded-full bg-background whitespace-nowrap">☕ Virtual Coffee Chats</span>
+                <div className="flex items-center gap-4 text-sm">
+                  <span className="flex items-center gap-2 px-4 py-2 rounded-full bg-background whitespace-nowrap">🎤 Kernel Talks</span>
+                  <span className="flex items-center gap-2 px-4 py-2 rounded-full bg-background whitespace-nowrap"><Book className="h-5 w-5" /> Tutorials</span>
+                  <span className="flex items-center gap-2 px-4 py-2 rounded-full bg-background whitespace-nowrap">🎁 Early Access</span>
+                  <span className="flex items-center gap-2 px-4 py-2 rounded-full bg-background whitespace-nowrap"><Users className="h-5 w-5" /> Member Events</span>
+                  <span className="flex items-center gap-2 px-4 py-2 rounded-full bg-background whitespace-nowrap"><MessageCircle className="h-5 w-5" /> Discord Community</span>
+                  <span className="flex items-center gap-2 px-4 py-2 rounded-full bg-background whitespace-nowrap"><Trophy className="h-5 w-5" /> Challenges</span>
+                  <span className="flex items-center gap-2 px-4 py-2 rounded-full bg-background whitespace-nowrap">🎓 Workshops</span>
+                  <span className="flex items-center gap-2 px-4 py-2 rounded-full bg-background whitespace-nowrap"><Coffee className="h-5 w-5" /> Virtual Coffee Chats</span>
+                  <span className="flex items-center gap-2 px-4 py-2 rounded-full bg-background whitespace-nowrap">🎤 Kernel Talks</span>
+                  <span className="flex items-center gap-2 px-4 py-2 rounded-full bg-background whitespace-nowrap"><Book className="h-5 w-5" /> Tutorials</span>
+                  <span className="flex items-center gap-2 px-4 py-2 rounded-full bg-background whitespace-nowrap">🎁 Early Access</span>
+                  <span className="flex items-center gap-2 px-4 py-2 rounded-full bg-background whitespace-nowrap"><Users className="h-5 w-5" /> Member Events</span>
+                  <span className="flex items-center gap-2 px-4 py-2 rounded-full bg-background whitespace-nowrap"><MessageCircle className="h-5 w-5" /> Discord Community</span>
+                  <span className="flex items-center gap-2 px-4 py-2 rounded-full bg-background whitespace-nowrap"><Trophy className="h-5 w-5" /> Challenges</span>
+                  <span className="flex items-center gap-2 px-4 py-2 rounded-full bg-background whitespace-nowrap">🎓 Workshops</span>
+                  <span className="flex items-center gap-2 px-4 py-2 rounded-full bg-background whitespace-nowrap"><Coffee className="h-5 w-5" /> Virtual Coffee Chats</span>
                 </div>
               </div>
             </CardContent>

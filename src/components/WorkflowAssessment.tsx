@@ -1,11 +1,12 @@
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
+import { Target, Flame, Lightbulb, Coffee, Scale, CloudSun, Sun } from 'lucide-react';
 
 interface Question {
   id: string;
   question: string;
-  options: { value: string; label: string; icon: string }[];
+  options: { value: string; label: string; icon: any }[];
 }
 
 const questions: Question[] = [
@@ -13,28 +14,28 @@ const questions: Question[] = [
     id: 'challenge',
     question: 'What is your primary work challenge?',
     options: [
-      { value: 'focus', label: 'Maintaining focus', icon: '🎯' },
-      { value: 'energy', label: 'Sustaining energy', icon: '⚡' },
-      { value: 'creativity', label: 'Sparking creativity', icon: '💡' },
-      { value: 'balance', label: 'Finding balance', icon: '⚖️' },
+      { value: 'focus', label: 'Maintaining focus', icon: Target },
+      { value: 'energy', label: 'Sustaining energy', icon: Flame },
+      { value: 'creativity', label: 'Sparking creativity', icon: Lightbulb },
+      { value: 'balance', label: 'Finding balance', icon: Scale },
     ],
   },
   {
     id: 'hours',
     question: 'How many hours do you work daily?',
     options: [
-      { value: '4-6', label: '4-6 hours', icon: '🌤️' },
-      { value: '6-8', label: '6-8 hours', icon: '☀️' },
-      { value: '8+', label: '8+ hours', icon: '🔥' },
+      { value: '4-6', label: '4-6 hours', icon: CloudSun },
+      { value: '6-8', label: '6-8 hours', icon: Sun },
+      { value: '8+', label: '8+ hours', icon: Flame },
     ],
   },
   {
     id: 'habit',
     question: 'What is your current coffee habit?',
     options: [
-      { value: '1', label: '1 cup/day', icon: '☕' },
-      { value: '2-3', label: '2-3 cups/day', icon: '☕☕' },
-      { value: '4+', label: '4+ cups/day', icon: '☕☕☕' },
+      { value: '1', label: '1 cup/day', icon: Coffee },
+      { value: '2-3', label: '2-3 cups/day', icon: Coffee },
+      { value: '4+', label: '4+ cups/day', icon: Coffee },
     ],
   },
 ];
@@ -143,7 +144,13 @@ export function WorkflowAssessment() {
                         className="p-6 rounded-lg border-2 border-border hover:border-primary hover:bg-primary/5 transition-all text-left group"
                       >
                         <div className="flex items-center gap-4">
-                          <span className="text-3xl group-hover:scale-110 transition-transform">{option.icon}</span>
+                          {typeof option.icon === 'string' ? (
+                            <span className="text-3xl group-hover:scale-110 transition-transform">{option.icon}</span>
+                          ) : (
+                            <div className="h-10 w-10">
+                              <option.icon className="h-full w-full" />
+                            </div>
+                          )}
                           <span className="font-medium text-lg">{option.label}</span>
                         </div>
                       </button>
@@ -153,9 +160,11 @@ export function WorkflowAssessment() {
               </CardContent>
             </Card>
           ) : (
-            <Card className="border-primary/20 overflow-hidden">
+             <Card className="border-primary/20 overflow-hidden">
               <div className="bg-gradient-to-br from-primary/20 to-primary/5 p-8 text-center">
-                <div className="text-6xl mb-4">🎯</div>
+                <div className="h-16 w-16 mx-auto mb-4">
+                  <Target className="h-full w-full" />
+                </div>
                 <h3 className="text-3xl font-bold mb-2">Your Workflow Profile</h3>
                 <p className="text-xl text-primary font-semibold">{result.title}</p>
               </div>

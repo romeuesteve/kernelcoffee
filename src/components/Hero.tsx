@@ -1,4 +1,6 @@
 import { Button } from '@/components/ui/button';
+import { TextEffect } from '@/components/ui/text-effect';
+import { Star } from 'lucide-react';
 
 export function Hero() {
   return (
@@ -13,17 +15,14 @@ export function Hero() {
           </div>
 
           {/* Headline */}
-          <h1 className="text-6xl font-bold leading-tight font-serif italic overflow-hidden">
-            <span className="inline-block animate-slide-in-from-bottom" style={{animationDelay: '0ms'}}>Fuel</span>{' '}
-            <span className="inline-block animate-slide-in-from-bottom" style={{animationDelay: '80ms'}}>for</span>{' '}
-            <span className="inline-block animate-slide-in-from-bottom" style={{animationDelay: '160ms'}}>Deep</span>{' '}
-            <span className="inline-block animate-slide-in-from-bottom" style={{animationDelay: '240ms'}}>Work.</span>
-          </h1>
+          <TextEffect per='word' as='h1' preset='slide' className='text-6xl font-bold leading-tight font-serif italic' delay={0.3}>
+            Fuel for Deep Work.
+          </TextEffect>
 
           {/* Subhead */}
-          <p className="text-2xl text-muted-foreground leading-relaxed">
+          <TextEffect per='char' preset='fade' delay={0.4} className='text-2xl text-muted-foreground leading-relaxed'>
             Specialty coffee classified by workflow. Focus when you need it, energy without the crash.
-          </p>
+          </TextEffect>
 
           {/* CTAs */}
           <div className="flex flex-col sm:flex-row gap-4">
@@ -49,7 +48,9 @@ export function Hero() {
             </div>
             <div className="text-sm">
               <div className="flex items-center gap-1">
-                {'★'.repeat(5)}
+                {[1, 2, 3, 4, 5].map((i) => (
+                  <Star key={i} className="h-4 w-4" />
+                ))}
               </div>
               <p className="text-muted-foreground">4.9/5 from subscribers</p>
             </div>

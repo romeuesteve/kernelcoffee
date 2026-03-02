@@ -24,6 +24,13 @@
     --input: 30 15% 20%;
     --ring: 35 90% 58%;
     --radius: 0.5rem;
+    --gradient-color: #8350e8;
+    --sparkles-color: #8350e8;
+  }
+
+  .dark {
+    --gradient-color: #8350e8;
+    --sparkles-color: #ffffff;
   }
 }
 

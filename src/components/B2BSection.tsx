@@ -1,24 +1,25 @@
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
+import { Target, TrendingUp, Gift, Briefcase } from 'lucide-react';
 
 const benefits = [
   {
-    icon: '📈',
+    icon: TrendingUp,
     title: 'Productivity Boost',
     description: 'Workflow-classified coffee keeps your team focused and energized.',
   },
   {
-    icon: '🎁',
+    icon: Gift,
     title: 'Employee Perk That Matters',
     description: 'Show your team you care about their performance and well-being.',
   },
   {
-    icon: '🎯',
+    icon: Target,
     title: 'Matched to Every Role',
     description: 'Deep Work for devs, Flow State for designers, Debug Mode for problem-solvers.',
   },
   {
-    icon: '💼',
+    icon: Briefcase,
     title: 'Simple Billing',
     description: 'Consolidated invoicing, volume discounts, and flexible delivery schedules.',
   },
@@ -45,7 +46,9 @@ export function B2BSection() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
                 {benefits.map((benefit) => (
                   <div key={benefit.title} className="space-y-2">
-                    <div className="text-3xl">{benefit.icon}</div>
+                    <div className="h-12 w-12">
+                      <benefit.icon className="h-full w-full" />
+                    </div>
                     <h3 className="font-semibold">{benefit.title}</h3>
                     <p className="text-sm text-muted-foreground">{benefit.description}</p>
                   </div>
