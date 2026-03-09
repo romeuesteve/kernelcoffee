@@ -1,0 +1,3 @@
+[submodule "webgpu-ascii-renderer"]
+	path = webgpu-ascii-renderer
+	url = https://github.com/romeuesteve/webgpu-ascii-renderer.git
