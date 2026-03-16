@@ -7,12 +7,12 @@ import {
 
 const faqs = [
   {
-    question: 'Can I cancel anytime?',
-    answer: 'Yes. No contracts, no commitment. You can cancel anytime from your dashboard. We believe in earning your business every month.',
+    question: 'Can I cancel my Cron Job anytime?',
+    answer: 'Yes. No contracts, no commitment. You can cancel your Cron Job anytime from your dashboard with one click. We believe in earning your business every month.',
   },
   {
-    question: 'How is this different from other specialty coffee subscriptions?',
-    answer: 'We classify coffee by workflow, not just flavor profile. Each blend is engineered for specific cognitive states—Deep Work for focus, Debug Mode for intensity, Flow State for creativity. It\'s about performance, not just taste.',
+    question: 'How is this different from other specialty coffee?',
+    answer: 'We classify coffee by workflow, not just flavor profile. Each stack is engineered for specific cognitive states—STABLE_RELEASE for consistent focus, DEBUG_MODE for clarity, CRITICAL_HOTFIX for emergencies, SAFE_MODE for late-night work. It\'s about performance, not just taste.',
   },
   {
     question: 'Do you ship internationally?',
@@ -24,15 +24,15 @@ const faqs = [
   },
   {
     question: 'Can I switch between workflows?',
-    answer: 'Absolutely. You can change your workflow preference anytime from your dashboard. Many subscribers switch between Deep Work during sprints and Flow State during collaboration weeks.',
+    answer: 'Absolutely. You can change your workflow preference anytime from your dashboard. Many community members switch between STABLE_RELEASE during sprints and DEBUG_MODE during complex problem-solving sessions.',
   },
   {
     question: 'How fresh is the coffee?',
     answer: 'We roast in small batches and ship within 48 hours of roasting. Your coffee arrives at peak freshness, typically 3-5 days post-roast.',
   },
   {
-    question: 'Do you offer decaf options?',
-    answer: 'Not yet, but we\'re developing a decaf Flow State blend for late-day work. Join the waitlist to be notified when it launches.',
+    question: 'What\'s the difference between the workflows?',
+    answer: 'STABLE_RELEASE provides consistent, linear energy for daily work. DEBUG_MODE offers balanced mental clarity for complex tasks. CRITICAL_HOTFIX delivers maximum caffeine for emergencies. SAFE_MODE is low-stimulation for late-night coding without sleep disruption.',
   },
 ];
 

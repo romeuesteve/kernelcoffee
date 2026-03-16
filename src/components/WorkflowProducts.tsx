@@ -3,75 +3,74 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 import NumberFlow from '@number-flow/react';
 import { useRef, useState } from 'react';
-import { Target, Code, Lightbulb, Users } from 'lucide-react';
+import { Target, Code, Lightbulb, Flame } from 'lucide-react';
 
 const workflows = [
   {
-    id: 'deep-work',
-    name: 'Deep Work',
+    id: 'stable-release',
+    name: 'STABLE_RELEASE',
     price: { monthly: 29.99, annual: 288 },
     icon: Target,
-    description: 'Focus blend. Low-acid, smooth, sustained 4-hour clarity.',
-    perfect: 'Perfect for: Coding sessions, design sprints, writing.',
+    description: 'Linear, constant energy. The standard daily coffee for predictable focus.',
+    perfect: 'Perfect for: Coding sessions, design sprints, writing, everyday work.',
     features: [
-      'Low acidity',
-      'Sustained energy',
-      'No jitters',
+      'Consistent energy release',
+      'No caffeine crash',
       '4-hour focus window',
       'Premium beans',
       'Scientifically roasted',
-    ],
-    buttonVariant: 'outline' as const,
-  },
-  {
-    id: 'debug-mode',
-    name: 'Debug Mode',
-    price: { monthly: 32.99, annual: 318 },
-    icon: Code,
-    description: 'High-intensity blend. Bold, complex, mental acuity boost.',
-    perfect: 'Perfect for: Problem-solving, debugging, brainstorming.',
-    features: [
-      'Everything in Deep Work, plus:',
-      'High caffeine',
-      'Complex flavor',
-      'Maximum alertness',
-      'Sharp focus',
-      'Memory enhancement',
-      'Faster reaction time',
+      'Reliable performance',
     ],
     buttonVariant: 'default' as const,
   },
   {
-    id: 'flow-state',
-    name: 'Flow State',
-    price: { monthly: 27.99, annual: 268 },
-    icon: Lightbulb,
-    description: 'Light & creative. Gentle focus, no jitters.',
-    perfect: 'Perfect for: Standups, collaboration, learning.',
+    id: 'debug-mode',
+    name: 'DEBUG_MODE',
+    price: { monthly: 32.99, annual: 318 },
+    icon: Code,
+    description: 'Medium roast, balanced profile. Clarity and mental acuity for long sessions.',
+    perfect: 'Perfect for: Problem-solving, debugging, brainstorming, complex tasks.',
     features: [
-      'Balanced energy',
-      'Smooth taste',
-      'Creative clarity',
-      'All-day drinkability',
-      'No anxiety',
-      'Social friendly',
+      'Balanced cognitive profile',
+      'Sustained mental clarity',
+      'Complex flavor notes',
+      'Enhanced focus',
+      'Memory support',
+      'Extended work sessions',
     ],
     buttonVariant: 'outline' as const,
   },
   {
-    id: 'enterprise',
-    name: 'Enterprise',
-    price: null,
-    icon: Users,
-    description: 'Custom solutions for tech offices, coworking spaces, and events.',
-    perfect: 'Perfect for: Teams, offices, conferences.',
+    id: 'critical-hotfix',
+    name: 'CRITICAL_HOTFIX',
+    price: { monthly: 34.99, annual: 338 },
+    icon: Flame,
+    description: 'High caffeine, fast absorption. Emergency fuel for deadlines and late nights.',
+    perfect: 'Perfect for: Emergency deadlines, lack of sleep, intense sprints.',
     features: [
-      'Custom workflow blends',
-      'Volume pricing',
-      'Flexible delivery',
-      'Dedicated support',
-      'White-label options',
-      'Priority processing',
+      'Maximum caffeine content',
+      'Rapid absorption',
+      'Emergency energy boost',
+      'Maximum alertness',
+      'Quick mental reset',
+      'When you need it NOW',
+    ],
+    buttonVariant: 'outline' as const,
+  },
+  {
+    id: 'safe-mode',
+    name: 'SAFE_MODE',
+    price: { monthly: 24.99, annual: 238 },
+    icon: Lightbulb,
+    description: 'Low stimulation or decaf. For nighttime coding without disrupting sleep.',
+    perfect: 'Perfect for: Late-night work, sensitive to caffeine, evening sessions.',
+    features: [
+      'Minimal stimulation',
+      'Sleep-friendly',
+      'Smooth taste',
+      'All-day drinkability',
+      'No anxiety',
+      'Evening coding safe',
     ],
     buttonVariant: 'outline' as const,
   },
@@ -95,7 +94,7 @@ const PricingSwitch = ({ onSwitch }: { onSwitch: (value: string) => void }) => {
             selected === '0' ? 'text-foreground bg-background' : 'text-muted-foreground',
           )}
         >
-          <span className="relative">Monthly</span>
+          <span className="relative">Monthly Cron Job</span>
         </button>
 
         <button
@@ -105,7 +104,7 @@ const PricingSwitch = ({ onSwitch }: { onSwitch: (value: string) => void }) => {
             selected === '1' ? 'text-foreground bg-background' : 'text-muted-foreground',
           )}
         >
-          <span className="relative flex items-center gap-2">Annual</span>
+          <span className="relative flex items-center gap-2">Annual Cron Job</span>
         </button>
       </div>
     </div>
@@ -119,7 +118,7 @@ export function WorkflowProducts() {
   const togglePricingPeriod = (value: string) => setIsYearly(Number.parseInt(value) === 1);
 
   return (
-    <section id="subscription" className="py-24 bg-secondary/10" ref={pricingRef}>
+    <section id="cron-job" className="py-24 bg-secondary/10" ref={pricingRef}>
       <div className="container mx-auto px-8">
         <div className="max-w-6xl mx-auto space-y-12">
           {/* Header */}
@@ -176,13 +175,9 @@ export function WorkflowProducts() {
                   <Button
                     variant={workflow.buttonVariant}
                     className="w-full"
-                    asChild={workflow.id !== 'enterprise'}
+                    asChild
                   >
-                    {workflow.id === 'enterprise' ? (
-                      <button>Contact Sales</button>
-                    ) : (
-                      <a href="#assessment">Start {workflow.name} Trial</a>
-                    )}
+                    <a href="#assessment">Start {workflow.name} Cron Job</a>
                   </Button>
 
                   <div className="pt-4 border-t border-border space-y-3">
@@ -208,7 +203,7 @@ export function WorkflowProducts() {
           {/* Trust Badge */}
           <div className="text-center">
             <p className="text-sm text-muted-foreground">
-              Free gift with your first box • Cancel anytime • No commitment
+              Free gift with your first box • Cancel your Cron Job anytime • No commitment
             </p>
           </div>
         </div>

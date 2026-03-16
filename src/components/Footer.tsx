@@ -2,18 +2,18 @@ import { Input } from '@/components/ui/input';
 
 const footerLinks = {
   product: [
-    { label: 'Workflows', href: '#subscription' },
-    { label: 'Pricing', href: '#subscription' },
+    { label: 'Discovery Pack', href: '#discovery-pack' },
+    { label: 'Cron Job Pricing', href: '#cron-job' },
     { label: 'B2B Partnerships', href: '#b2b' },
   ],
   company: [
     { label: 'About', href: '#' },
-    { label: 'Blog', href: '#' },
+    { label: 'Kernel Knowledge', href: '#content-ecosystem' },
     { label: 'Careers', href: '#' },
   ],
   community: [
-    { label: 'Kernel Talks', href: '#' },
-    { label: 'Events', href: '#' },
+    { label: 'Kernel Talks', href: '#content-ecosystem' },
+    { label: 'Gamification', href: '#gamification' },
     { label: 'Discord', href: '#' },
   ],
   support: [

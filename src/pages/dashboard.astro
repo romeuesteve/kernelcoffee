@@ -1,0 +1,262 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { User, Package, CreditCard, Trophy, Settings, LogOut, Bell, MapPin, Clock } from 'lucide-react';
+---
+
+<Layout title="Dashboard - Kernel Coffee">
+	<div class="pt-24 pb-16">
+		<div class="container mx-auto px-8">
+			<div class="max-w-7xl mx-auto">
+				<div class="flex flex-col lg:flex-row gap-8">
+					<aside class="lg:w-64 flex-shrink-0">
+						<div class="space-y-6">
+							<Card>
+								<CardHeader class="pb-4">
+									<div class="flex items-center gap-3">
+										<div class="h-12 w-12 rounded-full bg-primary/10 flex items-center justify-center text-primary font-semibold">
+											JD
+										</div>
+										<div>
+											<p class="font-semibold">Jane Developer</p>
+											<p class="text-sm text-muted-foreground">Premium Member</p>
+										</div>
+									</div>
+								</CardHeader>
+								<CardContent class="pt-0">
+									<div class="space-y-1">
+										<a href="#" class="flex items-center gap-3 px-3 py-2 rounded-md bg-primary/10 text-primary font-medium">
+											<User className="h-4 w-4" />
+											Overview
+										</a>
+										<a href="#" class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-accent transition-colors">
+											<Package className="h-4 w-4" />
+											Orders
+										</a>
+										<a href="#" class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-accent transition-colors">
+											<CreditCard className="h-4 w-4" />
+											Subscription
+										</a>
+										<a href="#" class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-accent transition-colors">
+											<Trophy className="h-4 w-4" />
+											Rewards
+										</a>
+										<a href="#" class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-accent transition-colors">
+											<Settings className="h-4 w-4" />
+											Settings
+										</a>
+										<hr class="my-2 border-border" />
+										<a href="#" class="flex items-center gap-3 px-3 py-2 rounded-md hover:bg-accent transition-colors text-destructive">
+											<LogOut className="h-4 w-4" />
+											Log Out
+										</a>
+									</div>
+								</CardContent>
+							</Card>
+
+							<Card class="bg-primary/5 border-primary/20">
+								<CardHeader>
+									<CardTitle class="text-base flex items-center gap-2">
+										<Bell className="h-4 w-4" />
+										Upcoming Delivery
+									</CardTitle>
+								</CardHeader>
+								<CardContent>
+									<div class="space-y-2">
+										<div class="flex justify-between text-sm">
+											<span class="text-muted-foreground">Next shipment:</span>
+											<span class="font-medium">Mar 18, 2026</span>
+										</div>
+										<div class="flex justify-between text-sm">
+											<span class="text-muted-foreground">Workflow:</span>
+											<span class="font-medium">DEBUG_MODE</span>
+										</div>
+										<div class="pt-2">
+											<a href="#" class="text-xs text-primary hover:underline">Modify delivery →</a>
+										</div>
+									</div>
+								</CardContent>
+							</Card>
+						</div>
+					</aside>
+
+					<main class="flex-1 space-y-6">
+						<div>
+							<h1 class="text-3xl font-bold mb-2">Welcome back, Jane!</h1>
+							<p class="text-muted-foreground">Here's what's happening with your subscription.</p>
+						</div>
+
+						<div class="grid md:grid-cols-3 gap-6">
+							<Card>
+								<CardHeader class="pb-2">
+									<CardTitle class="text-sm font-medium text-muted-foreground">
+										Subscription Status
+									</CardTitle>
+								</CardHeader>
+								<CardContent>
+									<div class="text-2xl font-bold text-primary">Active</div>
+									<p class="text-xs text-muted-foreground mt-1">Next billing: Apr 18, 2026</p>
+								</CardContent>
+							</Card>
+
+							<Card>
+								<CardHeader class="pb-2">
+									<CardTitle class="text-sm font-medium text-muted-foreground">
+										Current Workflow
+									</CardTitle>
+								</CardHeader>
+								<CardContent>
+									<div class="text-2xl font-bold">DEBUG_MODE</div>
+									<p class="text-xs text-muted-foreground mt-1">Medium roast • Balanced focus</p>
+								</CardContent>
+							</Card>
+
+							<Card>
+								<CardHeader class="pb-2">
+									<CardTitle class="text-sm font-medium text-muted-foreground">
+										Rewards Points
+									</CardTitle>
+								</CardHeader>
+								<CardContent>
+									<div class="text-2xl font-bold">1,250</div>
+									<p class="text-xs text-muted-foreground mt-1">€12.50 in rewards</p>
+								</CardContent>
+							</Card>
+						</div>
+
+						<div class="grid lg:grid-cols-2 gap-6">
+							<Card>
+								<CardHeader>
+									<CardTitle>Recent Orders</CardTitle>
+								</CardHeader>
+								<CardContent>
+									<div class="space-y-4">
+										<div class="flex items-center justify-between pb-3 border-b border-border">
+											<div class="space-y-1">
+												<p class="font-medium">Order #KC-2026-0318</p>
+												<p class="text-sm text-muted-foreground flex items-center gap-2">
+													<Package className="h-3 w-3" />
+													DEBUG_MODE × 2 bags
+												</p>
+											</div>
+											<div class="text-right">
+												<p class="font-medium">€65.98</p>
+												<Badge variant="secondary" class="text-xs">In Transit</Badge>
+											</div>
+										</div>
+
+										<div class="flex items-center justify-between pb-3 border-b border-border">
+											<div class="space-y-1">
+												<p class="font-medium">Order #KC-2026-0218</p>
+												<p class="text-sm text-muted-foreground flex items-center gap-2">
+													<Package className="h-3 w-3" />
+													DEBUG_MODE × 2 bags
+												</p>
+											</div>
+											<div class="text-right">
+												<p class="font-medium">€65.98</p>
+												<Badge variant="outline" class="text-xs">Delivered</Badge>
+											</div>
+										</div>
+
+										<div class="flex items-center justify-between">
+											<div class="space-y-1">
+												<p class="font-medium">Order #KC-2026-0118</p>
+												<p class="text-sm text-muted-foreground flex items-center gap-2">
+													<Package className="h-3 w-3" />
+													STABLE_RELEASE × 2 bags
+												</p>
+											</div>
+											<div class="text-right">
+												<p class="font-medium">€59.98</p>
+												<Badge variant="outline" class="text-xs">Delivered</Badge>
+											</div>
+										</div>
+									</div>
+									<div class="mt-4 pt-4 border-t border-border">
+										<a href="#" class="text-sm text-primary hover:underline">View all orders →</a>
+									</div>
+								</CardContent>
+							</Card>
+
+							<Card>
+								<CardHeader>
+									<CardTitle>Rewards & Achievements</CardTitle>
+								</CardHeader>
+								<CardContent>
+									<div class="space-y-4">
+										<div class="flex items-center gap-3 p-3 rounded-lg bg-primary/5">
+											<div class="h-10 w-10 rounded-full bg-primary/20 flex items-center justify-center">
+												<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-5 w-5 text-primary"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" /></svg>
+											</div>
+											<div class="flex-1">
+												<p class="font-medium text-sm">Early Adopter</p>
+												<p class="text-xs text-muted-foreground">Joined in first 3 months</p>
+											</div>
+											<Badge>Unlocked</Badge>
+										</div>
+
+										<div class="flex items-center gap-3 p-3 rounded-lg bg-primary/5">
+											<div class="h-10 w-10 rounded-full bg-primary/20 flex items-center justify-center">
+												<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-5 w-5 text-primary"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+											</div>
+											<div class="flex-1">
+												<p class="font-medium text-sm">Cron Job Master</p>
+												<p class="text-xs text-muted-foreground">6 months active</p>
+											</div>
+											<Badge>Unlocked</Badge>
+										</div>
+
+										<div class="flex items-center gap-3 p-3 rounded-lg bg-secondary/50">
+											<div class="h-10 w-10 rounded-full bg-muted flex items-center justify-center">
+												<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-5 w-5 text-muted-foreground"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+											</div>
+											<div class="flex-1">
+												<p class="font-medium text-sm">Workflow Explorer</p>
+												<p class="text-xs text-muted-foreground">Try all 4 workflows (2/4)</p>
+											</div>
+											<Badge variant="secondary">In Progress</Badge>
+										</div>
+
+										<div class="flex items-center gap-3 p-3 rounded-lg bg-secondary/50">
+											<div class="h-10 w-10 rounded-full bg-muted flex items-center justify-center">
+												<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-5 w-5 text-muted-foreground"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+											</div>
+											<div class="flex-1">
+												<p class="font-medium text-sm">Community Champion</p>
+												<p class="text-xs text-muted-foreground">Refer 5 friends (0/5)</p>
+											</div>
+											<Badge variant="secondary">Locked</Badge>
+										</div>
+									</div>
+								</CardContent>
+							</Card>
+						</div>
+
+						<Card>
+							<CardHeader>
+								<CardTitle>Shipping Address</CardTitle>
+							</CardHeader>
+							<CardContent>
+								<div class="flex items-start justify-between">
+									<div class="flex items-start gap-3">
+										<MapPin className="h-5 w-5 text-muted-foreground mt-0.5" />
+										<div>
+											<p class="font-medium">Jane Developer</p>
+											<p class="text-sm text-muted-foreground">
+												Carrer de la Tecnologia 123<br />
+												08001 Barcelona, Spain
+											</p>
+										</div>
+									</div>
+									<a href="#" class="text-sm text-primary hover:underline">Edit</a>
+								</div>
+							</CardContent>
+						</Card>
+					</main>
+				</div>
+			</div>
+		</div>
+	</div>
+</Layout>

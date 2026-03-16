@@ -11,8 +11,8 @@ const steps = [
   },
   {
     number: '02',
-    title: 'Receive your monthly box',
-    description: 'Fresh-roasted, traceable coffee matched to your calendar. Delivered to your door.',
+    title: 'Activate your Cron Job',
+    description: 'Fresh-roasted, traceable coffee delivered monthly. Automated for your workflow.',
     icon: '📦',
   },
   {
@@ -73,7 +73,7 @@ export function HowItWorks() {
           {/* CTA */}
           <div className="text-center">
             <Button size="lg" asChild className="text-lg px-8">
-              <a href="#subscription">Start Your Trial (€4.95)</a>
+              <a href="#cron-job">Start Your Cron Job (€4.95)</a>
             </Button>
             <p className="text-sm text-muted-foreground mt-4">
               Join 2,500+ digital professionals optimizing their workflow

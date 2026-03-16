@@ -3,7 +3,7 @@ import { TextEffect } from '@/components/ui/text-effect';
 import { User, Coffee, Users, MessageCircle, Trophy, Book } from 'lucide-react';
 
 const stats = [
-  { value: '2,500+', label: 'Subscribers' },
+  { value: '2,500+', label: 'Cron Job Members' },
   { value: '4.9/5', label: 'Average Rating' },
   { value: '90%', label: 'Retention Rate' },
   { value: '50+', label: 'Tech Office Partners' },
@@ -17,13 +17,13 @@ const testimonials = [
     icon: User,
   },
   {
-    quote: "Our entire office swears by Debug Mode. Productivity is up, and the team actually looks forward to coffee breaks.",
+    quote: "Our entire office swears by DEBUG_MODE. Productivity is up, and the team actually looks forward to coffee breaks.",
     author: 'Elena',
     role: 'CTO @ Barcelona Coworking',
     icon: User,
   },
   {
-    quote: "I was skeptical about the workflow concept, but Flow State has changed how I approach my entire day.",
+    quote: "I was skeptical about the workflow concept, but STABLE_RELEASE has changed how I approach my entire day.",
     author: 'David',
     role: 'Senior Developer @ FinTech',
     icon: User,
@@ -101,7 +101,7 @@ export function SocialProof() {
               <h3 className="text-2xl font-bold">Join the Kernel Community</h3>
               <p className="text-muted-foreground max-w-2xl mx-auto">
                 Monthly Kernel Talks, exclusive tutorials, early access to new workflows, and member-only events.
-                Your subscription includes full community access.
+                Your Cron Job includes full community access.
               </p>
               <div className="relative overflow-hidden">
                 <div className="flex items-center gap-4 text-sm">

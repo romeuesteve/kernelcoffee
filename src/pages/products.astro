@@ -1,0 +1,361 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Star, ShoppingCart, Target, Code, Flame, Lightbulb, Truck, Award, Leaf } from 'lucide-react';
+---
+
+<Layout title="Shop Products - Kernel Coffee">
+	<div class="pt-24 pb-16">
+		<div class="container mx-auto px-8">
+			<div class="max-w-6xl mx-auto">
+				<div class="text-center space-y-4 mb-12">
+					<h1 class="text-4xl md:text-5xl font-bold">
+						Shop All Workflows
+					</h1>
+					<p class="text-xl text-muted-foreground">
+						Find your perfect coffee for every task and timeline
+					</p>
+				</div>
+
+				<div class="flex flex-col lg:flex-row gap-8">
+					<aside class="lg:w-64 flex-shrink-0">
+						<div class="sticky top-24 space-y-6">
+							<div>
+								<h3 class="font-semibold mb-4">Categories</h3>
+								<div class="space-y-2">
+									<button class="w-full text-left px-3 py-2 rounded-md bg-primary/10 text-primary font-medium">
+										All Coffees
+									</button>
+									<button class="w-full text-left px-3 py-2 rounded-md hover:bg-accent transition-colors">
+										Focus & Productivity
+									</button>
+									<button class="w-full text-left px-3 py-2 rounded-md hover:bg-accent transition-colors">
+										Energy Boost
+									</button>
+									<button class="w-full text-left px-3 py-2 rounded-md hover:bg-accent transition-colors">
+										Evening & Decaf
+									</button>
+									<button class="w-full text-left px-3 py-2 rounded-md hover:bg-accent transition-colors">
+										Sample Packs
+									</button>
+								</div>
+							</div>
+
+							<div>
+								<h3 class="font-semibold mb-4">Roast Level</h3>
+								<div class="space-y-2">
+									<label class="flex items-center gap-2">
+										<input type="checkbox" class="rounded" />
+										<span class="text-sm">Light</span>
+									</label>
+									<label class="flex items-center gap-2">
+										<input type="checkbox" class="rounded" />
+										<span class="text-sm">Medium</span>
+									</label>
+									<label class="flex items-center gap-2">
+										<input type="checkbox" class="rounded" />
+										<span class="text-sm">Dark</span>
+									</label>
+								</div>
+							</div>
+
+							<div>
+								<h3 class="font-semibold mb-4">Price Range</h3>
+								<div class="space-y-2">
+									<input type="range" min="0" max="50" class="w-full" />
+									<div class="flex justify-between text-sm text-muted-foreground">
+										<span>€0</span>
+										<span>€50+</span>
+									</div>
+								</div>
+							</div>
+
+							<div>
+								<h3 class="font-semibold mb-4">Caffeine Level</h3>
+								<div class="space-y-2">
+									<label class="flex items-center gap-2">
+										<input type="checkbox" class="rounded" />
+										<span class="text-sm">Low</span>
+									</label>
+									<label class="flex items-center gap-2">
+										<input type="checkbox" class="rounded" />
+										<span class="text-sm">Medium</span>
+									</label>
+									<label class="flex items-center gap-2">
+										<input type="checkbox" class="rounded" />
+										<span class="text-sm">High</span>
+									</label>
+								</div>
+							</div>
+						</div>
+					</aside>
+
+					<main class="flex-1">
+						<div class="mb-6 flex items-center justify-between">
+							<p class="text-sm text-muted-foreground">
+								Showing 4 products
+							</p>
+							<select class="px-3 py-2 rounded-md border border-input bg-background text-sm">
+								<option>Sort by: Featured</option>
+								<option>Price: Low to High</option>
+								<option>Price: High to Low</option>
+								<option>Newest</option>
+							</select>
+						</div>
+
+						<div class="grid md:grid-cols-2 gap-6 mb-16">
+							<div id="stable-release" class="contents">
+								<Card class="group hover:shadow-lg transition-shadow">
+									<CardHeader>
+										<div class="flex items-start justify-between">
+											<div className="h-16 w-16">
+												<Target className="h-full w-full text-primary" />
+											</div>
+											<Badge variant="secondary">Bestseller</Badge>
+										</div>
+										<h3 class="text-2xl font-bold mt-4">STABLE_RELEASE</h3>
+										<p class="text-muted-foreground">
+											Linear, constant energy for predictable focus. The daily driver.
+										</p>
+									</CardHeader>
+									<CardContent class="space-y-4">
+										<div class="flex items-center gap-1">
+											{[1, 2, 3, 4, 5].map(() => <Star className="h-4 w-4 fill-primary text-primary" />)}
+											<span class="text-sm text-muted-foreground ml-2">(4.9)</span>
+										</div>
+										<div class="flex items-baseline">
+											<span class="text-3xl font-bold">€29.99</span>
+											<span class="text-muted-foreground ml-1">/month</span>
+										</div>
+										<Button class="w-full" size="lg">
+											<ShoppingCart className="h-4 w-4 mr-2" />
+											Add to Cart
+										</Button>
+										<div class="text-center">
+											<a href="#transparency" class="text-sm text-primary hover:underline">
+												View origin & traceability
+											</a>
+										</div>
+									</CardContent>
+								</Card>
+							</div>
+
+							<div id="debug-mode" class="contents">
+								<Card class="group hover:shadow-lg transition-shadow border-2 border-primary/20">
+									<CardHeader>
+										<div className="flex items-start justify-between">
+											<div className="h-16 w-16">
+												<Code className="h-full w-full text-primary" />
+											</div>
+											<Badge>Most Popular</Badge>
+										</div>
+										<h3 class="text-2xl font-bold mt-4">DEBUG_MODE</h3>
+										<p class="text-muted-foreground">
+											Balanced clarity for problem-solving and complex tasks.
+										</p>
+									</CardHeader>
+									<CardContent class="space-y-4">
+										<div class="flex items-center gap-1">
+											{[1, 2, 3, 4, 5].map(() => <Star className="h-4 w-4 fill-primary text-primary" />)}
+											<span class="text-sm text-muted-foreground ml-2">(4.8)</span>
+										</div>
+										<div class="flex items-baseline">
+											<span class="text-3xl font-bold">€32.99</span>
+											<span class="text-muted-foreground ml-1">/month</span>
+										</div>
+										<Button class="w-full" size="lg">
+											<ShoppingCart className="h-4 w-4 mr-2" />
+											Add to Cart
+										</Button>
+										<div class="text-center">
+											<a href="#transparency" class="text-sm text-primary hover:underline">
+												View origin & traceability
+											</a>
+										</div>
+									</CardContent>
+								</Card>
+							</div>
+
+							<div id="critical-hotfix" class="contents">
+								<Card class="group hover:shadow-lg transition-shadow">
+									<CardHeader>
+										<div className="flex items-start justify-between">
+											<div className="h-16 w-16">
+												<Flame className="h-full w-full text-primary" />
+											</div>
+											<Badge variant="secondary">High Caffeine</Badge>
+										</div>
+										<h3 class="text-2xl font-bold mt-4">CRITICAL_HOTFIX</h3>
+										<p class="text-muted-foreground">
+											Maximum caffeine for emergency deadlines and late nights.
+										</p>
+									</CardHeader>
+									<CardContent class="space-y-4">
+										<div class="flex items-center gap-1">
+											{[1, 2, 3, 4, 5].map(() => <Star className="h-4 w-4 fill-primary text-primary" />)}
+											<span class="text-sm text-muted-foreground ml-2">(4.7)</span>
+										</div>
+										<div class="flex items-baseline">
+											<span class="text-3xl font-bold">€34.99</span>
+											<span class="text-muted-foreground ml-1">/month</span>
+										</div>
+										<Button class="w-full" size="lg">
+											<ShoppingCart className="h-4 w-4 mr-2" />
+											Add to Cart
+										</Button>
+										<div class="text-center">
+											<a href="#transparency" class="text-sm text-primary hover:underline">
+												View origin & traceability
+											</a>
+										</div>
+									</CardContent>
+								</Card>
+							</div>
+
+							<div id="safe-mode" class="contents">
+								<Card class="group hover:shadow-lg transition-shadow">
+									<CardHeader>
+										<div className="flex items-start justify-between">
+											<div className="h-16 w-16">
+												<Lightbulb className="h-full w-full text-primary" />
+											</div>
+											<Badge variant="secondary">Low Caffeine</Badge>
+										</div>
+										<h3 class="text-2xl font-bold mt-4">SAFE_MODE</h3>
+										<p class="text-muted-foreground">
+											Minimal stimulation or decaf. Sleep-friendly evening coding.
+										</p>
+									</CardHeader>
+									<CardContent class="space-y-4">
+										<div class="flex items-center gap-1">
+											{[1, 2, 3, 4, 5].map(() => <Star className="h-4 w-4 fill-primary text-primary" />)}
+											<span class="text-sm text-muted-foreground ml-2">(4.6)</span>
+										</div>
+										<div class="flex items-baseline">
+											<span class="text-3xl font-bold">€24.99</span>
+											<span class="text-muted-foreground ml-1">/month</span>
+										</div>
+										<Button class="w-full" size="lg">
+											<ShoppingCart className="h-4 w-4 mr-2" />
+											Add to Cart
+										</Button>
+										<div class="text-center">
+											<a href="#transparency" class="text-sm text-primary hover:underline">
+												View origin & traceability
+											</a>
+										</div>
+									</CardContent>
+								</Card>
+							</div>
+						</div>
+
+						<section id="transparency" class="py-16 bg-secondary/5 rounded-lg mb-16">
+							<div class="px-8">
+								<h2 class="text-3xl font-bold text-center mb-12">
+									Transparency & Traceability
+								</h2>
+								<div class="grid md:grid-cols-3 gap-8">
+									<div class="text-center space-y-4">
+										<div className="h-16 w-16 mx-auto flex items-center justify-center">
+											<Leaf className="h-full w-full text-primary" />
+										</div>
+										<h3 className="font-semibold">Single Origin</h3>
+										<p className="text-sm text-muted-foreground">
+											We source directly from farms in Ethiopia, Colombia, and Guatemala. Know exactly where your coffee comes from.
+										</p>
+									</div>
+									<div class="text-center space-y-4">
+										<div className="h-16 w-16 mx-auto flex items-center justify-center">
+											<Award className="h-full w-full text-primary" />
+										</div>
+										<h3 className="font-semibold">Specialty Grade</h3>
+										<p className="text-sm text-muted-foreground">
+											All our beans score 85+ points. Quality you can taste, traceability you can verify.
+										</p>
+									</div>
+									<div class="text-center space-y-4">
+										<div className="h-16 w-16 mx-auto flex items-center justify-center">
+											<Truck className="h-full w-full text-primary" />
+										</div>
+										<h3 className="font-semibold">Fresh Roasted</h3>
+										<p className="text-sm text-muted-foreground">
+											Roasted in small batches within 48 hours of shipping. Peak flavor in every bag.
+										</p>
+									</div>
+								</div>
+							</div>
+						</section>
+
+						<section class="mb-16">
+							<h2 class="text-3xl font-bold text-center mb-12">
+								Customer Reviews
+							</h2>
+							<div class="grid md:grid-cols-3 gap-6">
+								<Card>
+									<CardContent class="pt-6 space-y-4">
+										<div class="flex items-center gap-1">
+											{[1, 2, 3, 4, 5].map(() => <Star className="h-4 w-4 fill-primary text-primary" />)}
+										</div>
+										<p class="text-muted-foreground">
+											"Finally, coffee that gets my workflow. No more 3pm crashes, just sustained focus through my entire sprint."
+										</p>
+										<div>
+											<p className="font-semibold">Marc</p>
+											<p className="text-sm text-muted-foreground">Product Designer</p>
+										</div>
+									</CardContent>
+								</Card>
+
+								<Card>
+									<CardContent class="pt-6 space-y-4">
+										<div class="flex items-center gap-1">
+											{[1, 2, 3, 4, 5].map(() => <Star className="h-4 w-4 fill-primary text-primary" />)}
+										</div>
+										<p class="text-muted-foreground">
+											"DEBUG_MODE has become my go-to for complex problem-solving. The mental clarity is incredible."
+										</p>
+										<div>
+											<p className="font-semibold">Elena</p>
+											<p className="text-sm text-muted-foreground">Senior Developer</p>
+										</div>
+									</CardContent>
+								</Card>
+
+								<Card>
+									<CardContent class="pt-6 space-y-4">
+										<div class="flex items-center gap-1">
+											{[1, 2, 3, 4, 5].map(() => <Star className="h-4 w-4 fill-primary text-primary" />)}
+										</div>
+										<p class="text-muted-foreground">
+											"The CRITICAL_HOTFIX saved me during launch week. When you need it, you really need it."
+										</p>
+										<div>
+											<p className="font-semibold">David</p>
+											<p className="text-sm text-muted-foreground">Tech Lead</p>
+										</div>
+									</CardContent>
+								</Card>
+							</div>
+						</section>
+
+						<section class="py-16 bg-primary/5 rounded-lg">
+							<div class="px-8 text-center space-y-6">
+								<h2 class="text-3xl font-bold">
+									Not Sure Which Workflow to Choose?
+								</h2>
+								<p class="text-xl text-muted-foreground max-w-2xl mx-auto">
+									Try our Discovery Pack with samples of all four blends. Find your perfect match.
+								</p>
+								<Button size="lg" class="text-lg px-8">
+									Get Discovery Pack (€19.95)
+								</Button>
+							</div>
+						</section>
+					</main>
+				</div>
+			</div>
+		</div>
+	</div>
+</Layout>

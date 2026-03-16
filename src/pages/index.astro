@@ -5,10 +5,8 @@ import { Hero } from '@/components/Hero';
 import { WorkflowProducts } from '@/components/WorkflowProducts';
 import { HowItWorks } from '@/components/HowItWorks';
 import { SocialProof } from '@/components/SocialProof';
-import { B2BSection } from '@/components/B2BSection';
-import { WorkflowAssessment } from '@/components/WorkflowAssessment';
-import { FAQ } from '@/components/FAQ';
-import { FinalCTA } from '@/components/FinalCTA';
+import { ContentEcosystem } from '@/components/ContentEcosystem';
+import { GamificationPreview } from '@/components/GamificationPreview';
 import { Footer } from '@/components/Footer';
 ---
 
@@ -17,12 +15,214 @@ import { Footer } from '@/components/Footer';
 		<ASCIIBackground client:load />
 		<Hero client:load />
 	</div>
+
+	<section id="products" class="py-24 bg-secondary/5">
+		<div class="container mx-auto px-8">
+			<div class="max-w-6xl mx-auto">
+				<div class="text-center space-y-4 mb-16">
+					<h2 class="text-4xl md:text-5xl font-bold">
+						Choose Your Workflow Stack
+					</h2>
+					<p class="text-xl text-muted-foreground max-w-2xl mx-auto">
+						Each coffee is engineered for a specific cognitive state. From sustained focus to emergency power.
+					</p>
+				</div>
+
+				<div class="grid md:grid-cols-3 gap-8">
+					<div class="space-y-4">
+						<div class="h-16 w-16 text-primary">
+							<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-full w-full"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+						</div>
+						<h3 class="text-2xl font-bold">STABLE_RELEASE</h3>
+						<p class="text-muted-foreground">
+							Linear, constant energy. The standard daily coffee for predictable focus.
+						</p>
+						<ul class="space-y-2 pt-4">
+							<li class="flex items-center gap-2">
+								<span class="text-primary">•</span>
+								<span>4-hour focus window</span>
+							</li>
+							<li class="flex items-center gap-2">
+								<span class="text-primary">•</span>
+								<span>No caffeine crash</span>
+							</li>
+							<li class="flex items-center gap-2">
+								<span class="text-primary">•</span>
+								<span>Perfect for coding sessions</span>
+							</li>
+						</ul>
+						<a href="/products#stable-release" class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-50 disabled:pointer-events-none bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 w-full">Shop STABLE_RELEASE</a>
+					</div>
+
+					<div class="space-y-4 border-2 border-primary/20 rounded-lg p-6 relative">
+						<div class="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-1 bg-primary text-primary-foreground text-xs font-semibold rounded-full">
+							MOST POPULAR
+						</div>
+						<div class="h-16 w-16 text-primary">
+							<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-full w-full"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" /></svg>
+						</div>
+						<h3 class="text-2xl font-bold">DEBUG_MODE</h3>
+						<p class="text-muted-foreground">
+							Medium roast, balanced profile. Clarity and mental acuity for long sessions.
+						</p>
+						<ul class="space-y-2 pt-4">
+							<li class="flex items-center gap-2">
+								<span class="text-primary">•</span>
+								<span>Sustained mental clarity</span>
+							</li>
+							<li class="flex items-center gap-2">
+								<span class="text-primary">•</span>
+								<span>Enhanced problem-solving</span>
+							</li>
+							<li class="flex items-center gap-2">
+								<span class="text-primary">•</span>
+								<span>Perfect for debugging</span>
+							</li>
+						</ul>
+						<a href="/products#debug-mode" class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-50 disabled:pointer-events-none bg-primary text-primary-foreground hover:bg-primary/90 h-10 px-4 py-2 w-full">Shop DEBUG_MODE</a>
+					</div>
+
+					<div class="space-y-4">
+						<div class="h-16 w-16 text-primary">
+							<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-full w-full"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 18.657A8 8 0 016.343 7.343S7 9 9 10c0-2 .5-5 2.986-7C14 5 16.09 5.777 17.656 7.343A7.975 7.975 0 0120 13a7.975 7.975 0 01-2.343 5.657z" /><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.879 16.121A3 3 0 1012.015 11L11 14H9c0 .768.293 1.536.879 2.121z" /></svg>
+						</div>
+						<h3 class="text-2xl font-bold">CRITICAL_HOTFIX</h3>
+						<p class="text-muted-foreground">
+							High caffeine, fast absorption. Emergency fuel for deadlines and late nights.
+						</p>
+						<ul class="space-y-2 pt-4">
+							<li class="flex items-center gap-2">
+								<span class="text-primary">•</span>
+								<span>Maximum alertness</span>
+							</li>
+							<li class="flex items-center gap-2">
+								<span class="text-primary">•</span>
+								<span>Rapid absorption</span>
+							</li>
+							<li class="flex items-center gap-2">
+								<span class="text-primary">•</span>
+								<span>Perfect for deadlines</span>
+							</li>
+						</ul>
+						<a href="/products#critical-hotfix" class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-50 disabled:pointer-events-none border border-input bg-background hover:bg-accent hover:text-accent-foreground h-10 px-4 py-2 w-full">Shop CRITICAL_HOTFIX</a>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="py-24 bg-primary/5">
+		<div class="container mx-auto px-8">
+			<div class="max-w-4xl mx-auto text-center space-y-8">
+				<h2 class="text-4xl md:text-5xl font-bold">
+					Coffee Rebuilt for Digital Work
+				</h2>
+				<p class="text-xl text-muted-foreground">
+					Kernel isn't just specialty coffee—it's a performance tool designed for developers, designers, and knowledge workers who need sustained cognitive performance.
+				</p>
+				<div class="grid md:grid-cols-3 gap-8 pt-8">
+					<div class="space-y-2">
+						<div class="text-3xl font-bold text-primary">100%</div>
+						<p class="text-sm text-muted-foreground">Arabica Beans</p>
+					</div>
+					<div class="space-y-2">
+						<div class="text-3xl font-bold text-primary">Traceable</div>
+						<p class="text-sm text-muted-foreground">Single Origin</p>
+					</div>
+					<div class="space-y-2">
+						<div class="text-3xl font-bold text-primary">Fresh</div>
+						<p class="text-sm text-muted-foreground">Roasted to Order</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<section class="py-24">
+		<div class="container mx-auto px-8">
+			<div class="max-w-4xl mx-auto text-center space-y-8">
+				<h2 class="text-4xl md:text-5xl font-bold">
+					Start Your Cron Job
+				</h2>
+				<p class="text-xl text-muted-foreground">
+					Automated coffee delivery matched to your workflow. Cancel anytime.
+				</p>
+				<div class="flex flex-col sm:flex-row gap-4 justify-center pt-4">
+					<a href="/products" class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-50 disabled:pointer-events-none bg-primary text-primary-foreground hover:bg-primary/90 h-11 px-8 text-lg">Shop All Products</a>
+					<a href="#how-it-works" class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-50 disabled:pointer-events-none border border-input bg-background hover:bg-accent hover:text-accent-foreground h-11 px-8 text-lg">How It Works</a>
+				</div>
+			</div>
+		</div>
+	</section>
+
 	<HowItWorks />
+
 	<SocialProof />
-	<B2BSection />
-	<WorkflowProducts client:load />
-	<WorkflowAssessment client:load />
-	<FAQ />
-	<FinalCTA />
+
+	<ContentEcosystem />
+
+	<section id="community" class="py-24 bg-secondary/5">
+		<div class="container mx-auto px-8">
+			<div class="max-w-6xl mx-auto">
+				<div class="text-center space-y-4 mb-16">
+					<h2 class="text-4xl md:text-5xl font-bold">
+						Join the Kernel Community
+					</h2>
+					<p class="text-xl text-muted-foreground max-w-2xl mx-auto">
+						Your subscription includes full access to exclusive events, content, and perks.
+					</p>
+				</div>
+
+				<div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+					<div class="rounded-lg border bg-card text-card-foreground shadow-sm text-center">
+						<div class="p-6 space-y-4">
+							<div class="h-12 w-12 mx-auto flex items-center justify-center">
+								<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-full w-full text-primary"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z" /></svg>
+							</div>
+							<h3 class="font-semibold">Kernel Talks</h3>
+							<p class="text-sm text-muted-foreground">Monthly virtual events with industry experts</p>
+						</div>
+					</div>
+
+					<div class="rounded-lg border bg-card text-card-foreground shadow-sm text-center">
+						<div class="p-6 space-y-4">
+							<div class="h-12 w-12 mx-auto flex items-center justify-center">
+								<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-full w-full text-primary"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" /></svg>
+							</div>
+							<h3 class="font-semibold">Tutorials</h3>
+							<p class="text-sm text-muted-foreground">Exclusive guides on workflow optimization</p>
+						</div>
+					</div>
+
+					<div class="rounded-lg border bg-card text-card-foreground shadow-sm text-center">
+						<div class="p-6 space-y-4">
+							<div class="h-12 w-12 mx-auto flex items-center justify-center">
+								<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-full w-full text-primary"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>
+							</div>
+							<h3 class="font-semibold">Discord</h3>
+							<p class="text-sm text-muted-foreground">Connect with 2,500+ digital professionals</p>
+						</div>
+					</div>
+
+					<div class="rounded-lg border bg-card text-card-foreground shadow-sm text-center">
+						<div class="p-6 space-y-4">
+							<div class="h-12 w-12 mx-auto flex items-center justify-center">
+								<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-full w-full text-primary"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+							</div>
+							<h3 class="font-semibold">Challenges</h3>
+							<p class="text-sm text-muted-foreground">Earn rewards and unlock achievements</p>
+						</div>
+					</div>
+				</div>
+
+				<div class="text-center mt-12">
+					<a href="#gamification" class="inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring disabled:opacity-50 disabled:pointer-events-none bg-primary text-primary-foreground hover:bg-primary/90 h-11 px-8 text-lg">Explore Community Features</a>
+				</div>
+			</div>
+		</div>
+	</section>
+
+	<GamificationPreview />
+
 	<Footer />
 </Layout>

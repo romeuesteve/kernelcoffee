@@ -1,0 +1,222 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
+import { TrendingUp, Gift, Target, Briefcase, CheckCircle2 } from 'lucide-react';
+---
+
+<Layout title="For Companies - Kernel Coffee">
+	<div class="pt-24 pb-16">
+		<div class="container mx-auto px-8">
+			<div class="max-w-6xl mx-auto">
+				<div class="text-center space-y-4 mb-16">
+					<h1 class="text-4xl md:text-5xl font-bold">
+						Fuel Your Entire Team
+					</h1>
+					<p class="text-xl text-muted-foreground max-w-2xl mx-auto">
+						Kernel Coffee for tech offices, coworking spaces, and events. Workflow-classified coffee that keeps your team focused.
+					</p>
+				</div>
+
+				<div class="grid md:grid-cols-2 gap-12 items-start mb-16">
+					<div class="space-y-8">
+						<div>
+							<h2 class="text-3xl font-bold mb-4">
+								Why Kernel for Teams?
+							</h2>
+							<p class="text-lg text-muted-foreground">
+								Traditional office coffee is a one-size-fits-none solution. Kernel matches different coffees to different workflows, so every team member gets fuel optimized for their role.
+							</p>
+						</div>
+
+						<div class="space-y-6">
+							<div class="flex gap-4">
+								<div class="flex-shrink-0">
+									<div class="h-12 w-12 text-primary">
+										<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-full w-full"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" /></svg>
+									</div>
+								</div>
+								<div>
+									<h3 class="font-semibold text-lg">Productivity Boost</h3>
+									<p class="text-muted-foreground">Workflow-classified coffee keeps your team focused and energized throughout the day.</p>
+								</div>
+							</div>
+
+							<div class="flex gap-4">
+								<div class="flex-shrink-0">
+									<div class="h-12 w-12 text-primary">
+										<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-full w-full"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7" /></svg>
+									</div>
+								</div>
+								<div>
+									<h3 class="font-semibold text-lg">Employee Perk That Matters</h3>
+									<p class="text-muted-foreground">Show your team you care about their performance and well-being with specialty coffee.</p>
+								</div>
+							</div>
+
+							<div class="flex gap-4">
+								<div class="flex-shrink-0">
+									<div class="h-12 w-12 text-primary">
+										<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-full w-full"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
+									</div>
+								</div>
+								<div>
+									<h3 class="font-semibold text-lg">Matched to Every Role</h3>
+									<p class="text-muted-foreground">Deep Work for devs, Flow State for designers, Debug Mode for problem-solvers.</p>
+								</div>
+							</div>
+
+							<div class="flex gap-4">
+								<div class="flex-shrink-0">
+									<div class="h-12 w-12 text-primary">
+										<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-full w-full"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" /></svg>
+									</div>
+								</div>
+								<div>
+									<h3 class="font-semibold text-lg">Simple Billing</h3>
+									<p class="text-muted-foreground">Consolidated invoicing, volume discounts, and flexible delivery schedules.</p>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div>
+						<Card class="bg-background">
+							<CardHeader>
+								<CardTitle>Request Office Sample</CardTitle>
+								<CardDescription>
+									Tell us about your office and we'll create a custom proposal
+								</CardDescription>
+							</CardHeader>
+							<CardContent class="space-y-4">
+								<div class="space-y-2">
+									<label class="text-sm font-medium" for="company-name">
+										Company Name <span class="text-destructive">*</span>
+									</label>
+									<input
+										id="company-name"
+										type="text"
+										placeholder="Acme Tech SL"
+										class="w-full px-4 py-2 rounded-md border border-input bg-background"
+									/>
+								</div>
+
+								<div class="space-y-2">
+									<label class="text-sm font-medium" for="team-size">
+										Team Size <span class="text-destructive">*</span>
+									</label>
+									<select id="team-size" class="w-full px-4 py-2 rounded-md border border-input bg-background">
+										option value="">Select team size</option>
+										<option>1-10 people</option>
+										<option>11-50 people</option>
+										<option>51-200 people</option>
+										<option>200+ people</option>
+									</select>
+								</div>
+
+								<div class="space-y-2">
+									<label class="text-sm font-medium" for="contact-email">
+										Email <span class="text-destructive">*</span>
+									</label>
+									<input
+										id="contact-email"
+										type="email"
+										placeholder="you@company.com"
+										class="w-full px-4 py-2 rounded-md border border-input bg-background"
+									/>
+								</div>
+
+								<div class="space-y-2">
+									<label class="text-sm font-medium" for="message">
+										Tell us about your needs
+									</label>
+									<textarea
+										id="message"
+										rows="3"
+										placeholder="We're interested in..."
+										class="w-full px-4 py-2 rounded-md border border-input bg-background resize-none"
+									></textarea>
+								</div>
+
+								<Button class="w-full" client:idle>
+									Request Sample Pack
+								</Button>
+
+								<p class="text-xs text-center text-muted-foreground">
+									No commitment • Free sample for qualified offices • Response within 24h
+								</p>
+							</CardContent>
+						</Card>
+					</div>
+				</div>
+
+				<section class="py-16 bg-secondary/5 rounded-lg">
+					<div class="px-8">
+						<h2 class="text-3xl font-bold text-center mb-12">
+							Trusted by Tech Teams
+						</h2>
+						<div class="grid md:grid-cols-3 gap-8">
+							<div class="text-center space-y-2">
+								<div class="text-4xl font-bold text-primary">50+</div>
+								<p class="text-muted-foreground">Tech Office Partners</p>
+							</div>
+							<div class="text-center space-y-2">
+								<div class="text-4xl font-bold text-primary">2,500+</div>
+								<p class="text-muted-foreground">Happy Professionals</p>
+							</div>
+							<div class="text-center space-y-2">
+								<div class="text-4xl font-bold text-primary">90%</div>
+								<p class="text-muted-foreground">Retention Rate</p>
+							</div>
+						</div>
+					</div>
+				</section>
+
+				<section class="py-16 mt-16">
+					<div class="text-center space-y-6">
+						<h2 class="text-3xl font-bold">
+							What's Included
+						</h2>
+						<p class="text-xl text-muted-foreground max-w-2xl mx-auto">
+							Everything your team needs for optimized focus
+						</p>
+					</div>
+
+					<div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6 mt-12">
+						<div class="space-y-2">
+							<div class="flex items-center gap-2 text-primary">
+								<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-5 w-5"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
+								<span class="font-medium">Workflow Assessment</span>
+							</div>
+							<p class="text-sm text-muted-foreground pl-7">Personalized coffee matching for each team member</p>
+						</div>
+
+						<div class="space-y-2">
+							<div class="flex items-center gap-2 text-primary">
+								<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-5 w-5"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
+								<span class="font-medium">Flexible Delivery</span>
+							</div>
+							<p class="text-sm text-muted-foreground pl-7">Weekly or monthly delivery based on your needs</p>
+						</div>
+
+						<div class="space-y-2">
+							<div class="flex items-center gap-2 text-primary">
+								<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-5 w-5"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
+								<span class="font-medium">Brewing Equipment</span>
+							</div>
+							<p class="text-sm text-muted-foreground pl-7">Optional equipment rental and maintenance</p>
+						</div>
+
+						<div class="space-y-2">
+							<div class="flex items-center gap-2 text-primary">
+								<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-5 w-5"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" /></svg>
+								<span class="font-medium">Community Access</span>
+							</div>
+							<p class="text-sm text-muted-foreground pl-7">Full access to Kernel community events</p>
+						</div>
+					</div>
+				</section>
+			</div>
+		</div>
+	</div>
+</Layout>

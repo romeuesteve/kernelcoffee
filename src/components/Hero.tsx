@@ -30,7 +30,7 @@ export function Hero() {
               <a href="#assessment">Discover Your Workflow</a>
             </Button>
             <Button size="lg" variant="outline" asChild className="text-lg px-8">
-              <a href="#subscription">Start 7-Day Trial (€4.95)</a>
+              <a href="#cron-job">Start Your Cron Job (€4.95)</a>
             </Button>
           </div>
 
@@ -52,7 +52,7 @@ export function Hero() {
                   <Star key={i} className="h-4 w-4" />
                 ))}
               </div>
-              <p className="text-muted-foreground">4.9/5 from subscribers</p>
+              <p className="text-muted-foreground">4.9/5 from the community</p>
             </div>
           </div>
         </div>

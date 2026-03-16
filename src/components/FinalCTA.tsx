@@ -37,7 +37,7 @@ export function FinalCTA() {
           {/* CTAs */}
           <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
             <Button size="lg" asChild className="text-lg px-8 py-6">
-              <a href="#subscription">Start 7-Day Trial (€4.95)</a>
+              <a href="#cron-job">Start Your Cron Job (€4.95)</a>
             </Button>
             <Button size="lg" variant="outline" asChild className="text-lg px-8 py-6">
               <a href="#assessment">Take Workflow Assessment</a>
