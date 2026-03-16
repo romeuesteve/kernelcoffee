@@ -4,7 +4,7 @@ import { Star } from 'lucide-react';
 
 export function Hero() {
   return (
-    <section className="min-h-screen flex items-center pl-[60%] relative">
+    <section className="min-h-screen flex items-center pl-[60%]">
       <div className="container mx-auto px-8 max-w-2xl">
         <div className="space-y-8">
           {/* Trust Badge */}

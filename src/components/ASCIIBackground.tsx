@@ -1,15 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { ASCIIRenderer, isWebGPUSupported } from 'webgpu-ascii-renderer';
 
-interface ScrollState {
-  lastScrollY: number;
-  isScrolling: boolean;
-  scrollTimeout: number | null;
-  baseRotationX: number;
-  baseRotationY: number;
-}
-
-type AnimationPhase = 'blank' | 'lighting-up' | 'moving-left' | 'complete';
+type AnimationPhase = 'blank' | 'moving-left' | 'complete';
 
 export function ASCIIBackground() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -27,14 +19,6 @@ export function ASCIIBackground() {
       setError('WebGPU is not supported in your browser. Please use Chrome 113+ or Firefox 113+.');
       return;
     }
-
-    const scrollState: ScrollState = {
-      lastScrollY: window.scrollY,
-      isScrolling: false,
-      scrollTimeout: null,
-      baseRotationX: 0.7,
-      baseRotationY: 0.5,
-    };
 
     const initRenderer = async () => {
       try {
@@ -61,6 +45,8 @@ export function ASCIIBackground() {
 
         await renderer.init();
         rendererRef.current = renderer;
+        rendererRef.current.setLightIntensity(1.0);
+        rendererRef.current.setAutoRotate(false);
 
         const renderedCanvas = renderer.getASCIICanvas();
         canvasRef.current = renderedCanvas;
@@ -79,48 +65,25 @@ export function ASCIIBackground() {
         }
 
         const startAnimation = async () => {
-          await new Promise(resolve => setTimeout(resolve, 500));
+          animationPhaseRef.current = 'moving-left';
+          setAnimationPhase('moving-left');
 
-          animationPhaseRef.current = 'lighting-up';
-          setAnimationPhase('lighting-up');
+          if (canvasRef.current) {
+            canvasRef.current.style.transition = 'none';
+            canvasRef.current.style.transform = 'translateY(-50%)';
+            canvasRef.current.style.left = 'calc(50% - 425px)';
 
-          const lightUpDuration = 2000;
-          const startTime = Date.now();
-
-          const lightUpInterval = setInterval(() => {
-            const elapsed = Date.now() - startTime;
-            const progress = Math.min(elapsed / lightUpDuration, 1);
-
-            if (rendererRef.current) {
-              rendererRef.current.setLightIntensity(progress);
-            }
-
-            if (progress >= 0.3 && animationPhaseRef.current === 'lighting-up') {
-              animationPhaseRef.current = 'moving-left';
-              setAnimationPhase('moving-left');
-
-              if (canvasRef.current) {
-                canvasRef.current.style.transition = 'none';
-                canvasRef.current.style.transform = 'translateY(-50%)';
-                canvasRef.current.style.left = 'calc(50% - 425px)';
-
-                requestAnimationFrame(() => {
-                  requestAnimationFrame(() => {
-                    if (canvasRef.current) {
-                      canvasRef.current.style.transition = 'left 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
-                      canvasRef.current.style.left = '10%';
-                    }
-                    animationPhaseRef.current = 'complete';
-                    setAnimationPhase('complete');
-                  });
-                });
-              }
-            }
-
-            if (progress >= 1) {
-              clearInterval(lightUpInterval);
-            }
-          }, 16);
+            requestAnimationFrame(() => {
+              requestAnimationFrame(() => {
+                if (canvasRef.current) {
+                  canvasRef.current.style.transition = 'left 1.2s cubic-bezier(0.25, 0.46, 0.45, 0.94)';
+                  canvasRef.current.style.left = '10%';
+                }
+                animationPhaseRef.current = 'complete';
+                setAnimationPhase('complete');
+              });
+            });
+          }
         };
 
         startAnimation();
@@ -128,18 +91,17 @@ export function ASCIIBackground() {
         const handleMouseMove = (e: MouseEvent) => {
           if (!rendererRef.current) return;
 
+          const baseRotationX = 0.7;
+          const baseRotationY = 0.5;
           const tiltX = (e.clientY / window.innerHeight - 0.5) * 0.4;
           const tiltY = (e.clientX / window.innerWidth - 0.5) * (-2.0);
-          rendererRef.current.setRotation(scrollState.baseRotationX + tiltX, scrollState.baseRotationY + tiltY);
+          rendererRef.current.setRotation(baseRotationX + tiltX, baseRotationY + tiltY);
         };
 
         window.addEventListener('mousemove', handleMouseMove);
 
         return () => {
           window.removeEventListener('mousemove', handleMouseMove);
-          if (scrollState.scrollTimeout) {
-            clearTimeout(scrollState.scrollTimeout);
-          }
           if (animationTimeoutRef.current) {
             clearTimeout(animationTimeoutRef.current);
           }
@@ -163,7 +125,7 @@ export function ASCIIBackground() {
 
   return (
     <>
-      <div ref={containerRef} className="pointer-events-none z-0" />
+      <div ref={containerRef} className="absolute inset-0 pointer-events-none z-0 transition-left duration-100 ease-out" />
     </>
   );
 }
