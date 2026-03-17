@@ -125,7 +125,7 @@ export function ASCIIBackground() {
 
   return (
     <>
-      <div ref={containerRef} className="absolute inset-0 pointer-events-none z-0 transition-left duration-100 ease-out" />
+      <div ref={containerRef} className="hidden md:block absolute inset-0 pointer-events-none z-0 transition-left duration-100 ease-out" />
     </>
   );
 }

@@ -11,24 +11,24 @@ import { Footer } from '@/components/Footer';
 ---
 
 <Layout title="Kernel Coffee - Fuel for Deep Work">
-	<div class="relative min-h-screen">
+	<div class="relative min-h-screen md:pl-[60%]">
 		<ASCIIBackground client:load />
 		<Hero client:load />
 	</div>
 
-	<section id="products" class="py-24 bg-secondary/5">
-		<div class="container mx-auto px-8">
+	<section id="products" class="py-16 md:py-24 bg-secondary/5">
+		<div class="container mx-auto px-4 md:px-8">
 			<div class="max-w-6xl mx-auto">
-				<div class="text-center space-y-4 mb-16">
-					<h2 class="text-4xl md:text-5xl font-bold">
+				<div class="text-center space-y-4 mb-12 md:mb-16">
+					<h2 class="text-3xl md:text-4xl lg:text-5xl font-bold">
 						Choose Your Workflow Stack
 					</h2>
-					<p class="text-xl text-muted-foreground max-w-2xl mx-auto">
+					<p class="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
 						Each coffee is engineered for a specific cognitive state. From sustained focus to emergency power.
 					</p>
 				</div>
 
-				<div class="grid md:grid-cols-3 gap-8">
+				<div class="grid md:grid-cols-3 gap-6 md:gap-8">
 					<div class="space-y-4">
 						<div class="h-16 w-16 text-primary">
 							<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="h-full w-full"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" /></svg>
@@ -111,16 +111,16 @@ import { Footer } from '@/components/Footer';
 		</div>
 	</section>
 
-	<section class="py-24 bg-primary/5">
-		<div class="container mx-auto px-8">
-			<div class="max-w-4xl mx-auto text-center space-y-8">
-				<h2 class="text-4xl md:text-5xl font-bold">
+	<section class="py-16 md:py-24 bg-primary/5">
+		<div class="container mx-auto px-4 md:px-8">
+			<div class="max-w-4xl mx-auto text-center space-y-6 md:space-y-8">
+				<h2 class="text-3xl md:text-4xl lg:text-5xl font-bold">
 					Coffee Rebuilt for Digital Work
 				</h2>
-				<p class="text-xl text-muted-foreground">
+				<p class="text-lg md:text-xl text-muted-foreground">
 					Kernel isn't just specialty coffee—it's a performance tool designed for developers, designers, and knowledge workers who need sustained cognitive performance.
 				</p>
-				<div class="grid md:grid-cols-3 gap-8 pt-8">
+				<div class="grid grid-cols-3 gap-4 md:gap-8 pt-6 md:pt-8">
 					<div class="space-y-2">
 						<div class="text-3xl font-bold text-primary">100%</div>
 						<p class="text-sm text-muted-foreground">Arabica Beans</p>
@@ -138,13 +138,13 @@ import { Footer } from '@/components/Footer';
 		</div>
 	</section>
 
-	<section class="py-24">
-		<div class="container mx-auto px-8">
-			<div class="max-w-4xl mx-auto text-center space-y-8">
-				<h2 class="text-4xl md:text-5xl font-bold">
+	<section class="py-16 md:py-24">
+		<div class="container mx-auto px-4 md:px-8">
+			<div class="max-w-4xl mx-auto text-center space-y-6 md:space-y-8">
+				<h2 class="text-3xl md:text-4xl lg:text-5xl font-bold">
 					Start Your Cron Job
 				</h2>
-				<p class="text-xl text-muted-foreground">
+				<p class="text-lg md:text-xl text-muted-foreground">
 					Automated coffee delivery matched to your workflow. Cancel anytime.
 				</p>
 				<div class="flex flex-col sm:flex-row gap-4 justify-center pt-4">
@@ -161,19 +161,19 @@ import { Footer } from '@/components/Footer';
 
 	<ContentEcosystem />
 
-	<section id="community" class="py-24 bg-secondary/5">
-		<div class="container mx-auto px-8">
+	<section id="community" class="py-16 md:py-24 bg-secondary/5">
+		<div class="container mx-auto px-4 md:px-8">
 			<div class="max-w-6xl mx-auto">
-				<div class="text-center space-y-4 mb-16">
-					<h2 class="text-4xl md:text-5xl font-bold">
+				<div class="text-center space-y-4 mb-12 md:mb-16">
+					<h2 class="text-3xl md:text-4xl lg:text-5xl font-bold">
 						Join the Kernel Community
 					</h2>
-					<p class="text-xl text-muted-foreground max-w-2xl mx-auto">
+					<p class="text-lg md:text-xl text-muted-foreground max-w-2xl mx-auto">
 						Your subscription includes full access to exclusive events, content, and perks.
 					</p>
 				</div>
 
-				<div class="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+				<div class="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
 					<div class="rounded-lg border bg-card text-card-foreground shadow-sm text-center">
 						<div class="p-6 space-y-4">
 							<div class="h-12 w-12 mx-auto flex items-center justify-center">

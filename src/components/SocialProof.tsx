@@ -97,30 +97,22 @@ export function SocialProof() {
 
           {/* Community Preview */}
           <Card className="bg-primary/5 border-primary/20">
-            <CardContent className="p-8 text-center space-y-4">
-              <h3 className="text-2xl font-bold">Join the Kernel Community</h3>
-              <p className="text-muted-foreground max-w-2xl mx-auto">
+            <CardContent className="p-6 md:p-8 text-center space-y-4">
+              <h3 className="text-xl md:text-2xl font-bold">Join the Kernel Community</h3>
+              <p className="text-muted-foreground max-w-2xl mx-auto text-sm md:text-base">
                 Monthly Kernel Talks, exclusive tutorials, early access to new workflows, and member-only events.
                 Your Cron Job includes full community access.
               </p>
-              <div className="relative overflow-hidden">
-                <div className="flex items-center gap-4 text-sm">
-                  <span className="flex items-center gap-2 px-4 py-2 rounded-full bg-background whitespace-nowrap">🎤 Kernel Talks</span>
-                  <span className="flex items-center gap-2 px-4 py-2 rounded-full bg-background whitespace-nowrap"><Book className="h-5 w-5" /> Tutorials</span>
-                  <span className="flex items-center gap-2 px-4 py-2 rounded-full bg-background whitespace-nowrap">🎁 Early Access</span>
-                  <span className="flex items-center gap-2 px-4 py-2 rounded-full bg-background whitespace-nowrap"><Users className="h-5 w-5" /> Member Events</span>
-                  <span className="flex items-center gap-2 px-4 py-2 rounded-full bg-background whitespace-nowrap"><MessageCircle className="h-5 w-5" /> Discord Community</span>
-                  <span className="flex items-center gap-2 px-4 py-2 rounded-full bg-background whitespace-nowrap"><Trophy className="h-5 w-5" /> Challenges</span>
-                  <span className="flex items-center gap-2 px-4 py-2 rounded-full bg-background whitespace-nowrap">🎓 Workshops</span>
-                  <span className="flex items-center gap-2 px-4 py-2 rounded-full bg-background whitespace-nowrap"><Coffee className="h-5 w-5" /> Virtual Coffee Chats</span>
-                  <span className="flex items-center gap-2 px-4 py-2 rounded-full bg-background whitespace-nowrap">🎤 Kernel Talks</span>
-                  <span className="flex items-center gap-2 px-4 py-2 rounded-full bg-background whitespace-nowrap"><Book className="h-5 w-5" /> Tutorials</span>
-                  <span className="flex items-center gap-2 px-4 py-2 rounded-full bg-background whitespace-nowrap">🎁 Early Access</span>
-                  <span className="flex items-center gap-2 px-4 py-2 rounded-full bg-background whitespace-nowrap"><Users className="h-5 w-5" /> Member Events</span>
-                  <span className="flex items-center gap-2 px-4 py-2 rounded-full bg-background whitespace-nowrap"><MessageCircle className="h-5 w-5" /> Discord Community</span>
-                  <span className="flex items-center gap-2 px-4 py-2 rounded-full bg-background whitespace-nowrap"><Trophy className="h-5 w-5" /> Challenges</span>
-                  <span className="flex items-center gap-2 px-4 py-2 rounded-full bg-background whitespace-nowrap">🎓 Workshops</span>
-                  <span className="flex items-center gap-2 px-4 py-2 rounded-full bg-background whitespace-nowrap"><Coffee className="h-5 w-5" /> Virtual Coffee Chats</span>
+              <div className="relative">
+                <div className="flex items-center gap-3 md:gap-4 overflow-x-auto pb-4 scrollbar-hide">
+                  <span className="flex items-center gap-2 px-3 md:px-4 py-2 rounded-full bg-background whitespace-nowrap text-xs md:text-sm">🎤 Kernel Talks</span>
+                  <span className="flex items-center gap-2 px-3 md:px-4 py-2 rounded-full bg-background whitespace-nowrap text-xs md:text-sm"><Book className="h-4 w-4 md:h-5 md:w-5" /> Tutorials</span>
+                  <span className="flex items-center gap-2 px-3 md:px-4 py-2 rounded-full bg-background whitespace-nowrap text-xs md:text-sm">🎁 Early Access</span>
+                  <span className="flex items-center gap-2 px-3 md:px-4 py-2 rounded-full bg-background whitespace-nowrap text-xs md:text-sm"><Users className="h-4 w-4 md:h-5 md:w-5" /> Member Events</span>
+                  <span className="flex items-center gap-2 px-3 md:px-4 py-2 rounded-full bg-background whitespace-nowrap text-xs md:text-sm"><MessageCircle className="h-4 w-4 md:h-5 md:w-5" /> Discord</span>
+                  <span className="flex items-center gap-2 px-3 md:px-4 py-2 rounded-full bg-background whitespace-nowrap text-xs md:text-sm"><Trophy className="h-4 w-4 md:h-5 md:w-5" /> Challenges</span>
+                  <span className="flex items-center gap-2 px-3 md:px-4 py-2 rounded-full bg-background whitespace-nowrap text-xs md:text-sm">🎓 Workshops</span>
+                  <span className="flex items-center gap-2 px-3 md:px-4 py-2 rounded-full bg-background whitespace-nowrap text-xs md:text-sm"><Coffee className="h-4 w-4 md:h-5 md:w-5" /> Coffee Chats</span>
                 </div>
               </div>
             </CardContent>

@@ -117,7 +117,7 @@ export function Footer() {
             <p className="text-sm text-muted-foreground">
               Join our newsletter for coffee science, workflow optimization, and exclusive offers.
             </p>
-            <div className="flex gap-2">
+            <div className="flex flex-col sm:flex-row gap-2">
               <Input
                 type="email"
                 placeholder="your@email.com"

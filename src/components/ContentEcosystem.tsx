@@ -63,8 +63,8 @@ export function ContentEcosystem() {
           </div>
 
           {/* Kernel Knowledge - Blog Section */}
-          <div className="mb-20">
-            <div className="flex items-center justify-between mb-8">
+          <div className="mb-16 md:mb-20">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
               <div className="flex items-center gap-3">
                 <div className="h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center">
                   <Book className="h-6 w-6 text-primary" />
@@ -74,7 +74,7 @@ export function ContentEcosystem() {
                   <p className="text-sm text-muted-foreground">Science-backed articles on coffee and productivity</p>
                 </div>
               </div>
-              <Button variant="outline" asChild>
+              <Button variant="outline" asChild className="w-full sm:w-auto">
                 <a href="#">
                   View All Articles
                   <ArrowRight className="ml-2 h-4 w-4" />
@@ -113,7 +113,7 @@ export function ContentEcosystem() {
 
           {/* Kernel Talks - Podcast Section */}
           <div>
-            <div className="flex items-center justify-between mb-8">
+            <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
               <div className="flex items-center gap-3">
                 <div className="h-12 w-12 rounded-lg bg-primary/10 flex items-center justify-center">
                   <Mic className="h-6 w-6 text-primary" />
@@ -123,7 +123,7 @@ export function ContentEcosystem() {
                   <p className="text-sm text-muted-foreground">Interviews with tech leaders on productivity and culture</p>
                 </div>
               </div>
-              <Button variant="outline" asChild>
+              <Button variant="outline" asChild className="w-full sm:w-auto">
                 <a href="#">
                   Listen Now
                   <ArrowRight className="ml-2 h-4 w-4" />
