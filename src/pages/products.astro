@@ -3,7 +3,7 @@ import Layout from '@/layouts/Layout.astro';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
-import { Star, ShoppingCart, Target, Code, Flame, Lightbulb, Truck, Award, Leaf } from 'lucide-react';
+import { Star, ShoppingCart, Truck, Award, Leaf } from 'lucide-react';
 ---
 
 <Layout title="Shop Products - Kernel Coffee">
@@ -111,7 +111,7 @@ import { Star, ShoppingCart, Target, Code, Flame, Lightbulb, Truck, Award, Leaf 
 									<CardHeader>
 										<div class="flex items-start justify-between">
 											<div className="h-16 w-16">
-												<Target className="h-full w-full text-primary" />
+												<img src="/FlowState.png" alt="STABLE_RELEASE" class="h-full w-full object-cover rounded-lg" />
 											</div>
 											<Badge variant="secondary">Bestseller</Badge>
 										</div>
@@ -147,7 +147,7 @@ import { Star, ShoppingCart, Target, Code, Flame, Lightbulb, Truck, Award, Leaf 
 									<CardHeader>
 										<div className="flex items-start justify-between">
 											<div className="h-16 w-16">
-												<Code className="h-full w-full text-primary" />
+												<img src="/DebugMode.png" alt="DEBUG_MODE" class="h-full w-full object-cover rounded-lg" />
 											</div>
 											<Badge>Most Popular</Badge>
 										</div>
@@ -183,7 +183,7 @@ import { Star, ShoppingCart, Target, Code, Flame, Lightbulb, Truck, Award, Leaf 
 									<CardHeader>
 										<div className="flex items-start justify-between">
 											<div className="h-16 w-16">
-												<Flame className="h-full w-full text-primary" />
+												<img src="/DeepWork.png" alt="CRITICAL_HOTFIX" class="h-full w-full object-cover rounded-lg" />
 											</div>
 											<Badge variant="secondary">High Caffeine</Badge>
 										</div>
@@ -219,7 +219,7 @@ import { Star, ShoppingCart, Target, Code, Flame, Lightbulb, Truck, Award, Leaf 
 									<CardHeader>
 										<div className="flex items-start justify-between">
 											<div className="h-16 w-16">
-												<Lightbulb className="h-full w-full text-primary" />
+												<img src="/GenericProduct.png" alt="SAFE_MODE" class="h-full w-full object-cover rounded-lg" />
 											</div>
 											<Badge variant="secondary">Low Caffeine</Badge>
 										</div>
@@ -258,7 +258,7 @@ import { Star, ShoppingCart, Target, Code, Flame, Lightbulb, Truck, Award, Leaf 
 								</h2>
 								<div class="grid md:grid-cols-3 gap-8">
 									<div class="text-center space-y-4">
-										<div className="h-16 w-16 mx-auto flex items-center justify-center">
+										<div class="h-10 w-10 mx-auto flex items-center justify-center">
 											<Leaf className="h-full w-full text-primary" />
 										</div>
 										<h3 className="font-semibold">Single Origin</h3>
@@ -267,7 +267,7 @@ import { Star, ShoppingCart, Target, Code, Flame, Lightbulb, Truck, Award, Leaf 
 										</p>
 									</div>
 									<div class="text-center space-y-4">
-										<div className="h-16 w-16 mx-auto flex items-center justify-center">
+										<div class="h-10 w-10 mx-auto flex items-center justify-center">
 											<Award className="h-full w-full text-primary" />
 										</div>
 										<h3 className="font-semibold">Specialty Grade</h3>
@@ -276,7 +276,7 @@ import { Star, ShoppingCart, Target, Code, Flame, Lightbulb, Truck, Award, Leaf 
 										</p>
 									</div>
 									<div class="text-center space-y-4">
-										<div className="h-16 w-16 mx-auto flex items-center justify-center">
+										<div class="h-10 w-10 mx-auto flex items-center justify-center">
 											<Truck className="h-full w-full text-primary" />
 										</div>
 										<h3 className="font-semibold">Fresh Roasted</h3>

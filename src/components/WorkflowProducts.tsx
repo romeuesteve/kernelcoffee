@@ -3,14 +3,13 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 import NumberFlow from '@number-flow/react';
 import { useRef, useState } from 'react';
-import { Target, Code, Lightbulb, Flame } from 'lucide-react';
 
 const workflows = [
   {
     id: 'stable-release',
     name: 'STABLE_RELEASE',
     price: { monthly: 29.99, annual: 288 },
-    icon: Target,
+    image: '/FlowState.png',
     description: 'Linear, constant energy. The standard daily coffee for predictable focus.',
     perfect: 'Perfect for: Coding sessions, design sprints, writing, everyday work.',
     features: [
@@ -27,7 +26,7 @@ const workflows = [
     id: 'debug-mode',
     name: 'DEBUG_MODE',
     price: { monthly: 32.99, annual: 318 },
-    icon: Code,
+    image: '/DebugMode.png',
     description: 'Medium roast, balanced profile. Clarity and mental acuity for long sessions.',
     perfect: 'Perfect for: Problem-solving, debugging, brainstorming, complex tasks.',
     features: [
@@ -44,7 +43,7 @@ const workflows = [
     id: 'critical-hotfix',
     name: 'CRITICAL_HOTFIX',
     price: { monthly: 34.99, annual: 338 },
-    icon: Flame,
+    image: '/DeepWork.png',
     description: 'High caffeine, fast absorption. Emergency fuel for deadlines and late nights.',
     perfect: 'Perfect for: Emergency deadlines, lack of sleep, intense sprints.',
     features: [
@@ -61,7 +60,7 @@ const workflows = [
     id: 'safe-mode',
     name: 'SAFE_MODE',
     price: { monthly: 24.99, annual: 238 },
-    icon: Lightbulb,
+    image: '/GenericProduct.png',
     description: 'Low stimulation or decaf. For nighttime coding without disrupting sleep.',
     perfect: 'Perfect for: Late-night work, sensitive to caffeine, evening sessions.',
     features: [
@@ -138,7 +137,7 @@ export function WorkflowProducts() {
               <Card key={workflow.id} className="border-border hover:border-primary/50 transition-colors">
                 <CardHeader>
                   <div className="h-16 w-16 mb-4">
-                    <workflow.icon className="h-full w-full" />
+                    <img src={workflow.image} alt={workflow.name} className="h-full w-full object-cover rounded-lg" />
                   </div>
                   <h3 className="text-2xl font-bold mb-2">{workflow.name}</h3>
                   <p className="text-sm text-muted-foreground">{workflow.description}</p>
