@@ -1,0 +1,195 @@
+---
+import Layout from '@/layouts/Layout.astro';
+import { Button } from '@/components/ui/button';
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { Badge } from '@/components/ui/badge';
+import { Star, ShoppingCart, Truck, Award, Leaf, ChevronLeft } from 'lucide-react';
+import { products } from '@/lib/products';
+
+export async function getStaticPaths() {
+  return products.map(product => ({
+    params: { slug: product.slug }
+  }));
+}
+
+interface Props {
+  params: {
+    slug: string;
+  };
+}
+
+const { slug } = Astro.params;
+const product = products.find(p => p.slug === slug);
+
+if (!product) {
+  return Astro.redirect('/products');
+}
+---
+
+<Layout title={`${product.name} - Kernel Coffee`}>
+  <div class="pt-24 pb-16">
+    <div class="container mx-auto px-8">
+      <div class="max-w-6xl mx-auto">
+        <div class="mb-8">
+          <a href="/products" class="inline-flex items-center text-sm text-muted-foreground hover:text-foreground transition-colors">
+            <ChevronLeft className="h-4 w-4 mr-1" />
+            Back to Products
+          </a>
+        </div>
+
+        <div class="grid lg:grid-cols-2 gap-12">
+          {/* Product Gallery */}
+          <div class="space-y-6">
+            <div class="relative">
+              <img 
+                src={product.image} 
+                alt={product.name}
+                class="w-full h-auto rounded-lg shadow-lg"
+              />
+            </div>
+            
+            {/* Thumbnail Gallery */}
+            <div class="flex gap-3">
+              {[1, 2, 3, 4].map(i => (
+                <div key={i} class="flex-1">
+                  <img 
+                    src={product.thumbnail} 
+                    alt={`${product.name} - View ${i}`}
+                    class="w-full h-auto rounded-lg cursor-pointer hover:opacity-80 transition-opacity"
+                  />
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* Product Info */}
+          <div class="space-y-6">
+            {/* Product Header */}
+            <div class="flex items-start justify-between">
+              <div>
+                <h1 class="text-4xl font-bold mb-2">{product.name}</h1>
+                <div class="flex items-center gap-2 mb-4">
+                  <div class="flex items-center gap-1">
+                    {[1, 2, 3, 4, 5].map(() => (
+                      <Star className="h-5 w-5 fill-primary text-primary" />
+                    ))}
+                  </div>
+                  <span class="text-sm text-muted-foreground">({product.reviews} reviews)</span>
+                </div>
+                <p class="text-lg text-muted-foreground">{product.description}</p>
+              </div>
+              {product.badge && (
+                <Badge variant={product.badge === 'Bestseller' ? 'secondary' : product.badge === 'Most Popular' ? 'default' : product.badge === 'High Caffeine' ? 'destructive' : 'outline'}>
+                  {product.badge}
+                </Badge>
+              )}
+            </div>
+
+            {/* Price */}
+            <div class="text-3xl font-bold">
+              ${product.price}
+            </div>
+
+            {/* Cognitive Profile */}
+            <div class="bg-secondary/5 rounded-lg p-6">
+              <h3 class="text-lg font-semibold mb-4">Cognitive Profile</h3>
+              <div class="space-y-4">
+                <div>
+                  <div class="flex justify-between text-sm mb-1">
+                    <span>Energy Level</span>
+                    <span>{product.cognitiveProfile.energyLevel}</span>
+                  </div>
+                  <div class="w-full bg-muted rounded-full h-2">
+                    <div 
+                      class="bg-green-500 h-2 rounded-full" 
+                      style={{width: product.cognitiveProfile.energyLevel === 'High' ? '100%' : product.cognitiveProfile.energyLevel === 'Medium' ? '60%' : '30%'}}
+                    ></div>
+                  </div>
+                </div>
+                <div>
+                  <div class="flex justify-between text-sm mb-1">
+                    <span>Focus Duration</span>
+                    <span>{product.cognitiveProfile.focusDuration}</span>
+                  </div>
+                  <div class="w-full bg-muted rounded-full h-2">
+                    <div 
+                      class="bg-green-500 h-2 rounded-full" 
+                      style={{width: product.cognitiveProfile.focusDuration === 'Long' ? '100%' : product.cognitiveProfile.focusDuration === 'Medium' ? '60%' : '30%'}}
+                    ></div>
+                  </div>
+                </div>
+                <div>
+                  <div class="flex justify-between text-sm mb-1">
+                    <span>Intensity</span>
+                    <span>{product.cognitiveProfile.intensity}</span>
+                  </div>
+                  <div class="w-full bg-muted rounded-full h-2">
+                    <div 
+                      class="bg-green-500 h-2 rounded-full" 
+                      style={{width: product.cognitiveProfile.intensity === 'High' ? '100%' : product.cognitiveProfile.intensity === 'Medium' ? '60%' : '30%'}}
+                    ></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Purchase Options */}
+            <div class="space-y-4">
+              <h3 class="text-lg font-semibold">Purchase Option</h3>
+              
+              <div class="space-y-3">
+                <div class="flex items-center justify-between p-4 bg-background border rounded-lg">
+                  <div>
+                    <div class="font-medium">One-time purchase</div>
+                    <div class="text-sm text-muted-foreground">${product.price}</div>
+                  </div>
+                  <input type="radio" name="purchase-option" class="w-4 h-4" />
+                </div>
+                
+                <div class="flex items-center justify-between p-4 bg-background border rounded-lg">
+                  <div>
+                    <div class="font-medium">Subscribe & Save</div>
+                    <div class="text-sm text-muted-foreground">${product.subscriptionPrice}/month</div>
+                  </div>
+                  <input type="radio" name="purchase-option" class="w-4 h-4" checked />
+                </div>
+              </div>
+
+              {/* Quantity */}
+              <div>
+                <label class="block text-sm font-medium mb-2">Quantity</label>
+                <select class="w-full p-3 border rounded-lg bg-background">
+                  <option>1 bag</option>
+                  <option>2 bags</option>
+                  <option>3 bags</option>
+                  <option>4 bags</option>
+                </select>
+              </div>
+
+              {/* Add to Cart Button */}
+              <Button class="w-full text-lg" size="lg">
+                <ShoppingCart className="h-5 w-5 mr-2" />
+                Add to Cart
+              </Button>
+            </div>
+          </div>
+        </div>
+
+        {/* Product Features */}
+        <div class="mt-16 bg-secondary/5 rounded-lg p-8">
+          <h2 class="text-2xl font-bold mb-6">Product Features</h2>
+          <div class="grid md:grid-cols-2 gap-6">
+            {product.features.map((feature, index) => (
+              <div key={index} class="flex items-start gap-3">
+                <div class="h-6 w-6 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0 mt-0.5">
+                  <Leaf className="h-4 w-4 text-primary" />
+                </div>
+                <p class="text-muted-foreground">{feature}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</Layout>
