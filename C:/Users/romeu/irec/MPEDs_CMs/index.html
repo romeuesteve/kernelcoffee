@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kernel Coffee - Deep Work Blend</title>
+    <script src="https://cdn.jsdelivr.net/npm/react@18.0.0/umd/react.development.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/react-dom@18.0.0/umd/react-dom.development.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@babel/standalone/babel.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"></link>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #1a1a1a;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const ProductImageGallery = ({ images, selectedImage, onImageSelect }) => {
+            return (
+                <div className="space-y-4">
+                    <div className="relative">
+                        <img 
+                            src={images[selectedImage]} 
+                            alt="Product" 
+                            className="w-full h-auto rounded-lg"
+                        />
+                        <button className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full">
+                            <i className="fas fa-chevron-left"></i>
+                        </button>
+                        <button className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-black bg-opacity-50 text-white p-2 rounded-full">
+                            <i className="fas fa-chevron-right"></i>
+                        </button>
+                    </div>
+                    
+                    <div className="flex space-x-2 overflow-x-auto">
+                        {images.map((image, index) => (
+                            <button
+                                key={index}
+                                onClick={() => onImageSelect(index)}
+                                className={`flex-shrink-0 w-16 h-16 rounded-lg border-2 transition-all ${
+                                    selectedImage === index 
+                                        ? 'border-green-500' 
+                                        : 'border-gray-700 hover:border-gray-500'
+                                }`}
+                            >
+                                <img 
+                                    src={image} 
+                                    alt={`Thumbnail ${index + 1}`} 
+                                    className="w-full h-full object-cover rounded-lg"
+                                />
+                            </button>
+                        ))}
+                    </div>
+                </div>
+            );
+        };
+
+        const ProductInfo = ({ product }) => {
+            const renderStars = (rating) => {
+                return Array.from({ length: 5 }, (_, i) => (
+                    <i key={i} className="fas fa-star text-yellow-400"></i>
+                ));
+            };
+
+            return (
+                <div className="space-y-4">
+                    <div className="flex items-center space-x-2">
+                        <span className="bg-green-600 text-white px-2 py-1 rounded text-xs font-semibold">Best Seller</span>
+                    </div>
+                    
+                    <h1 className="text-4xl font-bold text-white">{product.name}</h1>
+                    
+                    <div className="flex items-center space-x-2">
+                        <div className="flex">
+                            {renderStars(product.rating)}
+                        </div>
+                        <span className="text-gray-400">({product.reviews} reviews)</span>
+                    </div>
+                    
+                    <div className="text-3xl font-bold text-green-500">${product.price}</div>
+                    
+                    <p className="text-gray-300 leading-relaxed">
+                        {product.description}
+                    </p>
+                </div>
+            );
+        };
+
+        const CognitiveProfile = ({ profile }) => {
+            const getProgressColor = (level) => {
+                switch (level) {
+                    case 'High': return 'bg-green-500';
+                    case 'Medium': return 'bg-green-400';
+                    case 'Low': return 'bg-green-300';
+                    default: return 'bg-green-500';
+                }
+            };
+
+            const getProgressWidth = (level) => {
+                switch (level) {
+                    case 'High': return 'w-full';
+                    case 'Medium': return 'w-3/4';
+                    case 'Low': return 'w-1/2';
+                    default: return 'w-full';
+                }
+            };
+
+            const getLevelText = (level) => {
+                switch (level) {
+                    case 'High': return 'High';
+                    case 'Medium': return 'Medium';
+                    case 'Low': return 'Low';
+                    case 'Long': return 'Long';
+                    case 'Short': return 'Short';
+                    default: return level;
+                }
+            };
+
+            return (
+                <div className="bg-gray-800 rounded-lg p-6 space-y-4">
+                    <h3 className="text-lg font-semibold text-white">Cognitive Profile</h3>
+                    
+                    <div className="space-y-4">
+                        <div>
+                            <div className="flex justify-between mb-2">
+                                <span className="text-gray-300">Energy Level</span>
+                                <span className="text-gray-300">{getLevelText(profile.energyLevel)}</span>
+                            </div>
+                            <div className="w-full bg-gray-700 rounded-full h-2">
+                                <div className={`h-2 rounded-full ${getProgressColor(profile.energyLevel)} ${getProgressWidth(profile.energyLevel)}`}></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div className="flex justify-between mb-2">
+                                <span className="text-gray-300">Focus Duration</span>
+                                <span className="text-gray-300">{getLevelText(profile.focusDuration)}</span>
+                            </div>
+                            <div className="w-full bg-gray-700 rounded-full h-2">
+                                <div className={`h-2 rounded-full ${getProgressColor(profile.focusDuration)} ${getProgressWidth(profile.focusDuration)}`}></div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div className="flex justify-between mb-2">
+                                <span className="text-gray-300">Intensity</span>
+                                <span className="text-gray-300">{getLevelText(profile.intensity)}</span>
+                            </div>
+                            <div className="w-full bg-gray-700 rounded-full h-2">
+                                <div className={`h-2 rounded-full ${getProgressColor(profile.intensity)} ${getProgressWidth(profile.intensity)}`}></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        const PurchaseOptions = ({ product, selectedOption, onOptionChange }) => {
+            return (
+                <div className="bg-gray-800 rounded-lg p-6 space-y-4">
+                    <h3 className="text-lg font-semibold text-white">Purchase Option</h3>
+                    
+                    <div className="space-y-3">
+                        <label className="flex items-center space-x-3 cursor-pointer">
+                            <input
+                                type="radio"
+                                name="purchaseOption"
+                                value="one-time"
+                                checked={selectedOption === 'one-time'}
+                                onChange={() => onOptionChange('one-time')}
+                                className="w-4 h-4 text-green-600 bg-gray-700 border-gray-600 focus:ring-green-500"
+                            />
+                            <div className="flex-1">
+                                <div className="font-medium text-white">One time purchase</div>
+                                <div className="text-green-500 font-semibold">${product.purchaseOptions.oneTime}</div>
+                            </div>
+                        </label>
+                        
+                        <label className="flex items-center space-x-3 cursor-pointer">
+                            <input
+                                type="radio"
+                                name="purchaseOption"
+                                value="subscription"
+                                checked={selectedOption === 'subscription'}
+                                onChange={() => onOptionChange('subscription')}
+                                className="w-4 h-4 text-green-600 bg-gray-700 border-gray-600 focus:ring-green-500"
+                            />
+                            <div className="flex-1">
+                                <div className="font-medium text-white">Subscribe & Save</div>
+                                <div className="text-green-500 font-semibold">${product.purchaseOptions.subscription}/month</div>
+                                <div className="text-sm text-gray-400">Save ${product.purchaseOptions.savings}/year</div>
+                            </div>
+                            <button className="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded text-sm">
+                                Save 20%
+                            </button>
+                        </label>
+                    </div>
+                </div>
+            );
+        };
+
+        const QuantitySelector = ({ quantity, onQuantityChange }) => {
+            return (
+                <div className="bg-gray-800 rounded-lg p-6 space-y-4">
+                    <h3 className="text-lg font-semibold text-white">Quantity</h3>
+                    
+                    <select 
+                        value={quantity} 
+                        onChange={(e) => onQuantityChange(Number(e.target.value))}
+                        className="w-full bg-gray-700 text-white rounded-lg px-4 py-2 focus:outline-none focus:ring-2 focus:ring-green-500"
+                    >
+                        <option value={1}>1 bag</option>
+                        <option value={2}>2 bags</option>
+                        <option value={3}>3 bags</option>
+                        <option value={4}>4 bags</option>
+                        <option value={5}>5 bags</option>
+                    </select>
+                    
+                    <button className="w-full bg-green-600 hover:bg-green-700 text-white font-semibold py-3 rounded-lg transition-colors">
+                        Add to Cart
+                    </button>
+                </div>
+            );
+        };
+
+        const ProductDetail = () => {
+            const [selectedImage, setSelectedImage] = useState(0);
+            const [selectedOption, setSelectedOption] = useState('one-time');
+            const [quantity, setQuantity] = useState(1);
+
+            const product = {
+                id: 'deep-work-blend',
+                name: 'Deep Work Blend',
+                price: 24.99,
+                rating: 5,
+                reviews: 127,
+                description: 'Premium single-origin coffee optimized for deep focus sessions. Bold flavor with notes of dark chocolate and hazelnut. Perfect for 2-4 hour coding sessions.',
+                images: [
+                    'https://placehold.co/600x400/1a1a1a/ffffff?text=Deep+Work+Blend+Coffee+Bag',
+                    'https://placehold.co/600x400/1a1a1a/ffffff?text=Coffee+Bean+Closeup',
+                    'https://placehold.co/600x400/1a1a1a/ffffff?text=Coffee+Grind+Detail',
+                    'https://placehold.co/600x400/1a1a1a/ffffff?text=Coffee+Packaging',
+                    'https://placehold.co/600x400/1a1a1a/ffffff?text=Coffee+Bean+Artisan'
+                ],
+                cognitiveProfile: {
+                    energyLevel: 'High',
+                    focusDuration: 'Long',
+                    intensity: 'Medium'
+                },
+                purchaseOptions: {
+                    oneTime: 24.99,
+                    subscription: 24,
+                    savings: 21
+                }
+            };
+
+            return (
+                <div className="min-h-screen bg-gray-900 text-white">
+                    <div className="container mx-auto px-4 py-8">
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                            <ProductImageGallery 
+                                images={product.images} 
+                                selectedImage={selectedImage} 
+                                onImageSelect={setSelectedImage} 
+                            />
+                            
+                            <div className="space-y-6">
+                                <ProductInfo product={product} />
+                                <CognitiveProfile profile={product.cognitiveProfile} />
+                                <PurchaseOptions 
+                                    product={product} 
+                                    selectedOption={selectedOption} 
+                                    onOptionChange={setSelectedOption} 
+                                />
+                                <QuantitySelector 
+                                    quantity={quantity} 
+                                    onQuantityChange={setQuantity} 
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        const App = () => {
+            return <ProductDetail />;
+        };
+
+        ReactDOM.render(<App />, document.getElementById('root'));
+    </script>
+</body>
+</html>
