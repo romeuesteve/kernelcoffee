@@ -1,0 +1,52 @@
+---
+import '../styles/global.css';
+
+interface Props {
+	title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="description" content="Kernel Coffee — Fuel for Deep Work. Specialty coffee engineered for cognitive performance. Launch April 2026." />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="icon" type="image/svg+xml" href="/logo.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<meta property="og:title" content={title} />
+		<meta property="og:description" content="Specialty coffee engineered as a cognitive performance tool. Launching soon." />
+		<meta property="og:type" content="website" />
+		<title>{title}</title>
+	</head>
+	<body class="antialiased overflow-x-hidden bg-background text-foreground selection:bg-primary selection:text-primary-foreground">
+		<slot />
+	</body>
+</html>
+
+<style is:global>
+	html {
+		scroll-behavior: smooth;
+	}
+	* {
+		@apply border-border;
+	}
+	body {
+		font-feature-settings: "rlig" 1, "calt" 1, "ss01" 1;
+	}
+	.grain {
+		position: fixed;
+		inset: 0;
+		pointer-events: none;
+		z-index: 60;
+		opacity: 0.05;
+		mix-blend-mode: overlay;
+		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+	}
+	.noise-mask {
+		-webkit-mask-image: radial-gradient(ellipse at center, black 40%, transparent 75%);
+		mask-image: radial-gradient(ellipse at center, black 40%, transparent 75%);
+	}
+</style>
