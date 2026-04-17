@@ -1,0 +1,25 @@
+---
+import LaunchLayout from '@/layouts/LaunchLayout.astro';
+import { LaunchNav } from '@/components/launch/LaunchNav';
+import { LaunchHero } from '@/components/launch/LaunchHero';
+import { Manifesto } from '@/components/launch/Manifesto';
+import { Stacks } from '@/components/launch/Stacks';
+import { Ritual } from '@/components/launch/Ritual';
+import { Voices } from '@/components/launch/Voices';
+import { Subscribe } from '@/components/launch/Subscribe';
+import { LaunchFooter } from '@/components/launch/LaunchFooter';
+---
+
+<LaunchLayout title="Kernel Coffee — Fuel for Deep Work · Launch 2026">
+  <div class="grain" aria-hidden="true"></div>
+  <LaunchNav client:load />
+  <main class="relative">
+    <LaunchHero client:load />
+    <Manifesto client:visible />
+    <Stacks client:visible />
+    <Ritual client:visible />
+    <Voices client:visible />
+    <Subscribe client:visible />
+  </main>
+  <LaunchFooter />
+</LaunchLayout>
